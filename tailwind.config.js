@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors:{
-        "skinColor": "#F5DFBB",
+        "skinColor": "#fff6ed",
         "firstColor" : "#0E9594",
         "secondColor": "#F2542D",
         "warningColor" : "#562C2C",
