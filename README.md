@@ -1,13 +1,13 @@
-# KeyNova 🌟
+# FrontKeyNova 🌟
 
 This repository contains the work of the MergeTeam 🤓.
 
 ## Team members 👨‍👩‍👦‍👦
 
--   Isabella Montoya Castañeda 👩‍🎓
+-   Isabella Montoya Casteñanos 👩‍🎓
 -   Wilson Santiago Carvajal Nuñez 👨‍💼
--   Juan Esteban Valdés 👨‍💼
--   Juan Fernando Alvarez 👨‍💼
+-   Juan Esteban Valdés 👨‍💼 (Backend)
+-   Juan Fernando Alvarez 👨‍💼 (Backend)
 -   Cristian Franco Raigosa 👨‍💼
 
 ## Structure 💡
