@@ -12,6 +12,9 @@ export default {
         "secondColor": "#F2542D",
         "warningColor" : "#562C2C",
 
+      },
+      fontFamily: {
+        "montserrat" : ['Montserrat' , 'sans-serif'],
       }
     },
   },
