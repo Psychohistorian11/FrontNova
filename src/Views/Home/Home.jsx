@@ -5,7 +5,9 @@ export const Home = () => {
   return (
     <>
         <NavBar/>
-        holaaaaaaa
+
+        
+        this part is made by Isabella
     </>
   )
 }

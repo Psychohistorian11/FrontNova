@@ -6,6 +6,7 @@ import { Home } from './Views/Home/Home';
 import { Inventory } from './Views/Inventory/Inventory';
 import { Owners } from './Views/Owners/Owners';
 import { Update } from './Views/Update/Update';
+import { Spaces } from './Views/Inventory/Spaces';
 
 import './index.css';
 
@@ -18,6 +19,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="Inventory" element={<Inventory />}/>
         <Route path="/Owners" element={<Owners />}/>
         <Route path="/Update" element={<Update />}/>
+        <Route path="/Spaces" element={<Spaces />}/>
+        
       </Routes>
     </Router>
   </React.StrictMode>
