@@ -16,8 +16,8 @@ export const LogIn = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate('/Home');
+      e.preventDefault();
+      navigate('/Home');
   };
 
   return (
