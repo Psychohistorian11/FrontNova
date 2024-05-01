@@ -4,13 +4,12 @@ import dropdown_number_1 from '../../Assets/dropdown_number_1.png';
 import dropdown_number_2 from '../../Assets/dropdown_number_2.png';
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 
-
 export const Components = () => {
     
   const [components, setComponents] = useState([
-    { name: 'Cama', image: null, observation: false },
-    { name: 'Estanteria', image: null, observation: false },
-    { name: 'Libros', image: null, observation: false }
+    { name: 'Cama', image: null, observation: false, showQuality: false },
+    { name: 'Estanteria', image: null, observation: false, showQuality: false },
+    { name: 'Libros', image: null, observation: false, showQuality: false }
   ]);
   const [newSpace, setNewSpace] = useState('');
   const [features, setFeatures] = useState({});
@@ -19,7 +18,7 @@ export const Components = () => {
   const fileInputRef = useRef(null);
 
   const handleAddComponents = () => {
-    setComponents([...components, { name: newSpace, image: null, observation: false }]);
+    setComponents([...components, { name: newSpace, image: null, observation: false, showQuality: false }]);
     setNewSpace('');
   };
 
@@ -42,10 +41,6 @@ export const Components = () => {
     setComponents(updatedComponents);
   };
 
-  const handleAddQuality = () => {
-    
-  };
-
   const handleAddPhoto = (component) => {
     setSelectedComponent(component);
     fileInputRef.current.click();
@@ -59,10 +54,37 @@ export const Components = () => {
     setComponents(updatedComponents);
   };
 
+  const handleAddQuality = (index) => {
+    const updatedComponents = [...components];
+    updatedComponents[index].showQuality = !updatedComponents[index].showQuality;
+    setComponents(updatedComponents);
+  };
+
+  const handleSelectQuality = (label) => {
+    console.log(`Calidad seleccionada: ${label}`);
+  };
+
+  const getMarkerClasses = (label) => {
+    let baseClasses = 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors';
+    switch (label) {
+      case 'Muy malo':
+        return `${baseClasses} border-red-500 hover:bg-red-500`;
+      case 'Malo':
+        return `${baseClasses} border-orange-500 hover:bg-orange-500`;
+      case 'Regular':
+        return `${baseClasses} border-yellow-500 hover:bg-yellow-500`;
+      case 'Bueno':
+        return `${baseClasses} border-green-500 hover:bg-green-500`;
+      case 'Muy bueno':
+        return `${baseClasses} border-firstColor hover:bg-firstColor`;
+      default:
+        return `${baseClasses} border-gray-300 hover:bg-gray-300`;
+    }
+  };
+
   return (
     <>
       <NavBar />
-
       <div className="p-20">
         <h2 className="text-2xl font-montserrat mb-6 font-bold">Componentes</h2>
         <h2 className='border-b border-black mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>
@@ -105,14 +127,29 @@ export const Components = () => {
                       </div>
                     </li>
                     <li className="flex justify-start items-center mb-2">
-                      <button
-                        onClick={handleAddQuality}
+                      <button 
+                        onClick={() => handleAddQuality(index)}
                         className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
                       >
                         <span className="mr-2">+</span>
                         <span>Calidad del inmueble</span>
                       </button>
                     </li>
+                    <div className="px-16 mb-2">
+                      {component.showQuality && (
+                        <div className="mt-2 flex items-center space-x-4">
+                          {['Muy malo', 'Malo', 'Regular', 'Bueno', 'Muy bueno'].map((label, index) => (
+                            <div key={index} className="flex flex-col items-center">
+                              <button 
+                                onClick={() => handleSelectQuality(label)}
+                                className={getMarkerClasses(label)}
+                              />
+                              <span className="text-xs">{label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                     <li className="flex justify-start items-center mb-2">
                       <button 
                         onClick={() => handleAddPhoto(component.name)}
