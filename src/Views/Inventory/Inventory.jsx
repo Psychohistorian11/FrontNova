@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavBar } from '../../NavBarComponent/NavBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,7 +46,6 @@ export const Inventory = () => {
   
     return (
       <>
-        <NavBar />
         <div className="p-20">
 
         <form onSubmit={handleSubmit}>

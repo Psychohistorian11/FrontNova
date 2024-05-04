@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { NavBar } from "../../NavBarComponent/NavBar";
 import dropdown_number_1 from '../../Assets/dropdown_number_1.png';
 import dropdown_number_2 from '../../Assets/dropdown_number_2.png';
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
@@ -84,7 +83,6 @@ export const Components = () => {
 
   return (
     <>
-      <NavBar />
       <div className="p-20">
         <h2 className="text-2xl font-montserrat mb-6 font-bold">Componentes</h2>
         <h2 className='border-b border-black mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>

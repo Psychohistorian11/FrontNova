@@ -1,15 +1,7 @@
 import React from 'react'
-import { NavBar } from '../../NavBarComponent/NavBar'
 
 export const Owners = () => {
   return (
-
-
-    <>
-    <NavBar />
-
-
-    owneer
-    </>
+    <h1> Owners page goes here ! </h1>
   )
 }

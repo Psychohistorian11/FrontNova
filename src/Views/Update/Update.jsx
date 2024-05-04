@@ -1,9 +1,7 @@
 import React from 'react'
-import { NavBar } from '../../NavBarComponent/NavBar'
 
 export const Update = () => {
   return (
-    <NavBar />
-    
+    <h1> Update page goes here !</h1>
   )
 }

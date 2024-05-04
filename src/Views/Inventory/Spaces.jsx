@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { NavBar } from "../../NavBarComponent/NavBar";
 import dropdown_number_1 from '../../Assets/dropdown_number_1.png';
 import dropdown_number_2 from '../../Assets/dropdown_number_2.png';
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
@@ -62,7 +61,6 @@ export const Spaces = () => {
 
   return (
     <>
-      <NavBar />
       
       <div className="p-20">
         <h2 className="text-2xl font-montserrat mb-6 font-bold">Espacios</h2>
