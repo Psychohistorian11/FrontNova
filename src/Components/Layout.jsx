@@ -12,7 +12,6 @@ export const Layout = () => {
   return (
     <>
         <div className="flex items-center justify-start p-1 h-16 bg-white text-black h-auto border-b border-b-gray-300 shadow">
-            {/* Logo */}
             <div className="flex items-center">
                 <img src={logo} alt="Logo" className="h-10 ms-6" />
                 <span className="ms-3 font-montserrat text-xl font-bold">Nova</span>
