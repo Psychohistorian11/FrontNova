@@ -24,6 +24,7 @@ export const LogIn = () => {
 
   const handleSubmit = async(e) => {
       e.preventDefault();
+<<<<<<< HEAD
 
       try {
         const response = await fetch("https://keynovaapi.onrender.com/agent/juanfgomez6%40gmail.com/pass");
@@ -45,6 +46,10 @@ export const LogIn = () => {
         // Puedes mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
     }
 };
+=======
+      navigate("/Home");
+  };
+>>>>>>> 4a1b0ffbb40e9788364a3c881130104e07a66b1c
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover'}} >
