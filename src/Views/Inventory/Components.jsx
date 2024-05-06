@@ -84,7 +84,7 @@ export const Components = () => {
   return (
     <>
       <div className="p-20">
-        <h2 className="text-2xl font-montserrat mb-6 font-bold">Componentes</h2>
+        <h2 className="text-2xl mb-6 font-bold">Componentes</h2>
         <h2 className='border-b border-black mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>
         <div className='px-40'>
           {components.map((component, index) => (
@@ -189,7 +189,7 @@ export const Components = () => {
                 placeholder="Agregar Componente "
               />
               <button 
-                className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors font-montserrat"
+                className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
                 onClick={handleAddComponents}
               >
                 Crear

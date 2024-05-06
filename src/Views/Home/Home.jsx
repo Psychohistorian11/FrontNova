@@ -17,7 +17,7 @@ export const Home = () => {
   }, [divPosition, divSize]);
 
   return (
-    <div className=' bg-white-300 w-full h-full mt-16 absolute inset-0 flex items-center justify-center'>
+    <div className=' bg-white-300 w-full h-full mt-16 absolute flex items-center justify-center'>
       <div
         className='home-container bg-skinColor text-black p-4 rounded-lg shadow-lg w-full h-full flex items-center justify-center'
         style={{ position: 'relative', width: '100%', height: '400%' }}

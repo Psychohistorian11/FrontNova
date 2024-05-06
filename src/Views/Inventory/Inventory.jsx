@@ -46,12 +46,12 @@ export const Inventory = () => {
   
     return (
       <>
-        <div className="p-20">
+        <div className="px-72 pt-16">
 
         <form onSubmit={handleSubmit}>
 
-          <h2 className="text-2xl font-montserrat mb-6 font-bold">Generar Inventario</h2>
-          <h2 className='border-b border-black mb-10'> Registra a un nuevo propietario y comienza a gestionar sus propiedades de manera eficiente</h2>
+          <h2 className="text-3xl mb-6 font-bold">Generar Inventario</h2>
+          <h2 className='border-b border-black pb-5 mb-10'> Registra a un nuevo propietario y comienza a gestionar sus propiedades de manera eficiente</h2>
           
                 <div className="flex-1 mb-6 px-40">
                           <label htmlFor="idOwner" className="block text-gray-700 font-bold mb-2">
@@ -68,7 +68,7 @@ export const Inventory = () => {
                           <div className="py-4">
                             <button 
                             onClick={handleSearchProperties}
-                            className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors font-montserrat"
+                            className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
                             type="button"
                             disabled={!idOwner || (selectedProperty && idOwner === lastSearchedIdOwner)} 
                           >
@@ -117,7 +117,7 @@ export const Inventory = () => {
                           </form>
                 
                           <div className='px-40'>
-                              <h2 className="text-2xl font-montserrat mb-6 border-b border-black font-bold">El arrendamiento es</h2>
+                              <h2 className="text-2xl mb-6 border-b border-black font-bold">El arrendamiento es</h2>
                                   <fieldset className="block mb-4">
                                 <label className="inline-flex items-center">
                                   <input type="radio" className="form-radio" name="furniture" value="Con muebles" />
@@ -128,7 +128,7 @@ export const Inventory = () => {
                                   <span className="ml-2">Sin muebles</span>
                                 </label>
                               </fieldset>
-                              <button className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors font-montserrat" type="submit">
+                              <button className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors" type="submit">
                                 Continuar a los espacios
                           </button>
                           </div>
