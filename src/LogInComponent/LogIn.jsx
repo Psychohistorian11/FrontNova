@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../Assets/KeyNova.png';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+
+export function action(){
+
+}
 
 export const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const signIn = useSignIn();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -15,10 +22,29 @@ export const LogIn = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
       e.preventDefault();
-      navigate('/Home');
-  };
+
+      try {
+        const response = await fetch("https://keynovaapi.onrender.com/agent/juanfgomez6%40gmail.com/pass");
+        
+        if (response.ok) {
+            // Si la respuesta es exitosa (código de estado 200-299), puedes manejar los datos aquí
+            console.log("Solicitud exitosa");
+            const data = await response.json();
+            console.log(data);
+            navigate('/');
+        } else {
+            // Si la respuesta no es exitosa, puedes manejar el error aquí
+            console.error("Error en la solicitud:", response.status);
+            // Puedes mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
+        }
+    } catch (error) {
+        // Si ocurre un error en la solicitud, puedes manejarlo aquí
+        console.error("Error en la solicitud:", error);
+        // Puedes mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
+    }
+};
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover'}} >
@@ -30,6 +56,7 @@ export const LogIn = () => {
 
         <div className="bg-white p-10 rounded-2xl box-border h-100 w-100 ml-[-690px]" >
           <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
+          {error.length > 0 && <h3>{error}</h3>}
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Correo electrónico</label>
