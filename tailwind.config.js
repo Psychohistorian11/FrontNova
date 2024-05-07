@@ -11,6 +11,7 @@ export default {
         "firstColor" : "#0E9594",
         "secondColor": "#F2542D",
         "warningColor" : "#562C2C",
+        "bluecolor" : "#6EBDD1"
 
       },
       fontFamily: {
