@@ -3,9 +3,9 @@ import HomeImage from '../Home/home_img.png';
 import ThreeDivsComponent from '../Home/ThreeDivs';
 
 export const Home = () => {
-  const [divPosition] = useState({ top: 185, left: 0 });
+  const [divPosition] = useState({ top: 175, left: 0 });
   const [divSize] = useState({ width: 1480, height: 700 });
-  const [textPosition] = useState({ top: -150, left: 0 });
+  const [textPosition] = useState({ top: -140, left: 0 });
 
   useEffect(() => {
     const divElement = document.querySelector('.home-container');
@@ -19,7 +19,7 @@ export const Home = () => {
   return (
     <div className=' bg-white-300 w-full h-full mt-16 absolute flex items-center justify-center'>
       <div
-        className='home-container bg-skinColor text-black p-4 rounded-lg shadow-lg w-full h-full flex items-center justify-center'
+        className='shadow inner home-container bg-skinColor text-black p-4 rounded-lg shadow-mg w-full h-full flex items-center justify-center'
         style={{ position: 'relative', width: '100%', height: '400%' }}
       >
         <img
@@ -44,7 +44,6 @@ export const Home = () => {
       <div>
       <ThreeDivsComponent />
       </div>
-
     </div>
   );
 };

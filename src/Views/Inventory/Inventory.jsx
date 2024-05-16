@@ -139,14 +139,9 @@ export const Inventory = () => {
                               <button className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors" type="submit">
                                 Continuar a los espacios
                           </button>
-                          </div>
-
-                        
-              
+                          </div> 
                 </div>
-            
           </form>
-  
         </div>
       </>
     );

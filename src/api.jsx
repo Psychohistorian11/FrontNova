@@ -1,6 +1,2 @@
 
-
-
-export async function login(email, password){
-
-}
+export const apiUrl = "https://keynovaapi.onrender.com";

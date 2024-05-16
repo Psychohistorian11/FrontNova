@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import AuthProvider from 'react-auth-kit';
+import createStore from 'react-auth-kit/createStore';
+import './index.css';
+import { RouterProvider } from 'react-router-dom/dist';
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'; 
 import { LogIn } from './LogInComponent/LogIn';
 import { Home } from './Views/Home/Home';
@@ -9,10 +13,9 @@ import { Update } from './Views/Update/Update';
 import { Spaces } from './Views/Inventory/Spaces';
 import { Components } from './Views/Inventory/Components';
 import { Layout } from './Components/Layout'
-import AuthProvider from 'react-auth-kit';
-import createStore from 'react-auth-kit/createStore';
-import './index.css';
-import { RouterProvider } from 'react-router-dom/dist';
+import { Access } from './Views/Access/Access';
+import { OwnersProperties, loader as ownersPropertiesLoader} from './Views/Owners/OwnersProperty';
+
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>
@@ -21,9 +24,11 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index element={<Home />}/>
       <Route path="inventory" element={<Inventory />}/>
       <Route path="owners" element={<Owners />} loader={ownersLoader}/>
+      <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
       <Route path="update" element={<Update />}/>
       <Route path="spaces" element={<Spaces />}/>
       <Route path="components" element={<Components />}/>
+      <Route path="access" element={<Access />}/>
     </Route>
   </>
 ))
