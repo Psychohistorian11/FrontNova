@@ -124,7 +124,7 @@ export const Spaces = () => {
                         className="flex items-center px-4 py-2 bg-white text-firstColor  shadow  transition-colors border border-firstColor border-dashed w-80 h-10"
                       >
                         <span className="text-firstColor mr-2">+</span>
-                        <span className="text-firstColor">Añadir Video</span>
+                        <span className="text-firstColor">Añadir Fotografía</span>
                       </button>
                       <input
                         type="file"
@@ -132,17 +132,17 @@ export const Spaces = () => {
                         ref={fileInputRef}
                         style={{ display: 'none' }}
                         onChange={handleFileChange}
-                        accept="video/*" 
+                       
                       />
 
                     </li>
                     {space.video && (
                       <div>
                         <p>Video seleccionado</p>
-                        <video
-                          controls 
+                        <img
                           src={URL.createObjectURL(space.video)}
-                          style={{ maxWidth: '50%', marginTop: '10px' }}
+                          alt="Imagen seleccionada"
+                          style={{ maxWidth: '25%', marginTop: '10px' }}
                         />
                       </div>
                     )}

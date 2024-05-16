@@ -6,9 +6,7 @@ export const Inventory = () => {
 
   {/*UseStates*/}
   const [idOwner, setIdOwner] = useState('');
-  const [lastSearchedIdOwner, setLastSearchedIdOwner] = useState(null);
   const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState(null)
   const navigate = useNavigate();
   
@@ -22,18 +20,7 @@ export const Inventory = () => {
     setIdOwner(e.target.value);
   };
 
-  const handleSearchProperties = async() => {
-    setLoading(true);
-    setLastSearchedIdOwner(idOwner); // Actualiza el último idOwner buscado
-    // Simulación de la búsqueda de propiedades
-    const simulatedProperties = [
-      { address: 'Calle 123' },
-      { address: 'Avenida Siempreviva 742' },
-      { address: 'Plaza Springfield 456' },
-    ];
-    setProperties(simulatedProperties);
-    setLoading(false);
-  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +33,7 @@ export const Inventory = () => {
   
     return (
       <>
-        <div className="px-72 pt-16">
+        <div className="px-72 pt-16 ">
 
         <form onSubmit={handleSubmit}>
 
@@ -55,7 +42,7 @@ export const Inventory = () => {
           
                 <div className="flex-1 mb-6 px-40">
                           <label htmlFor="idOwner" className="block text-gray-700 font-bold mb-2">
-                            Identificador del propietario
+                            Correo electronico del propietario
                           </label>
                           <input
                             type="text"
@@ -65,20 +52,41 @@ export const Inventory = () => {
                             onChange={handleIdOwnerChange}
                             required
                           />
+                          <div className="mt-8">
+                            <label htmlFor="direccion" className="block text-gray-700 font-bold mb-2">
+                              Dirección del propietario
+                            </label>
+                            <input
+                              type="text"
+                              id="direccion"
+                              className="px-16 py-2 border border-gray-300 rounded"
+                              // Agregar la variable y función de estado correspondiente
+                              // value={direccion}
+                              // onChange={handleDireccionChange}
+                              required
+                            />
+                          </div>
+
+                          <div className="mt-8">
+                            <label htmlFor="foto" className="block text-gray-700 font-bold mb-2">
+                              Agregar foto
+                            </label>
+                            <input
+                              type="file"
+                              id="foto"
+                              className="px-16 py-2 border border-gray-300 rounded"
+                              // Agregar la variable y función de estado correspondiente
+                              // value={foto}
+                              // onChange={handleFotoChange}
+                              required
+                            />
+                          </div>
                           <div className="py-4">
-                            <button 
-                            onClick={handleSearchProperties}
-                            className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
-                            type="button"
-                            disabled={!idOwner || (selectedProperty && idOwner === lastSearchedIdOwner)} 
-                          >
-                            {loading ? 'Buscando...' : 'Buscar viviendas'}
-                          </button>
 
                           </div>
 
                           {properties.length > 0 && (
-                          <div className="mt-4 bg-skinColor rounded-lg p-6">
+                          <div className="mt-4 rounded-lg p-6">
                             <h3 className="text-xl font-bold">Propiedades del Propietario:</h3>
                             <ul>
                               {properties.map((property, index) => (
@@ -96,7 +104,7 @@ export const Inventory = () => {
                           </div>
                         )}
                         {selectedProperty && (
-                              <div className="mt-4 bg-skinColor rounded-lg p-6">
+                              <div className="mt-4  rounded-lg p-6">
                                 <label className="text-xl font-bold">Dirección Seleccionada:</label>
                                 <p className="mt-2">{selectedProperty.address}</p>
                               </div>
@@ -133,9 +141,7 @@ export const Inventory = () => {
                           </button>
                           </div>
 
-                          
-
-
+                        
               
                 </div>
             
@@ -145,4 +151,3 @@ export const Inventory = () => {
       </>
     );
   };
-

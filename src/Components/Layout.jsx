@@ -22,9 +22,10 @@ export const Layout = () => {
             </Link>
             
             <div className="grow flex justify-center space-x-8 content-center h-full bg-white">
-                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventario</NavLink>
+                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Crear Inventario</NavLink>
                 <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietario</NavLink>
-                <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Actualización</NavLink>
+                <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
+                
                 
             </div>
 
