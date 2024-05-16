@@ -3,10 +3,12 @@ import { useNavigate, Outlet, NavLink, Link } from 'react-router-dom';
 import logo from '../Assets/logo.png'
 import { UserCircleIcon, EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 export const Layout = () => {
   const signOut = useSignOut();
   const navigate = useNavigate();
+  const auth = useAuthUser();
 
   function logout() {
     signOut();
@@ -22,10 +24,10 @@ export const Layout = () => {
             </Link>
             
             <div className="grow flex justify-center space-x-8 content-center h-full bg-white">
-                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventario</NavLink>
-                <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietario</NavLink>
-                <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Actualización</NavLink>
-                
+                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Crea Inventario</NavLink>
+                <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
+                <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
+                <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Accesos</NavLink>
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
