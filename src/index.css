@@ -4,7 +4,7 @@
 
 @layer base {
     html {
-        @apply bg-skinColor;
+        
         font-family: 'Poppins', sans-serif;
     }
 }
