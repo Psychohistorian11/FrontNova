@@ -1,6 +1,3 @@
-
-
-
 export default function Property(params){
     const { address, image, owner } = params
 
@@ -19,7 +16,12 @@ export default function Property(params){
                 </div>
                 
                 <div className="flex justify-center mt-auto">
-                    <button className="hover:bg-firstColor text-firstColor text-sm rounded hover:text-white px-4 py-1 border border-firstColor">Ver inventario</button>
+                    <button className="hover:bg-firstColor
+                     text-firstColor text-sm rounded
+                      hover:text-white px-4 py-1 border
+                       border-firstColor"
+                       
+                      >Ver inventario</button>
                 </div>
                 
             </div>
