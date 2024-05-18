@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../Assets/KeyNova.png';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import { logIn } from '../api';
 import { useMutation } from '@tanstack/react-query';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
+import { logIn } from '../api/queries';
+import { setAuthToken } from '../api/axiosConfig';
 
 
 export const LogIn = () => {
@@ -18,7 +19,7 @@ export const LogIn = () => {
 
   const { isError, isPending, mutate: checkLogIn } = useMutation({
     mutationFn: () => logIn(email, password),
-    onSuccess: (data) => success(data),
+    onSuccess: (data) => handleSuccess(data),
     onError: (e) => console.log(e)
   });
 
@@ -26,20 +27,24 @@ export const LogIn = () => {
     navigate('/')
   }
 
-  function success(data) {
+  function handleSuccess(data) {
     signIn({
       auth: {
         token: data.token,
         type: 'Bearer'
       },
       userState: {
-          id: data.idAgente,
-          type: data.tipo,
-          name: data.nombre,
-          email: data.correo,
-          image: data.imagen
+          id: data.info.idAgente,
+          type: data.info.tipo,
+          name: data.info.nombre,
+          email: data.info.correo,
+          image: data.info.imagen
       }
-    })
+    });
+    console.log(data.token)
+
+    setAuthToken(data.token);
+    navigate('/');
 
     // const success = signIn({
     //   token: '<jwt token>',

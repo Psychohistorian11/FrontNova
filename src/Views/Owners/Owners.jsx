@@ -1,9 +1,9 @@
 import React from 'react'
-import { useLoaderData, Link } from 'react-router-dom/dist'
+import { Link } from 'react-router-dom/dist'
 import { PlusIcon, ArrowDownRightIcon } from '@heroicons/react/16/solid'
-import { getOwners } from '../../api'
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import { getOwners } from '../../api/queries'
 import { useQuery } from '@tanstack/react-query'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 
 export function loader() {
@@ -27,11 +27,11 @@ export function loader() {
 }
 
 export const Owners = () => {
-  // const { id } = useAuthUser();
+  const { id } = useAuthUser();
 
   const { data: owners, isLoading } = useQuery({
     queryKey: ['owners'],
-    queryFn: () => getOwners(1)
+    queryFn: () => getOwners(id)
   })
 
   if (isLoading){

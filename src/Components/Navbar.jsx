@@ -4,15 +4,17 @@ import logo from '../Assets/logo.png'
 import { UserCircleIcon, EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { setAuthToken } from '../api/axiosConfig';
 
 export const Navbar = () => {
   const signOut = useSignOut();
   const navigate = useNavigate();
-  const auth = useAuthUser();
+  const authUser = useAuthUser();
 
   function logout() {
     signOut();
-    navigate("/");
+    setAuthToken();
+    navigate("/login");
   }
 
   return (

@@ -5,9 +5,9 @@ export default function Agent(params){
 
     return(
         <div className="relative">
-            <div className="flex bg-white w-80 mx-10 h-14 items-center rounded-xl border border-gray-300 pr-6">
-                <img className="absolute left-0 rounded-full size-20 object-cover z-10" src={photo}></img>
-                <p className="flex ml-20 items-center text-lg">{name}</p>
+            <div className="flex bg-white w-80 mx-10 h-12 items-center rounded-xl border border-gray-300 pr-6">
+                <img className="absolute left-0 rounded-full size-16 object-cover z-10" src={photo}></img>
+                <p className="flex ml-14 items-center text-lg">{name}</p>
 
                 <div className="ml-auto ">
                     {hasAccess ?
@@ -16,7 +16,7 @@ export default function Agent(params){
                         <PlusCircleIcon className="size-6"/>
                     }
                 </div>
-            </div>  
+            </div>
         </div>
     )
 }
