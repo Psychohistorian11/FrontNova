@@ -2,15 +2,61 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from '../Assets/KeyNova.png';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import { apiUrl } from '../api';
+import { logIn } from '../api';
+import { useMutation } from '@tanstack/react-query';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
 
 
 export const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+
   const navigate = useNavigate();
   const signIn = useSignIn();
+  const isAuthenticated = useIsAuthenticated();
+
+  const { isError, isPending, mutate: checkLogIn } = useMutation({
+    mutationFn: () => logIn(email, password),
+    onSuccess: (data) => success(data),
+    onError: (e) => console.log(e)
+  });
+
+  if (isAuthenticated){
+    navigate('/')
+  }
+
+  function success(data) {
+    signIn({
+      auth: {
+        token: data.token,
+        type: 'Bearer'
+      },
+      userState: {
+          id: data.idAgente,
+          type: data.tipo,
+          name: data.nombre,
+          email: data.correo,
+          image: data.imagen
+      }
+    })
+
+    // const success = signIn({
+    //   token: '<jwt token>',
+    //   expiresIn: 3600,
+    //   tokenType: 'Bearer',
+    //   authState: { id: data.idAgente }
+    // });
+
+    // if (!success) {
+    //   console.log('Error al autenticar al usuario');
+    // } else {
+    //   console.log('Usuario autenticado correctamente');
+    // }
+      
+  }
+    
+  
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,39 +66,10 @@ export const LogIn = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async(e) => {
-      e.preventDefault();
-      setError(null)
-
-      try {
-        const response = await fetch(apiUrl + `/agent/${email}/${password}`);
-        
-        if (response.ok) {
-            // Si la respuesta es exitosa (código de estado 200-299), puedes manejar los datos aquí
-            console.log("Solicitud exitosa");
-            const data = await response.json();
-            console.log(data);
-            signIn({
-              expiresIn: 3600,
-              authState: {
-                idAgent: data.idAgente,
-                type: data.tipo,
-                email: data.correo,
-                userType: data.userType,
-                name: data.nombre,
-                image: data.imagen
-              }
-            })
-            navigate('/');
-        } else {
-            // Si la respuesta no es exitosa, puedes manejar el error aquí
-            console.error("Error en la solicitud:", response.status);
-            // Puedes mostrar un mensaje de error al usuario o realizar otras acciones apropiadas
-        }
-    } catch (error) {
-        setError("Usuario o contraseña incorrectos")
-    }
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    checkLogIn()
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover'}} >
@@ -64,7 +81,6 @@ export const LogIn = () => {
 
         <div className="bg-white p-10 rounded-2xl box-border h-100 w-100 ml-[-690px]" >
           <h2 className="text-2xl font-bold mb-4">Iniciar sesión</h2>
-          {error && <h3>{error}</h3>}
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Correo electrónico</label>
@@ -88,9 +104,17 @@ export const LogIn = () => {
                 required
               />
             </div>
+
+            {isError && 
+              <div className='flex content-center'>
+                <ExclamationTriangleIcon color='red' className='size-5 mr-4'/>
+                <span className='text-red-700'>Usuario o contraseña incorrectos</span>
+              </div>
+            }
+
             <button
               type="submit"
-              className="w-full bg-black text-white font-bold py-2 px-4 rounded hover:bg-firstColor"
+              className="mt-4 w-full bg-black text-white font-bold py-2 px-4 rounded hover:bg-firstColor"
             >
               Acceder
             </button>
