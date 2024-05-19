@@ -9,9 +9,8 @@ const ThreeDivsComponent = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '450px',
-    marginTop: '1520px',
-    marginLeft: '-1475px',
+    height: '570px',
+    marginTop: '20px',
   };
 
   const contentStyle = {
@@ -19,10 +18,11 @@ const ThreeDivsComponent = () => {
     padding: '20px',
     marginRight: '20px',
     width: '400px',
-    height: '320px',
+    height: '440px',
     borderRadius: '8px',
     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
     cursor: 'pointer', 
+    margin: '0 10px',
   };
 
   const imageStyle = {
@@ -42,33 +42,33 @@ const ThreeDivsComponent = () => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '570px', marginTop: '1750px', marginLeft: '-1475px' }}>
-      <div className='w-100'>
-        <h1 className='absolute flex items-center text-4xl font-bold dark:text-black w-100' style={{ marginTop: '-290px', marginLeft: '470px'}}>SOBRE NOSOTROS</h1>
+    <div className='flex flex-col my-10' style={divStyle}>
+      <div>
+        <h1 className='text-4xl font-bold mb-10' >SOBRE NOSOTROS</h1>
       </div>
 
-      <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={{ width: '400px', height: '440px', contentStyle , marginRight: '10px'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-        <img src={HomeContext1} alt="" style={imageStyle} />
-        <h1 className='flex items-center text-2xl font-extrabold dark:text-white'>NUESTRA EMPRESA NOVA</h1>
-        <p className='text-white font-montserrat'>Somos Nova, especializados en mejorar la gestión de inventarios para arrendamientos. Descubre cómo nuestra plataforma facilita el control eficiente de tus activos inmobiliarios. Únete para una gestión de propiedades de alquiler más eficiente.</p>
+      <div className='flex'>
+        <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={contentStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+          <img src={HomeContext1} alt="" style={imageStyle} />
+          <h1 className='text-2xl font-extrabold dark:text-white'>NUESTRA EMPRESA NOVA</h1>
+          <p className='text-white font-montserrat'>Somos Nova, especializados en mejorar la gestión de inventarios para arrendamientos. Descubre cómo nuestra plataforma facilita el control eficiente de tus activos inmobiliarios. Únete para una gestión de propiedades de alquiler más eficiente.</p>
+        </div>
+
+        <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={contentStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+          <img src={HomeContext2} alt="" style={imageStyle} />
+          <h1 className='text-2xl font-extrabold dark:text-white'>SUPERVISA TU INVENTARIO</h1>
+          <p className='text-white font-montserrat'>Descubre cómo nuestra aplicación simplifica la supervisión del inventario permitiéndote crear espacios detallados para cada propiedad. Desde subir fotos y videos hasta registrar el estado de cada artículo, gestionar tu inventario nunca ha sido tan fácil y efectivo.</p>
+        </div>
+
+        <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={contentStyle} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+          <img src={HomeContext3} alt="" style={imageStyle} />
+          <h1 className='text-2xl font-extrabold dark:text-white'>UNETE A NUESTRA COMUNIDAD</h1>
+          <p className='text-white font-montserrat'>Únete a nuestra comunidad de propietarios y agentes comerciales para una gestión de inventarios más efectiva. Conecta, comparte y aprende con nosotros para optimizar la administración de tus propiedades.</p>
+        </div>
       </div>
 
-      <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={{ width: '400px', height: '440px', contentStyle , marginRight: '10px'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-        <img src={HomeContext2} alt="" style={imageStyle} />
-        <h1 className='flex items-center text-2xl font-extrabold dark:text-white'>SUPERVISA TU INVENTARIO</h1>
-        <p className='text-white font-montserrat'>Descubre cómo nuestra aplicación simplifica la supervisión del inventario permitiéndote crear espacios detallados para cada propiedad. Desde subir fotos y videos hasta registrar el estado de cada artículo, gestionar tu inventario nunca ha sido tan fácil y efectivo.</p>
-      </div>
-
-      <div className='bg-bluecolor p-8 rounded-lg mx-2 w-80' style={{ width: '400px', height: '440px', contentStyle , marginRight: '10px'}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-        <img src={HomeContext3} alt="" style={imageStyle} />
-        <h1 className='flex items-center text-2xl font-extrabold dark:text-white'>UNETE A NUESTRA COMUNIDAD</h1>
-        <p className='text-white font-montserrat'>Únete a nuestra comunidad de propietarios y agentes comerciales para una gestión de inventarios más efectiva. Conecta, comparte y aprende con nosotros para optimizar la administración de tus propiedades.</p>
-      </div>
     </div>
   );
 };
 
 export default ThreeDivsComponent;
-
-
-
