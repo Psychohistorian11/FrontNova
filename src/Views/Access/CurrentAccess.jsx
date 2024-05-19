@@ -1,8 +1,9 @@
+import { KeyIcon } from "@heroicons/react/24/outline"
 import Agent from "../../Components/Agent"
 
 export const CurrentAccess = () => {
 
-  const agents = [
+  var agents = [
     {
       id: 1,
       name: "Chris Paul",
@@ -20,13 +21,38 @@ export const CurrentAccess = () => {
     }
   ]
 
+  // TEST!!!! 
+  agents = []
+
+  function handleRemove(idAgent){
+    return null
+  }
+
   const agentElements = agents.map(agent => (
-    <Agent key={agent.id} name={agent.name} hasAccess={true} photo={agent.photo}/>
+    <Agent 
+      key={agent.id} 
+      name={agent.name} 
+      hasAccess={true} 
+      photo={agent.photo} 
+      handleEvent={() => handleRemove(agent.id)}
+    />
   ))
 
   return (
-    <div className="space-y-5">
-      {agentElements}
-    </div>
+    <>
+    {
+      agents.length === 0 ?
+        <div className='absolute inset-x-0 mt-20  flex flex-col items-center justify-center'>
+          <KeyIcon className='size-24' color='#0E9594'/>
+          <p className='mt-2 italic text-firstColor'>Ninguna otra persona tiene acceso a este inventario</p>
+        </div>
+        :
+        <div className="divide-y divide-y-solid">
+          {agentElements}
+        </div>
+    }
+    </>
+    
+    
   )
 }

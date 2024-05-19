@@ -39,3 +39,16 @@ export async function getProperties(idAgent){
 export async function createOwner(){
 
 }
+
+// Obtener todos los agentes de mantenimiento con atributo bool de si tienen acceso a una propiedad
+// PENDIENTE
+export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgent){
+    try{
+        const response = await api.get(`/access/${idProperty}/${idAgent}`)
+        return response.data;
+    }
+    catch (error) {
+        console.error('Hubo un problema con la solicitud fetch:', error);
+        return []
+    }
+}

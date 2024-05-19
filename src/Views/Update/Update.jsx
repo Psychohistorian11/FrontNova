@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { getProperties } from '../../api/queries'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import Loading from '../../Components/Loading'
-import { HomeModernIcon } from '@heroicons/react/24/outline'
+import { HomeModernIcon, RectangleGroupIcon } from '@heroicons/react/24/outline'
 
 export const Update = () => {
   const authUser = useAuthUser();
@@ -52,11 +52,12 @@ export const Update = () => {
 
   return (
     <>
-      <h1 className='text-3xl font-bold border-b border-black pb-4'>Inventarios</h1>
+      <h1 className='text-3xl font-bold border-b border-b-gray-300 pb-3'>Inventarios</h1>
       {
         properties.length === 0 ?
           <div className='absolute inset-x-0 mt-20  flex flex-col items-center justify-center'>
-            <HomeModernIcon className='size-24' color='#0E9594'/>
+            <RectangleGroupIcon className='size-24' color='#0E9594'/>
+            {/* <HomeModernIcon className='size-24' color='#0E9594'/> */}
             <p className='mt-2 italic text-firstColor'>No has añadido ningún inventario</p>
           </div>
           :

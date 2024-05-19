@@ -104,7 +104,8 @@ export const LogIn = () => {
 
             <button
               type="submit"
-              className="mt-4 w-full bg-black text-white font-bold py-2 px-4 rounded hover:bg-firstColor"
+              className={"mt-4 w-full text-white font-bold py-2 px-4 rounded bg-firstColor " + (isPending ? "grayscale" : "hover:bg-black")}
+              disabled={isPending}
             >
               Acceder
             </button>

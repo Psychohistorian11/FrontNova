@@ -5,7 +5,7 @@ import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { setAuthToken } from '../api/axiosConfig';
-import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
+import { ArrowRightEndOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 
 export const Navbar = () => {
   const signOut = useSignOut();
@@ -26,10 +26,15 @@ export const Navbar = () => {
                 <span className="ms-3 font-montserrat text-xl font-bold">Nova</span>
             </Link>
             
-            <div className="grow flex justify-center space-x-8 content-center h-full bg-white">
+            <div className="grow flex justify-center items-center space-x-8 content-center h-full bg-white">
                 <NavLink to="update" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
                 <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
                 <NavLink to="access" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Accesos</NavLink>
+                
+                {/* Provicional */}
+                <Link to="access" className='flex justify-center items-center size-10 rounded-full border border-gray-400'>
+                  <UserPlusIcon className='size-6' />
+                </Link>
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
@@ -37,6 +42,7 @@ export const Navbar = () => {
               <img src="https://variety.com/wp-content/uploads/2023/09/GettyImages-1402938975.jpg?w=1024" className='size-8 mr-3 rounded-full object-cover' />
               <span className="mr-2 font-bold">{authUser.name}</span>
               <ArrowRightEndOnRectangleIcon className='size-6 ms-4 cursor-pointer' onClick={logout}/>
+
               {/* <div className="absolute right-0 w-48 bg-white border rounded-md shadow-lg opacity-0 hover:opacity-100 transition duration-300">
                 <div className='cursor-pointer flex px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={logout}>
                   <ChevronDoubleLeftIcon className='size-6 mr-4'/>

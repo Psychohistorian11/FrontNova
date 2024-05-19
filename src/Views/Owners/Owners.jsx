@@ -38,7 +38,7 @@ export const Owners = () => {
 
   return (
     <>
-      <div className='flex mb-8 justify-between'>
+      <div className='flex pb-3 mb-5 justify-between border-b border-b-gray-300'>
         <h2 className='text-3xl font-bold '>Propietarios</h2>
         <Link to="create" className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
           <PlusIcon className='size-6 mr-1'/>
