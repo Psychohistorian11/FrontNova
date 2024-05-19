@@ -17,6 +17,9 @@ export default {
       fontFamily: {
         "montserrat" : ['Montserrat' , 'sans-serif'],
         "poppins" : ['Poppins', 'sans-serif']
+      },
+      backgroundImage: {
+        'blueprint1': "url('/src/Assets/fondo1.jpg')"
       }
     },
   },

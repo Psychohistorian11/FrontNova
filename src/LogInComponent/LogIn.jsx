@@ -41,28 +41,11 @@ export const LogIn = () => {
           image: data.info.imagen
       }
     });
-    console.log(data.token)
 
     setAuthToken(data.token);
     navigate('/');
-
-    // const success = signIn({
-    //   token: '<jwt token>',
-    //   expiresIn: 3600,
-    //   tokenType: 'Bearer',
-    //   authState: { id: data.idAgente }
-    // });
-
-    // if (!success) {
-    //   console.log('Error al autenticar al usuario');
-    // } else {
-    //   console.log('Usuario autenticado correctamente');
-    // }
-      
   }
     
-  
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };

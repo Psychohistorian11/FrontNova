@@ -8,7 +8,7 @@ import { Route, createBrowserRouter, createRoutesFromElements } from 'react-rout
 import { LogIn } from './LogInComponent/LogIn';
 import { Home } from './Views/Home/Home';
 import { Inventory } from './Views/Inventory/Inventory';
-import { Owners, loader as ownersLoader } from './Views/Owners/Owners';
+import { Owners } from './Views/Owners/Owners';
 import { Update } from './Views/Update/Update';
 import { Spaces } from './Views/Inventory/Spaces';
 import { Components } from './Views/Inventory/Components';
@@ -18,6 +18,7 @@ import { OwnersProperties, loader as ownersPropertiesLoader} from './Views/Owner
 import LayoutAccess from './Components/LayoutAccess';
 import AddAccess from './Views/Access/AddAccess';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
+import BoxLayout from './Components/BoxLayout';
 
 
 export default function App(){
@@ -28,16 +29,18 @@ export default function App(){
             <Route element={<AuthOutlet fallbackPath='/login' />}>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />}/>
-                    <Route path="inventory" element={<Inventory />}/>
-                    <Route path="inventory/:id" element={<Inventory />}/>
-                    <Route path="owners" element={<Owners />} loader={ownersLoader}/>
-                    <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
-                    <Route path="update" element={<Update />}/>
-                    <Route path="spaces" element={<Spaces />}/>
-                    <Route path="components" element={<Components />}/>
-                    <Route path="access" element={<LayoutAccess />}>
-                        <Route index element={<CurrentAccess/>}/>
-                        <Route path="add" element={<AddAccess/>}/>
+                    <Route element={<BoxLayout />}>
+                        <Route path="inventory" element={<Inventory />}/>
+                        <Route path="inventory/:id" element={<Inventory />}/>
+                        <Route path="owners" element={<Owners />} />
+                        <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
+                        <Route path="update" element={<Update />}/>
+                        <Route path="spaces" element={<Spaces />}/>
+                        <Route path="components" element={<Components />}/>
+                        <Route path="access" element={<LayoutAccess />}>
+                            <Route index element={<CurrentAccess/>}/>
+                            <Route path="add" element={<AddAccess/>}/>
+                        </Route>
                     </Route>
                 </Route>
             </Route>
@@ -50,8 +53,8 @@ export default function App(){
         authName:'_auth',
         authType:'cookie',
         cookieDomain: window.location.hostname,
-        cookieSecure: window.location.protocol === 'https:',
-    });
+        cookieSecure: window.location.protocol === 'https:'
+    })
 
     return(
         <QueryClientProvider client={queryClient}>
