@@ -23,9 +23,11 @@ export const LogIn = () => {
     onError: (e) => console.log(e)
   });
 
-  if (isAuthenticated){
-    navigate('/')
-  }
+  useEffect(() => {
+    if (isAuthenticated){
+      navigate('/h')
+    }
+  }, [])
 
   function handleSuccess(data) {
     signIn({
@@ -43,7 +45,7 @@ export const LogIn = () => {
     });
 
     setAuthToken(data.token);
-    navigate('/');
+    navigate('/h');
   }
     
   const handleEmailChange = (e) => {

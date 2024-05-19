@@ -19,16 +19,21 @@ import LayoutAccess from './Components/LayoutAccess';
 import AddAccess from './Views/Access/AddAccess';
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
 import BoxLayout from './Components/BoxLayout';
+import Landing from './Views/Landing/Landing';
+import { NavbarHome } from './Components/NavbarHome';
 
 
 export default function App(){
     // Router managment
     const router = createBrowserRouter(createRoutesFromElements(
         <>
+            <Route path="/" element={<NavbarHome />} >
+                <Route index element={<Home />} />
+            </Route>
             <Route path="/login" element={<LogIn />} />
             <Route element={<AuthOutlet fallbackPath='/login' />}>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />}/>
+                <Route path="/h" element={<Layout />}>
+                    <Route index element={<Landing />}/>
                     <Route element={<BoxLayout />}>
                         <Route path="inventory" element={<Inventory />}/>
                         <Route path="inventory/:id" element={<Inventory />}/>

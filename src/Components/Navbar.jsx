@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate, NavLink, Link } from 'react-router-dom';
 import logo from '../Assets/logo.png'
-import { UserCircleIcon, EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
+import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { setAuthToken } from '../api/axiosConfig';
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
 
 export const Navbar = () => {
   const signOut = useSignOut();
@@ -14,13 +15,13 @@ export const Navbar = () => {
   function logout() {
     signOut();
     setAuthToken();
-    navigate("/login");
+    navigate("/");
   }
 
   return (
     <>
         <div className="flex items-center justify-start p-1 h-16 bg-white text-black border-b border-b-gray-300 shadow">
-            <Link to="/" className="flex items-center">
+            <Link to="/h" className="flex items-center">
                 <img src={logo} alt="Logo" className="h-10 ms-6" />
                 <span className="ms-3 font-montserrat text-xl font-bold">Nova</span>
             </Link>
@@ -32,16 +33,16 @@ export const Navbar = () => {
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
-              <UserCircleIcon className='size-6 mr-2' />
-              <span className="mr-2 font-bold">User</span>
-              <EllipsisVerticalIcon className='size-4 ms-4' />
-              <div className="absolute right-0 w-48 bg-white border rounded-md shadow-lg opacity-0 hover:opacity-100 transition duration-300">
+              <img src={authUser.image} className='size-8 mr-3 rounded-full' />
+              <span className="mr-2 font-bold">{authUser.name}</span>
+              <ArrowRightEndOnRectangleIcon className='size-6 ms-4 cursor-pointer' onClick={logout}/>
+              {/* <div className="absolute right-0 w-48 bg-white border rounded-md shadow-lg opacity-0 hover:opacity-100 transition duration-300">
                 <div className='cursor-pointer flex px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={logout}>
                   <ChevronDoubleLeftIcon className='size-6 mr-4'/>
                   <span> Cerrar sesión</span>
                   
                 </ div>
-              </div>
+              </div> */}
             </div>
         </div>
     </>

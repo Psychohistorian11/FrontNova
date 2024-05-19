@@ -31,6 +31,7 @@ export async function getProperties(idAgent){
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
+        return []
     }
 }
 
