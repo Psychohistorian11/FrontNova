@@ -33,7 +33,8 @@ export const Navbar = () => {
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
-              <img src={authUser.image} className='size-8 mr-3 rounded-full' />
+              {/* Reemplazar con authUser.image */}
+              <img src="https://variety.com/wp-content/uploads/2023/09/GettyImages-1402938975.jpg?w=1024" className='size-8 mr-3 rounded-full object-cover' />
               <span className="mr-2 font-bold">{authUser.name}</span>
               <ArrowRightEndOnRectangleIcon className='size-6 ms-4 cursor-pointer' onClick={logout}/>
               {/* <div className="absolute right-0 w-48 bg-white border rounded-md shadow-lg opacity-0 hover:opacity-100 transition duration-300">

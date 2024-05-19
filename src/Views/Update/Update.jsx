@@ -46,6 +46,7 @@ export const Update = () => {
       image={property.image}
       address={property.address} 
       handleDelete={() => handleDelete(property.id)}
+      linkToDetail= {`inventory/${property.id}`}
     />
   ))
 
@@ -54,7 +55,7 @@ export const Update = () => {
       <h1 className='text-3xl font-bold border-b border-black pb-4'>Inventarios</h1>
       {
         properties.length === 0 ?
-          <div className='absolute inset-0 flex flex-col items-center justify-center'>
+          <div className='absolute inset-x-0 mt-20  flex flex-col items-center justify-center'>
             <HomeModernIcon className='size-24' color='#0E9594'/>
             <p className='mt-2 italic text-firstColor'>No has añadido ningún inventario</p>
           </div>

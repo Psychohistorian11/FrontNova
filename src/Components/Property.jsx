@@ -3,7 +3,7 @@ import Swal from "sweetalert2"
 
 
 export default function Property(params){
-    const { address, image, owner, handleDelete } = params
+    const { address, image, owner, handleDelete, linkToDetail } = params
 
     function confirmationDeleteAlert(){
         Swal.fire({
@@ -48,7 +48,9 @@ export default function Property(params){
                 </div>
                 
                 <div className="flex justify-center mt-auto">
-                    <button className="hover:bg-firstColor text-firstColor text-sm rounded hover:text-white px-4 py-1 border border-firstColor">Ver inventario</button>
+                    <Link to={linkToDetail} className="hover:bg-firstColor text-firstColor text-sm rounded hover:text-white px-4 py-1 border border-firstColor">
+                      Ver inventario
+                    </Link>
                 </div>
             </div>
         </div>

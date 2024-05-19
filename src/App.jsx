@@ -21,6 +21,8 @@ import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
 import BoxLayout from './Components/BoxLayout';
 import Landing from './Views/Landing/Landing';
 import { NavbarHome } from './Components/NavbarHome';
+import NotFound from './Components/NotFound';
+import CreateOwner from './Views/Owners/CreateOwner';
 
 
 export default function App(){
@@ -38,6 +40,7 @@ export default function App(){
                         <Route path="inventory" element={<Inventory />}/>
                         <Route path="inventory/:id" element={<Inventory />}/>
                         <Route path="owners" element={<Owners />} />
+                        <Route path="owners/create" element={<CreateOwner />} />
                         <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
                         <Route path="update" element={<Update />}/>
                         <Route path="spaces" element={<Spaces />}/>
@@ -49,6 +52,7 @@ export default function App(){
                     </Route>
                 </Route>
             </Route>
+            <Route path="*" element={<NotFound />} />
         </>
     ))
 

@@ -40,13 +40,14 @@ export const Owners = () => {
     <>
       <div className='flex mb-8 justify-between'>
         <h2 className='text-3xl font-bold '>Propietarios</h2>
-        <Link className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
+        <Link to="create" className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
           <PlusIcon className='size-6 mr-1'/>
-          <span className="text-white">Nuevo propietario</span></Link>
+          <span className="text-white">Nuevo propietario</span>
+        </Link>
       </div>
       {
         owners.length === 0 ?
-          <div className='absolute inset-0 flex flex-col items-center justify-center'>
+          <div className='absolute inset-x-0 mt-20 flex flex-col items-center justify-center'>
             <UserGroupIcon className='size-24' color='#0E9594'/>
             <p className='mt-2 italic text-firstColor'>No has añadido ningún propietario</p>
           </div>

@@ -7,11 +7,13 @@ export default function LayoutAccess() {
 
     return (
         <div className="p-12">
-            <nav className="space-x-5 mb-8">
+            <nav className="flex space-x-5 mb-8 justify-center border-b border-b-gray-300 pb-3">
                 <NavLink to="."  end className={({isActive}) => (basicNavStyle + (isActive && selectedNav))} >Accesos actuales</NavLink>
                 <NavLink to="add" className={({isActive}) => (basicNavStyle + (isActive && selectedNav))} >Agregar Acceso</NavLink>
             </nav>
-            <Outlet />
+            <div className="flex flex-col items-center">
+                <Outlet />
+            </div>
         </div>
     )
-}   
+}  
