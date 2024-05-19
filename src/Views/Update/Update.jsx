@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { getProperties } from '../../api/queries'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import Loading from '../../Components/Loading'
+import { HomeModernIcon } from '@heroicons/react/24/outline'
 
 export const Update = () => {
   const authUser = useAuthUser();
@@ -38,7 +39,6 @@ export const Update = () => {
     return <Loading />
   }
 
-
   const propertiesElements = properties?.map(property => (
     <Property
       key={property.id}
@@ -52,10 +52,18 @@ export const Update = () => {
   return (
     <>
       <h1 className='text-3xl font-bold border-b border-black pb-4'>Inventarios</h1>
-        <div className='grid grid-cols-4 gap-6 mt-10 ' >
-          {propertiesElements}
-          {propertiesElements}
-        </div>
+      {
+        properties.length === 0 ?
+          <div className='absolute inset-0 flex flex-col items-center justify-center'>
+            <HomeModernIcon className='size-24' color='#0E9594'/>
+            <p className='mt-2 italic text-firstColor'>No has añadido ningún inventario</p>
+          </div>
+          :
+          <div className='grid grid-cols-4 gap-6 mt-10 ' >
+            {propertiesElements}
+            {propertiesElements}
+          </div>
+      }
     </>
   )
 }
