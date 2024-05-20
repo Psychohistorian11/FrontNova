@@ -44,7 +44,7 @@ const InfoWindow = ({ page, firstNameInfo, firstInfo, SecondNameInfo, secondInfo
               {SecondNameInfo && <p>{SecondNameInfo}: {secondInfo}</p>}
               {image && (
                 <div>
-                  <img src={image} alt="Casa" style={{ maxWidth: '50%', marginTop: '10px' }} />
+                  <img src={image} alt="Casa" style={{ maxWidth: '100%', marginTop: '10px' }} />
                 </div>
               )}
             </div>

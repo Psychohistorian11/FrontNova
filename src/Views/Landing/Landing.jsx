@@ -64,10 +64,10 @@ export default function Landing() {
                     <p>¿Qué quieres hacer hoy?</p>
                 </div>
                 <div className="flex justify-center space-x-16 my-16 w-full">
-                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
+                    <Link to="CreateInventory" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
                         Crear nuevo inventario
                     </Link>
-                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl  from-firstColor from-50% to-neutral-700 shadow-xl">
+                    <Link to="owners/create" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl  from-firstColor from-50% to-neutral-700 shadow-xl">
                         Agregar propietario
                     </Link>
                 </div>

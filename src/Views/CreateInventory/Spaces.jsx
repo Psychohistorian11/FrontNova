@@ -36,7 +36,7 @@ export const Spaces = () => {
 
   return (
     <>
-      <div className="px-72 pt-16">
+      <div className="">
         <nav className="mb-4">
           <Link to="/Inventory">Inventarios</Link> &gt; <Link to="/CreateInventory">Crear Inventario</Link> &gt; <span>Espacios</span>
         </nav>

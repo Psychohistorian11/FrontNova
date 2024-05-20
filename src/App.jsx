@@ -5,13 +5,13 @@ import './index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom/dist';
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'; 
-import { LogIn } from './LogInComponent/LogIn';
+import { LogIn } from './Components/LogIn';
 import { Home } from './Views/Home/Home';
 import { Inventory } from './Views/Inventory/Inventory';
 import { Owners } from './Views/Owners/Owners';
-import { Update } from './Views/Update/Update';
-import { Spaces } from './Views/Inventory/Spaces';
-import { Components } from './Views/Inventory/Components';
+import { Spaces } from './Views/CreateInventory/Spaces';
+import { Components } from './Views/CreateInventory/Components';
+import { CreateInventory } from './Views/CreateInventory/CreateInventory';
 import Layout from './Components/Layout'
 import { CurrentAccess } from './Views/Access/CurrentAccess';
 import { OwnersProperties, loader as ownersPropertiesLoader} from './Views/Owners/OwnersProperty';
@@ -40,10 +40,10 @@ export default function App(){
                     <Route element={<BoxLayout />}>
                         <Route path="inventory" element={<Inventory />}/>
                         <Route path="inventory/:id" element={<Inventory />}/>
+                        <Route path="createInventory" element={<CreateInventory />}/>
                         <Route path="owners" element={<Owners />} />
                         <Route path="owners/create" element={<CreateOwner />} />
                         <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
-                        <Route path="update" element={<Update />}/>
                         <Route path="spaces" element={<Spaces />}/>
                         <Route path="components" element={<Components />}/>
                         <Route path="maintenances" element={<Maintenances />} />

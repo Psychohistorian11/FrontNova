@@ -29,7 +29,7 @@ export const CreateInventory = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const dataToSend = { email: idOwner, address: address, image: selectedImage };
-    navigate('/Spaces', { state: dataToSend });
+    navigate('/h/Spaces', { state: dataToSend });
   };
 
   const handleRegisterOwner = () => navigate('/Owners');
@@ -40,7 +40,7 @@ export const CreateInventory = () => {
   };
 
   return (
-    <div className="px-72 pt-16">
+    <div className="">
       <nav className="mb-4">
         <Link to="/Inventory">Inventarios</Link> &gt; <span>Crear Inventario</span>
       </nav>
