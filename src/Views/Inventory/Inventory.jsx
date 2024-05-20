@@ -53,7 +53,7 @@ export const Inventory = () => {
       image={property.image}
       address={property.direccion} 
       handleDelete={() => handleDelete(property.id)}
-      linkToDetail= {`inventory/${property.id}`}
+      linkToDetail= {`/h/inventory/${property.idPropiedad}`}
     />
   ))
 

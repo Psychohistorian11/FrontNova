@@ -29,10 +29,6 @@ export const Navbar = () => {
                 <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
                 <NavLink to="access" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Accesos</NavLink>
                 
-                {/* Provicional */}
-                <Link to="access" className='flex justify-center items-center size-10 rounded-full border border-gray-400'>
-                  <UserPlusIcon className='size-6' />
-                </Link>
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">

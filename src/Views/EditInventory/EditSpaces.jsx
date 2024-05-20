@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
-import { BrickWall, Info } from "lucide-react";
+import { BrickWall } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
 
-export const Spaces = () => {
+export const EditSpaces = () => {
 
   const location = useLocation();
   const { email, address, image } = location.state || {};
@@ -38,7 +38,7 @@ export const Spaces = () => {
     <>
       <div className="">
         <nav className="mb-4">
-          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <span>Espacios</span>
+          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/editInventory">Inventario</Link> &gt; <span>Espacios</span>
         </nav>
         <nav>
       <div className="flex items-center justify-between mb-6">  

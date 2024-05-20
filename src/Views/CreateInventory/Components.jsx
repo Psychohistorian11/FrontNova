@@ -33,7 +33,7 @@ export const Components = () => {
     <>
       <div className="">
         <nav className="mb-4">
-          <Link to="/Inventory">Inventarios</Link> &gt; <Link to="/CreateInventory">Crear Inventario</Link> &gt; <Link to="/Spaces">{spaceName}</Link> &gt; <span>Muebles</span>
+          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <Link to="/h/spaces">{spaceName}</Link> &gt; <span>Muebles</span>
         </nav>
         <div className="flex items-center justify-between mb-6">
           <div>

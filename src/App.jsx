@@ -24,6 +24,8 @@ import { NavbarHome } from './Components/NavbarHome';
 import NotFound from './Components/NotFound';
 import CreateOwner from './Views/Owners/CreateOwner';
 import Maintenances from './Views/Maintenance/Maintenances';
+import { EditInventory } from './Views/EditInventory/EditInventory';
+import { EditSpaces } from './Views/EditInventory/EditSpaces';
 
 
 export default function App(){
@@ -39,7 +41,8 @@ export default function App(){
                     <Route index element={<Landing />}/>
                     <Route element={<BoxLayout />}>
                         <Route path="inventory" element={<Inventory />}/>
-                        <Route path="inventory/:id" element={<Inventory />}/>
+                        <Route path="inventory/:id" element={<EditInventory />}/>
+                        <Route path="spaces/:id" element={<EditSpaces/>}/>
                         <Route path="createInventory" element={<CreateInventory />}/>
                         <Route path="owners" element={<Owners />} />
                         <Route path="owners/create" element={<CreateOwner />} />
