@@ -1,5 +1,7 @@
 import api from "./axiosConfig";
 
+const urlImages = "/static/images/"
+
 // Iniciar sesión
 export async function logIn(mail, password){
     try{
@@ -13,8 +15,9 @@ export async function logIn(mail, password){
 
 // Obtener propietarios de agente
 export async function getOwners(idAgent){
+    console.log(api)
     try{
-        const response = await api.get(`/owner/owners_of_agent/${idAgent}`);
+        const response = await api.get(`/owner/owners_of_agent/${idAgent}`)
         return response.data
     }
     catch (err) {

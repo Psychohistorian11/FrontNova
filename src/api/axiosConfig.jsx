@@ -5,13 +5,13 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Función para actualizar los headers con el token
-export const setAuthToken = (token) => {
-  if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete api.defaults.headers.common['Authorization'];
-  }
-};
+// // Función para actualizar los headers con el token
+// export const setAuthToken = (token) => {
+//   if (token) {
+//     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//   } else {
+//     delete api.defaults.headers.common['Authorization'];
+//   }
+// };
 
 export default api;

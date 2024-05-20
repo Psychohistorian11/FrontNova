@@ -6,7 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import { ExclamationTriangleIcon } from '@heroicons/react/16/solid';
 import { logIn } from '../api/queries';
-import { setAuthToken } from '../api/axiosConfig';
 
 
 export const LogIn = () => {
@@ -44,7 +43,6 @@ export const LogIn = () => {
       }
     });
 
-    setAuthToken(data.token);
     navigate('/h');
   }
     

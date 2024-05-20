@@ -4,7 +4,6 @@ import logo from '../Assets/logo.png'
 import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { setAuthToken } from '../api/axiosConfig';
 import { ArrowRightEndOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 
 export const Navbar = () => {
@@ -14,7 +13,6 @@ export const Navbar = () => {
 
   function logout() {
     signOut();
-    setAuthToken();
     navigate("/");
   }
 

@@ -15,7 +15,6 @@ export const Update = () => {
   })
   const { data } = useMutation()
 
-
   // const properties = [
   //   {
   //     id: 1,
@@ -44,7 +43,7 @@ export const Update = () => {
       key={property.id}
       owner={property.owner} 
       image={property.image}
-      address={property.address} 
+      address={property.direccion} 
       handleDelete={() => handleDelete(property.id)}
       linkToDetail= {`inventory/${property.id}`}
     />
@@ -62,7 +61,6 @@ export const Update = () => {
           </div>
           :
           <div className='grid grid-cols-4 gap-6 mt-10 ' >
-            {propertiesElements}
             {propertiesElements}
           </div>
       }

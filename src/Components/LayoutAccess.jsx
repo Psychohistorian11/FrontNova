@@ -21,6 +21,8 @@ export default function LayoutAccess() {
         return <Loading />
     }
 
+    // AQUÍ HACER FILTER PARA MANDARSELO A OUTLET
+
     return (
         <>
             <div className="border-b border-b-gray-300 pb-3">

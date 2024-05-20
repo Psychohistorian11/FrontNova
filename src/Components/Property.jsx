@@ -1,6 +1,6 @@
 import { TrashIcon } from "@heroicons/react/16/solid"
 import Swal from "sweetalert2"
-
+import { Link } from "react-router-dom";
 
 export default function Property(params){
     const { address, image, owner, handleDelete, linkToDetail } = params
