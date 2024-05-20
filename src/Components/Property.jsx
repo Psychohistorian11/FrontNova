@@ -29,7 +29,7 @@ export default function Property(params){
     }   
 
     return (
-        <div className="flex flex-col bg-white p-3 rounded-lg content-center border-gray-700 border shadow-md ">
+        <div className="flex flex-col bg-gray-50 p-3 rounded-lg content-center border-gray-700 border shadow-md ">
             <div className="flex justify-center relative">
               <img src={image} className="h-40 w-56 object-cover"/>
               <div onClick={confirmationDeleteAlert} className="absolute flex justify-center items-center hover:bg-firstColor cursor-pointer bg-white size-6 rounded-full top-1 left-1">
@@ -38,12 +38,12 @@ export default function Property(params){
             </div>
             <div className="max-h-full mt-1">
                 <div className="">
-                    <span className='pr-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Propiedad de: </span>
+                    <span className='pr-1 text-left text-xs font-medium text-firstColor uppercase tracking-wider'>Propiedad de: </span>
                     <h2 className="text-sm truncate">{owner}</h2>
                 </div>
                 
                 <div className="mt-1 h-20 overflow-hidden mb-5">
-                    <span className='pr-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Dirección: </span>
+                    <span className='pr-2 text-left text-xs font-medium text-firstColor uppercase tracking-wider'>Dirección: </span>
                     <h2 className="text-sm">{address}</h2>
                 </div>
                 

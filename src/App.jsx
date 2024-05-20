@@ -23,6 +23,7 @@ import Landing from './Views/Landing/Landing';
 import { NavbarHome } from './Components/NavbarHome';
 import NotFound from './Components/NotFound';
 import CreateOwner from './Views/Owners/CreateOwner';
+import Maintenances from './Views/Maintenance/Maintenances';
 
 
 export default function App(){
@@ -45,6 +46,7 @@ export default function App(){
                         <Route path="update" element={<Update />}/>
                         <Route path="spaces" element={<Spaces />}/>
                         <Route path="components" element={<Components />}/>
+                        <Route path="maintenances" element={<Maintenances />} />
                         <Route path="access" element={<LayoutAccess />}>
                             <Route index element={<CurrentAccess/>}/>
                             <Route path="add" element={<AddAccess/>}/>

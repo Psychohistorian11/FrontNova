@@ -3,6 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import { getAllMaintainceAgentWithAccessAtribute } from "../api/queries";
 import Loading from "./Loading";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 
 export default function LayoutAccess() {
@@ -25,6 +27,10 @@ export default function LayoutAccess() {
 
     return (
         <>
+            <Link className="flex items-center mb-3">
+                <ArrowLeftIcon className="size-4 mr-2" color="gray" />
+                <p className="text-gray-500">Volver</p>
+            </Link>
             <div className="border-b border-b-gray-300 pb-3">
                 <h1 className='text-3xl font-bold pb-4'>Accesos</h1>
                 <p>Gestiona quién tiene permitido hacer cambios en este inventario</p>

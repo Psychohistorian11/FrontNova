@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import PropertyCard from "../../Components/PropertyCard"
 import MaintenanceCard from "../../Components/MaintenanceCard"
+import useAuthUser from "react-auth-kit/hooks/useAuthUser"
 
 export default function Landing() {
+    const authUser = useAuthUser();
+
     const properties = [
         {
         id: 1,
@@ -57,27 +60,27 @@ export default function Landing() {
             {/* Contenido del Landing */}
             <div className="relative flex-grow mx-40 m-10 p-10 bg-white rounded-xl border border-gray-300 shadow-lg overflow-hidden">
                 <div className="text-center mt-5">
-                    <h1 className="text-4xl font-bold pb-4">¡Bienvenido a <p className="inline text-firstColor">Nova</p>, Wilson!</h1>
+                    <h1 className="text-4xl font-bold pb-4">¡Bienvenido a <p className="inline text-firstColor">Nova</p>, {authUser.name}!</h1>
                     <p>¿Qué quieres hacer hoy?</p>
                 </div>
                 <div className="flex justify-center space-x-16 my-16 w-full">
-                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-l from-firstColor to-neutral-800">
+                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
                         Crear nuevo inventario
                     </Link>
-                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-r from-firstColor to-neutral-800">
+                    <Link to="" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl  from-firstColor from-50% to-neutral-700 shadow-xl">
                         Agregar propietario
                     </Link>
                 </div>
 
                 {/* Tarjetas */}
-                <div className="space-y-5">
+                <div className="py-10 space-y-8">
                     <div>
                         <h4 className="text-xl font-bold text-neutral-700">Gestiona tus inventarios</h4>
                         <div className="my-5 grid grid-cols-3 gap-x-5">
                             {propertiesElements}
                         </div>
                         <div className="flex justify-end">
-                            <Link className="text-firstColor font-semibold text-right">Ver todos...</Link>
+                            <Link to="inventory" className="text-firstColor font-semibold text-right">Ver todos...</Link>
                         </div>
                     </div>
                     <div>
@@ -86,16 +89,13 @@ export default function Landing() {
                             {maintenanceElements}
                         </div>
                         <div className="flex justify-end">
-                            <Link className="text-firstColor font-semibold text-right">Ver todos...</Link>
+                            <Link className="text-secondColor font-semibold text-right">Ver más...</Link>
                         </div>
                     </div>
                     <div>
                         <h4 className="text-xl font-bold text-neutral-700">Invetarios sin firmar</h4>
                         <div className="my-5 grid grid-cols-3 gap-x-5">
                             {propertiesElements}
-                        </div>
-                        <div className="flex justify-end">
-                            <Link className="text-firstColor font-semibold text-right">Ver todos...</Link>
                         </div>
                     </div>
 
