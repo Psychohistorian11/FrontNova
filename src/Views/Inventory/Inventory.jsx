@@ -48,12 +48,12 @@ export const Inventory = () => {
 
   const propertiesElements = properties?.map(property => (
     <Property
-      key={property.id}
+      key={property.idPropiedad}
       owner={property.owner} 
       image={property.image}
       address={property.direccion} 
       handleDelete={() => handleDelete(property.id)}
-      linkToDetail= {`inventory/${property.id}`}
+      linkToDetail= {`${property.idPropiedad}`}
     />
   ))
 
