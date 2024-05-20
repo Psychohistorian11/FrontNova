@@ -20,7 +20,7 @@ export const LogIn = () => {
     mutationFn: () => logIn(email, password),
     onSuccess: (data) => handleSuccess(data),
     onError: (e) => console.log(e)
-  });
+  }); 
 
   useEffect(() => {
     if (isAuthenticated){
