@@ -1,7 +1,7 @@
 import React from 'react'
 import Property from '../../Components/Property'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { getProperties } from '../../api/queries'
+import { getAgentProperties } from '../../api/queries'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import Loading from '../../Components/Loading'
 import { HomeModernIcon, RectangleGroupIcon } from '@heroicons/react/24/outline'
@@ -15,7 +15,7 @@ export const Inventory = () => {
 
   const { data: properties, isLoading } = useQuery({
     queryKey: ['properties'],
-    queryFn: () => getProperties(authUser.id)
+    queryFn: () => getAgentProperties(authUser.id)
   })
   const { data } = useMutation()
 

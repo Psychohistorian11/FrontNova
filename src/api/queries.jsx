@@ -1,17 +1,17 @@
 import api from "./axiosConfig";
 
-const urlImages = "/static/images/"
+const urlImages = "/static/images/";
+
 
 // Obtener todos los agentes de mantenimiento con atributo bool de si tienen acceso a una propiedad
-// PENDIENTE
 export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgent){
     try{
-        const response = await api.get(`/access/${idProperty}/${idAgent}`)
+        const response = await api.get(`/access/${idProperty}/${idAgent}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
@@ -20,42 +20,42 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
 // Eliminar propietario
 export async function deleteOwner(mailOwner){
     try{
-        const response = await api.delete(`/owner/${mailOwner}`)
-        return response.data
+        const response = await api.delete(`/owner/${mailOwner}`);
+        return response.data;
     }
     catch (err) {
-        console.log(`Error: ${err.message}`)
-        return []
+        console.log(`Error: ${err.message}`);
+        return [];
     }
 }
 
 // Obtener propietarios de agente
 export async function getOwners(idAgent){
     try{
-        const response = await api.get(`/owner/owners_of_agent/${idAgent}`)
-        return response.data
+        const response = await api.get(`/owner/owners_of_agent/${idAgent}`);
+        return response.data;
     }
     catch (err) {
-        console.log(`Error: ${err.message}`)
-        return []
+        console.log(`Error: ${err.message}`);
+        return [];
     }
 }
 
 // Crear propietario
 export async function createOwner(name, email){
-    data = {
+    const data = {
         idPropietario: 0,
         nombre: name,
         correo: email,
         contrasennia: "."
-    }
+    };
     try{
-        const response = await api.post(`/owner/`, data)
+        const response = await api.post(`/owner/`, data);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
@@ -65,26 +65,34 @@ export async function createOwner(name, email){
 // Iniciar sesión
 export async function logIn(mail, password){
     try{
-        const response = await api.post(`/agent/login?mail=${mail}&password=${password}`);
-        return response.data
+        const response = await api.post(`/agent/login`, null, {
+            params: {
+                mail: mail,
+                password: password
+            }
+        });
+        return response.data;
     }
     catch (err) {
-        throw new Error('Usuario o contraseña incorrectos')
+        throw new Error('Usuario o contraseña incorrectos');
     }
 }
 
 // Enviar OTP
 export async function sendOTP(idAgent){
     try{
-        const response = await api.post(`/agent/sendOTP?id_agent=${idAgent}`);
-        return response.data
+        const response = await api.post(`/agent/sendOTP`, null, {
+            params: { id_agent: idAgent }
+        });
+        return response.data;
     }
     catch (err) {
-        throw new Error('Usuario o contraseña incorrectos')
+        throw new Error('Usuario o contraseña incorrectos');
     }
 }
 
 // Obtener agentes de mantenimiento ???
+// Implementación pendiente
 
 // Firmar inventario
 export async function signingInventory(idAgent, numInput, idProperty){
@@ -92,15 +100,15 @@ export async function signingInventory(idAgent, numInput, idProperty){
         id_agent: idAgent,
         num: numInput,
         id_Propiedad: idProperty
-    }
+    };
     try{
-        const response = await api.post(`/agent/signingInventory`, config={
+        const response = await api.post(`/agent/signingInventory`, null, {
             params: params
         });
-        return response.data
+        return response.data;
     }
     catch (err) {
-        throw new Error('Usuario o contraseña incorrectos')
+        throw new Error('Usuario o contraseña incorrectos');
     }
 }
 
@@ -110,69 +118,75 @@ export async function signingInventory(idAgent, numInput, idProperty){
 // Obtener info de propiedad
 export async function getProperty(idProperty){
     try{
-        const response = await api.get(`/property/`, `id=${idProperty}`)
+        const response = await api.get(`/property`, {
+            params: { id: idProperty }
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Crear propiedad
 export async function createProperty(idProperty, direction, image){
-    params = { 
+    const params = { 
         Propietario_idPropietario: idProperty,
         direccion: direction
-    }
-    data = {
+    };
+    const data = {
         image: image
-    }
+    };
     try{
-        const response = await api.post(`/property/`, data, config= {
+        const response = await api.post(`/property/`, data, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Obtener propiedades de propietario
 export async function getOwnerProperties(idOwner){
     try{
-        const response = await api.get(`/property/ownerProperties?owner_id=${idOwner}`)
-        return response.data
+        const response = await api.get(`/property/ownerProperties`, {
+            params: { owner_id: idOwner }
+        });
+        return response.data;
     }
     catch (err) {
-        console.log(`Error: ${err.message}`)
-        return []
+        console.log(`Error: ${err.message}`);
+        return [];
     }
 }
 
 // Obtener propiedades de agente
 export async function getAgentProperties(idAgent){
     try{
-        const response = await api.get(`/property/agentProperties?agent_id=${idAgent}`)
-        return response.data
+        const response = await api.get(`/property/agentProperties`, {
+            params: { agent_id: idAgent }
+        });
+        return response.data;
     }
     catch (err) {
-        console.log(`Error: ${err.message}`)
-        return []
+        console.log(`Error: ${err.message}`);
+        return [];
     }
 }
 
 // Eliminar propiedad
 export async function deleteProperty(idProperty){
     try{
-        const response = await api.delete(`/property/${idProperty}`)
+        const response = await api.delete(`/property/${idProperty}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
@@ -187,26 +201,25 @@ export async function deleteAccess(idProperty, idAgent){
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Crear acceso
 export async function createAccess(idProperty, idAgent){
-    data = {
+    const data = {
         Propiedad_idPropiedad: idProperty,
         Agente_idAgente: idAgent
-    }
+    };
     try{
-        const response = await api.post(`/forniture/`, data)
+        const response = await api.post(`/access/`, data);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
-
 
 
 // * MUEBLES
@@ -214,103 +227,105 @@ export async function createAccess(idProperty, idAgent){
 // Elimiar mueble
 export async function deleteForniture(idForniture){
     try{
-        const response = await api.delete(`/forniture/${idForniture}`)
+        const response = await api.delete(`/forniture/${idForniture}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Obtener muebles de mueble
 export async function getRoomFornitures(forniture_id){
     try{
-        const response = await api.get(`/furniture/room_furnitures/${forniture_id}`)
+        const response = await api.get(`/furniture/room_furnitures/${forniture_id}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Crear mueble
 export async function createForniture(idRoom, name, description, image, state="0"){
-    params = { 
+    const params = { 
         Habitacion_idHabitacion: idRoom,
         estado: state,
         nombre: name,
         descripcion: description
-    }
-    data = {
+    };
+    const data = {
         image: image
-    }
+    };
     try{
-        const response = await api.post(`/forniture/`, data, config= {
+        const response = await api.post(`/forniture/`, data, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Actualizar mueble
 export async function updateForniture(idRoom, name, description, image, state){
-    var request = {}
+    let request = {};
     if (name && image){
-        request = await Promise.all([updateRoomInfo(), updateRoomImage()]);
-
+        request = await Promise.all([
+            updateFornitureInfo(idRoom, name, description, state),
+            updateFornitureImage(idRoom, image)
+        ]);
     } else if (name) {
-        request = await updateRoomInfo(idRoom, name, description, state);
+        request = await updateFornitureInfo(idRoom, name, description, state);
     } else if (image) {
-        request = await updateRoomImage(idRoom, image);
+        request = await updateFornitureImage(idRoom, image);
     } else {
-        throw new Error("Parámetros indeinidos en el llamado a la api")
+        throw new Error("Parámetros indefinidos en el llamado a la API");
     }
-    return request
+    return request;
 }
 
 // Actualizar info de mueble
-export async function upadteFornitureInfo(idRoom, name, description, state){
-    params = { 
+export async function updateFornitureInfo(idRoom, name, description, state){
+    const params = { 
         id: idRoom,
         estado: state,
         nombre: name,
         descripcion: description
-    }
+    };
     try{
-        const response = await api.put(`/forniture/update_string`, config= {
+        const response = await api.put(`/forniture/update_string`, null, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Actualizar foto de mueble
 export async function updateFornitureImage(idRoom, image){
-    params = { 
+    const params = { 
         id: idRoom
-    }
-    data = {
+    };
+    const data = {
         image: image
-    }
+    };
     try{
-        const response = await api.put(`/forniture/`, data, config= {
+        const response = await api.put(`/forniture/`, data, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
@@ -320,101 +335,102 @@ export async function updateFornitureImage(idRoom, image){
 // Elimiar habitación
 export async function deleteRoom(idRoom){
     try{
-        const response = await api.delete(`/room/${idRoom}`)
+        const response = await api.delete(`/room/${idRoom}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Obtener habitaciones de propiedad
 export async function getPropertyRooms(property_id){
     try{
-        const response = await api.get(`/room/property_rooms/${property_id}`)
+        const response = await api.get(`/room/property_rooms/${property_id}`);
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
-
 // Crear habitación
 export async function createRoom(idRoom, name, description, image){
-    params = { 
+    const params = { 
         Habitacion_idHabitacion: idRoom,
         nombre: name,
         descripcion: description
-    }
-    data = {
+    };
+    const data = {
         image: image
-    }
+    };
     try{
-        const response = await api.post(`/room/`, data, config= {
+        const response = await api.post(`/room/`, data, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Actualizar habitación
 export async function updateRoom(idRoom, name, description, image){
-    var request = {}
+    let request = {};
     if (name && image){
-        request = await Promise.all([updateRoomInfo(), updateRoomImage()]);
-
+        request = await Promise.all([
+            updateRoomInfo(idRoom, name, description),
+            updateRoomImage(idRoom, image)
+        ]);
     } else if (name) {
         request = await updateRoomInfo(idRoom, name, description);
     } else if (image) {
         request = await updateRoomImage(idRoom, image);
     } else {
-        throw new Error("Parámetros indeinidos en el llamado a la api")
+        throw new Error("Parámetros indefinidos en el llamado a la API");
     }
-    return request
+    return request;
 }
 
 // Actualizar info de habitacón
 export async function updateRoomInfo(idRoom, name, description){
-    params = { 
+    const params = { 
         id: idRoom,
         nombre: name,
         descripcion: description
-    }
+    };
     try{
-        const response = await api.put(`/room/update_string`, config= {
+        const response = await api.put(`/room/update_string`, null, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
 
 // Actualizar foto de habitacón
 export async function updateRoomImage(idRoom, image){
-    params = { 
+    const params = { 
         id: idRoom
-    }
-    data = {
+    };
+    const data = {
         image: image
-    }
+    };
     try{
-        const response = await api.put(`/room/`, data, config= {
+        const response = await api.put(`/room/`, data, {
             params: params
-        })
+        });
         return response.data;
     }
     catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return []
+        return [];
     }
 }
