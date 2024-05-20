@@ -57,7 +57,9 @@ const ComponentsWindow = ({
     }
   };
 
-  const handleModalClose = () => {
+  const handleSaveAndClose = () => handleCloseWindow();
+
+  const handleCloseWindow = () => {
     setShowModal(false);
     setSelectedComponent(null);
   };
@@ -150,18 +152,20 @@ const ComponentsWindow = ({
               <div className="flex justify-end mt-4">
                 <button
                   className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
-                  onClick={handleModalClose}
+                  onClick={handleSaveAndClose}
                 >
                   Guardar y Cerrar
                 </button>
               </div>
             </div>
             <button
-              className="absolute top-2 right-0 m-4 p-4 bg-white text-black rounded-full shadow hover:bg-gray-800 hover:text-white transition-colors"
-              onClick={handleModalClose}
-            >
-              X
-            </button>
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                onClick={handleCloseWindow}
+              >
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
           </div>
         </div>
       )}

@@ -1,9 +1,20 @@
-// Spaces.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
+import { BrickWall, Info } from "lucide-react";
+import InfoWindow from "../../Components/InfoWindow";
+import { useLocation } from "react-router-dom";
+import { Sign } from "../../Components/Sign";
 
 export const Spaces = () => {
+
+  const location = useLocation();
+  const { email, address, image } = location.state || {};
+  const page = "Inventario";
+  const firstNameInfo = "Correo del propietario";
+  const SecondNameInfo = "Dirección de la vivienda";
+
   const [spaces, setSpaces] = useState([
     { name: 'Baño', image: null, observation: false },
     { name: 'Cocina', image: null, observation: false },
@@ -26,7 +37,24 @@ export const Spaces = () => {
   return (
     <>
       <div className="px-72 pt-16">
-        <h2 className="text-2xl mb-6 font-bold">Espacios</h2>
+        <nav className="mb-4">
+          <Link to="/Inventory">Inventarios</Link> &gt; <Link to="/CreateInventory">Crear Inventario</Link> &gt; <span>Espacios</span>
+        </nav>
+        <nav>
+      <div className="flex items-center justify-between mb-6">  
+        <h2 className="text-2xl font-bold">Espacios <BrickWall className="inline-block" /></h2>
+        <div > 
+          <InfoWindow
+            page={page}
+            firstNameInfo={firstNameInfo}
+            firstInfo={email}
+            SecondNameInfo={SecondNameInfo}
+            secondInfo={address}
+            image={image}
+          />
+        </div>
+      </div>
+    </nav>
         <h2 className='border-b border-black mb-10'> Gestiona y crea espacios para la vivienda</h2>
         <div className='px-40'>
           {spaces.map((space, index) => (
@@ -40,21 +68,28 @@ export const Spaces = () => {
             </div>
           ))}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={dropdown_newSpace} alt="description" />
-            <input
-              type="text"
-              value={newSpace}
-              onChange={(e) => setNewSpace(e.target.value)}
-              placeholder="Agregar Espacio "
-            />
-            <button
-              className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
-              onClick={handleAddSpace}
-            >
-              Crear
-            </button>
-          </div>
+                    <img src={dropdown_newSpace} alt="description" />
+                    <form 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (newSpace.trim()) {
+                          handleAddSpace();
+                        }
+                      }}
+                      style={{ display: 'flex', alignItems: 'center' }}
+                    >
+                      <input
+                        type="text"
+                        value={newSpace}
+                        onChange={(e) => setNewSpace(e.target.value)}
+                        placeholder="Agregar Espacio "
+                        style={{ marginRight: '10px' }} 
+                      />
+                    </form>
+                  </div>
+
         </div>
+        <Sign/>
       </div>
 
       <SpacesWindow

@@ -1,5 +1,4 @@
-// SpacesWindow.jsx
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SpacesWindow = ({
@@ -12,38 +11,62 @@ const SpacesWindow = ({
 }) => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const [observation, setObservation] = useState('');
+  const [image, setImage] = useState(null);
+  const [spaceName, setSpaceName] = useState('');
+
+  useEffect(() => {
+    setSpaceName(selectedSpace);
+  }, [selectedSpace]);
 
   const handleObservations = (observation) => {
+    setObservation(observation);
     const updatedSpaces = [...spaces];
     const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
     updatedSpaces[index].observation = observation;
     setSpaces(updatedSpaces);
   };
 
-  const handleAddComponents = () => {
-    navigate('/Components');
+  const handleAddComponents = async () => {
+    const updatedSpaces = [...spaces];
+    const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
+    const currentSpace = updatedSpaces[index];
+
+    currentSpace.observation = observation;
+    currentSpace.image = image;
+
+    setSpaces(updatedSpaces);
+
+    const imageBase64 = image ? await toBase64(image) : null;
+    const dataToSend = { observation, image: imageBase64, spaceName };
+    navigate('/Components', { state: dataToSend });
   };
 
-  const handleAddImage = () => {
-    fileInputRef.current.click();
-  };
+  const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 
-  const handleFileChange = (event) => {
+  const handleAddImage = () => fileInputRef.current.click();
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
+    setImage(file);
+
     const updatedSpaces = [...spaces];
     const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
     updatedSpaces[index].image = file;
     setSpaces(updatedSpaces);
   };
 
-  const handleModalClose = () => {
+
+  const handleCloseWindow = () => {
     setShowModal(false);
     setSelectedSpace(null);
   };
 
-  const handleSaveAndClose = () => {
-    handleModalClose();
-  };
+  const handleSaveAndClose = () => handleModalClose();
 
   return (
     <>
@@ -77,7 +100,7 @@ const SpacesWindow = ({
                 <li className="flex justify-start items-center mb-2">
                   <button
                     onClick={handleAddComponents}
-                    className="flex items-center px-4 py-2 bg-white text-black  shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
+                    className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
                   >
                     <span className="mr-2"> + </span>
                     <span>Añadir Componentes</span>
@@ -85,7 +108,7 @@ const SpacesWindow = ({
                 </li>
                 <li className="flex justify-start items-center mb-2">
                   <button
-                    onClick={() => handleAddImage(selectedSpace)}
+                    onClick={handleAddImage}
                     className="flex items-center px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed w-80 h-10"
                   >
                     <span className="text-firstColor mr-2">+</span>
@@ -99,11 +122,11 @@ const SpacesWindow = ({
                     onChange={handleFileChange}
                   />
                 </li>
-                {spaces.find(s => s.name === selectedSpace).image && (
+                {image && (
                   <div>
                     <p>Imagen seleccionada</p>
                     <img
-                      src={URL.createObjectURL(spaces.find(s => s.name === selectedSpace).image)}
+                      src={URL.createObjectURL(image)}
                       alt="Imagen seleccionada"
                       style={{ maxWidth: '25%', marginTop: '10px' }}
                     />
@@ -120,11 +143,13 @@ const SpacesWindow = ({
               </div>
             </div>
             <button
-              className="absolute top-2 right-0 m-4 p-4 bg-white text-black rounded-full shadow hover:bg-gray-800 hover:text-white transition-colors"
-              onClick={handleModalClose}
-            >
-              X
-            </button>
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+                onClick={handleCloseWindow}
+              >
+                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
           </div>
         </div>
       )}

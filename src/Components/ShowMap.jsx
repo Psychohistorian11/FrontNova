@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import GoogleMapReact from 'google-map-react';
 import LoadScript from './LoadScript';
 
+const googleApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
 const ShowMap = ({ address, onConfirm }) => {
   const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
   const [mapZoom, setMapZoom] = useState(15);
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const marker = useRef(null); // Usar useRef para almacenar el marcador
-  
+  const marker = useRef(null); 
 
   useEffect(() => {
     if (scriptLoaded && address) {
@@ -45,7 +46,7 @@ const ShowMap = ({ address, onConfirm }) => {
         <>
           <div style={{ height: '500px', width: '150%' }}>
             <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyAu9jFYl_nlbh6ROkpBg7pcNUzDN7Q50do" }}
+              bootstrapURLKeys={{ key: {googleApiKey} }}
               center={mapCenter}
               zoom={mapZoom}
               onGoogleApiLoaded={({map}) => { window.map = map; }} 
