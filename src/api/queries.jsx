@@ -68,12 +68,7 @@ export async function createOwner(name, email){
 // Iniciar sesión
 export async function logIn(mail, password){
     try{
-        const response = await api.post(`/agent/login`, null, {
-            params: {
-                mail: mail,
-                password: password
-            }
-        });
+        const response = await api.post(`/agent/login?mail=${mail}&password=${password}`);
         return response.data;
     }
     catch (err) {
