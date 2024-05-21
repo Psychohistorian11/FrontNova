@@ -6,6 +6,7 @@ import { BrickWall, Info, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -23,6 +24,13 @@ export const Spaces = () => {
     { name: 'Cocina', image: null, observation: false },
     { name: 'Dormitorio', image: null, observation: false }
   ]);
+
+  const { mutate: postSpace, isPending: isPendingOwner } = useMutation({
+    mutationKey: ['postSpace'],
+    mutationFn: () => getOwner(idOwner),
+    onSuccess: (data) => setApiIdOwner(data.idPropietario)
+  });
+
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [newSpace, setNewSpace] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -67,6 +75,7 @@ export const Spaces = () => {
     </nav>
         <h2 className='border-b border-black pb-3 mb-10'> Gestiona y crea espacios para la vivienda</h2>
         <div className='px-40'>
+          {/* Mostrar todos los espacios */}
         {spaces.map((space, index) => (
                   <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
                     <div className="flex items-center">
@@ -84,8 +93,10 @@ export const Spaces = () => {
                     </div>
                   </div>
                 ))}
+
+          {/* Agregar espacio */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img src={dropdown_newSpace} alt="description" />
+                    <PlusIcon className="size-10 mr-3 text-firstColor"/>
                     <form 
                       onSubmit={(e) => {
                         e.preventDefault();

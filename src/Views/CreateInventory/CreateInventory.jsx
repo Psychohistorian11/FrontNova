@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link, } from 'react-router-dom';
 import ShowMap from '../../Components/ShowMap';
 import { FolderPlus, Mail, Waypoints, BookImage } from 'lucide-react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { createProperty } from '../../api/queries';
 import Loading from '../../Components/Loading';
-import { useQueryClient } from '@tanstack/react-query';
 import { getOwner } from '../../api/queries';
 
 export const CreateInventory = () => {
+  const authUser = useAuthUser();
 
   const [idOwner, setIdOwner] = useState('');
   const [apiIdOwner, setApiIdOwner ] = useState(0)
@@ -29,7 +29,7 @@ export const CreateInventory = () => {
 
   const { mutate: create, isPending } = useMutation({
     mutationKey: ['createProperty'],
-    mutationFn: () => createProperty(apiIdOwner, address, file),
+    mutationFn: () => createProperty(apiIdOwner, authUser.id, address, file),
     onSuccess: (data) => handleSuccess(data)
   });
 
