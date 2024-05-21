@@ -5,6 +5,7 @@ import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { ArrowRightEndOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { baseUrl, imageUrlApi } from '../api/axiosConfig';
 
 export const Navbar = () => {
   const signOut = useSignOut();
@@ -25,15 +26,15 @@ export const Navbar = () => {
             </Link>
             
             <div className="grow flex justify-center items-center space-x-8 content-center h-full bg-white">
-                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
-                <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
-                <NavLink to="test" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>test</NavLink>
+                <NavLink end to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
+                <NavLink end to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
+                <NavLink to="test" className={({isActive}) => "font-poppins max-h-max content-center my-  2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>test</NavLink>
                 
             </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
               {/* Reemplazar con authUser.image */}
-              <img src="https://variety.com/wp-content/uploads/2023/09/GettyImages-1402938975.jpg?w=1024" className='size-8 mr-3 rounded-full object-cover' />
+              <img src={`${imageUrlApi}/${authUser.image}`} className='size-8 mr-3 rounded-full object-cover' />
               <span className="mr-2 font-bold">{authUser.name}</span>
               <ArrowRightEndOnRectangleIcon className='size-6 ms-4 cursor-pointer' onClick={logout}/>
 

@@ -1,18 +1,56 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link, } from 'react-router-dom';
 import ShowMap from '../../Components/ShowMap';
 import { FolderPlus, Mail, Waypoints, BookImage } from 'lucide-react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createProperty } from '../../api/queries';
+import Loading from '../../Components/Loading';
+import { useQueryClient } from '@tanstack/react-query';
+import { getOwner } from '../../api/queries';
 
 export const CreateInventory = () => {
+
   const [idOwner, setIdOwner] = useState('');
+  const [apiIdOwner, setApiIdOwner ] = useState(0)
   const [selectedImage, setSelectedImage] = useState(null);
+  const [file, setFile] = useState(null)
+
   const [address, setAddress] = useState('');
   const [showMap, setShowMap] = useState(false);
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
+
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
-  const handleIdOwnerChange = (e) => setIdOwner(e.target.value);
+  const { mutate: getOwnerId, isPending: isPendingOwner } = useMutation({
+    mutationKey: ['getOwner'],
+    mutationFn: () => getOwner(idOwner),
+    onSuccess: (data) => setApiIdOwner(data.idPropietario)
+  });
+
+  const { mutate: create, isPending } = useMutation({
+    mutationKey: ['createProperty'],
+    mutationFn: () => createProperty(apiIdOwner, address, file),
+    onSuccess: (data) => handleSuccess(data)
+  });
+
+  useEffect(() => {
+    var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (regex.test(idOwner)){
+      getOwnerId();
+    }
+  }, [idOwner])
+
+  function handleSuccess(data){
+    navigate(`/h/inventory/${data.idPropiedad}/spaces`)
+  }
+
+  const handleIdOwnerChange = (e) => {
+    setIdOwner(e.target.value);
+    // if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(idOwner)){
+    //   getOwnerId();
+    // }
+  }
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
     setShowMap(true);
@@ -23,13 +61,13 @@ export const CreateInventory = () => {
     const file = event.target.files[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
+      setFile(file)
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dataToSend = { email: idOwner, address: address, image: selectedImage };
-    navigate('/h/Spaces', { state: dataToSend });
+    create();
   };
 
   const handleRegisterOwner = () => navigate('/Owners');
@@ -38,6 +76,10 @@ export const CreateInventory = () => {
     setShowMap(false);
     setIsAddressConfirmed(true);
   };
+
+  if (isPending){
+    return <Loading />
+  }
 
   return (
     <div className="">
@@ -119,7 +161,7 @@ export const CreateInventory = () => {
           </form>
 
           <div className="px-40">
-            <button className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors" type="submit">
+            <button disabled={isPendingOwner} className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors" type="submit">
               Continuar a los espacios
             </button>
           </div>

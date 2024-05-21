@@ -1,6 +1,6 @@
 import api from "./axiosConfig";
 
-const urlImages = "/static/images/";
+const urlImages = `${api}/static/images/`;
 
 
 // Obtener todos los agentes de mantenimiento con atributo bool de si tienen acceso a una propiedad
@@ -16,6 +16,19 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
 }
 
 // * PROPIETARIO
+
+// Obtener propietario
+export async function getOwner(mail){
+    try{
+        const response = await api.get(`/owner/${mail}`);
+        return response.data;
+    }
+    catch (err) {
+        console.log(`Error: ${err.message}`);
+        return {};
+    }
+}
+
 
 // Eliminar propietario
 export async function deleteOwner(mailOwner){
@@ -33,6 +46,30 @@ export async function deleteOwner(mailOwner){
 export async function getOwners(idAgent){
     try{
         const response = await api.get(`/owner/owners_of_agent/${idAgent}`);
+        return response.data;
+    }
+    catch (err) {
+        console.log(`Error: ${err.message}`);
+        return [];
+    }
+}
+
+// Obtener mantenimientos de agente comerical
+export async function getAllMaintenancesForAgent(idAgent){
+    try{
+        const response = await api.get(`/maintenance/agentIdCommercial/?id=${idAgent}`);
+        return response.data;
+    }
+    catch (err) {
+        console.log(`Error: ${err.message}`);
+        return [];
+    }
+}
+
+// Propietario de propiedad
+export async function getPropertyOwner(idProperty){
+    try{
+        const response = await api.get(`/owner/ownerOfProperty/${idProperty}`);
         return response.data;
     }
     catch (err) {
@@ -68,12 +105,7 @@ export async function createOwner(name, email){
 // Iniciar sesión
 export async function logIn(mail, password){
     try{
-        const response = await api.post(`/agent/login`, null, {
-            params: {
-                mail: mail,
-                password: password
-            }
-        });
+        const response = await api.post(`/agent/login?mail=${mail}&password=${password}`);
         return response.data;
     }
     catch (err) {
@@ -127,23 +159,32 @@ export async function getProperty(idProperty){
         return response.data;
     }
     catch (error) {
-        console.error('Hubo un problema con la solicitud fetch:', error);
-        return [];
+        throw new Error(error);
     }
 }
 
 // Crear propiedad
-export async function createProperty(idProperty, direction, image){
+export async function createProperty(idProperty, address, image){
+    const formData = new FormData();
+    // formData.append('Propietario_idPropietario', idProperty);
+    // formData.append('direccion', address);
+    formData.append('image', image);
     const params = { 
-        Propietario_idPropietario: idProperty,
-        direccion: direction
+        Propietario_idPropietario: 2,
+        direccion: address
     };
-    const data = {
-        image: image
-    };
+    // const data = {
+    //     image: image
+    // };
     try{
-        const response = await api.post(`/property/`, data, {
-            params: params
+        // const response = await api.post(`/property/`, data, {
+        //     params: params
+        // });
+        const response = await api.post('/property/', formData, {
+            params: params,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         });
         return response.data;
     }

@@ -41,10 +41,6 @@ export const Inventory = () => {
     return <Loading />
   }
 
-  const handleLinkClick = () => {
-    navigate('/h/createInventory')
-  }
-
   const propertiesElements = properties?.map(property => (
     <Property
       key={property.idPropiedad}
@@ -61,7 +57,7 @@ export const Inventory = () => {
     <div className=''>
     <div className='flex justify-between items-center'>
         <h1 className='text-3xl font-bold '>Inventarios</h1>
-        <Link to="/h/createInventory" onClick={handleLinkClick} className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
+        <Link to="/h/createInventory" className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
             <PlusIcon className='size-6 mr-1'/>
             <span className="text-white">Crear Inventario</span></Link>
     </div>

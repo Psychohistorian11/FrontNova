@@ -1,11 +1,15 @@
 import axios from 'axios';
 
+export const baseUrl = 'http://127.0.0.1:8000'
+
+export const imageUrlApi = `${baseUrl}/static/images`
+
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: baseUrl,
   withCredentials: true,
 });
 
-// // Función para actualizar los headers con el token
+
 // export const setAuthToken = (token) => {
 //   if (token) {
 //     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;

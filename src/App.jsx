@@ -43,17 +43,20 @@ export default function App(){
                     <Route index element={<Landing />}/>
                     <Route element={<BoxLayout />}>
                         <Route path="test" element={<TestRequest />}/>
-                        <Route path="inventory" element={<Inventory />}/>
-                        <Route path="inventory/:id" element={<EditInventory />}/>
-                        <Route path="spaces/:id" element={<EditSpaces/>}/>
+
                         <Route path="createInventory" element={<CreateInventory />}/>
+                        <Route element={<InventoryContext />}>
+                            <Route path="inventory/:id" element={<EditInventory />}/>
+                            <Route path="inventory/:id/spaces" element={<Spaces />}/>
+                            <Route path="inventory/:id/spaces/components" element={<Components />}/>
+                        </Route>
+
+                        <Route path="inventory" element={<Inventory />}/>
                         <Route path="owners" element={<Owners />} />
                         <Route path="owners/create" element={<CreateOwner />} />
                         <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
-                        <Route path="spaces" element={<Spaces />}/>
-                        <Route path="components" element={<Components />}/>
                         <Route path="maintenances" element={<Maintenances />} />
-                        <Route path="access" element={<LayoutAccess />}>
+                        <Route path="access/:id" element={<LayoutAccess />}>
                             <Route index element={<CurrentAccess/>}/>
                             <Route path="add" element={<AddAccess/>}/>
                         </Route>
