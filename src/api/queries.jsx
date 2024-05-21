@@ -15,6 +15,18 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
     }
 }
 
+// Obtener mantenimientos de agente comercial
+export async function getAllMaintenancesForAgent(idAgent) {
+    try {
+        const response = await api.get(`/maintenance/agentIdCommercial/:id-${idAgent}`);
+        return response.data;
+    } catch (err) {
+        console.log(`Error: ${err.message}`);
+        return [];
+    }
+}
+
+
 // * PROPIETARIO
 
 // Obtener propietario

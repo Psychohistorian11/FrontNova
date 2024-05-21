@@ -1,55 +1,67 @@
-import React from "react"
-import { Form } from "react-router-dom"
+import React from "react";
+import { Form } from "react-router-dom";
+import { Mail, User } from 'lucide-react';
+import { createOwner } from "../../api/queries";
 
+export default function CreateOwner() {
 
-export async function action({ request }) {
-    const formData = await request.formData()
-    const email = formData.get("email")
-    const name = formData.get("name")
-    // llamado a la api
-    // const data = await loginUser({ email, password })
-    console.log(data)
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const name = formData.get("name");
+        const email = formData.get("email");
 
-    return null
-}
+        try {
+            await createOwner(name, email);
+        } catch (error) {
+            console.error('Error registrando el propietario:', error);
+        }
+    };
 
-export default function CreateOwner(){
     return (
         <div>
-            <h1 className='text-3xl font-bold border-b border-black pb-4'>Crear propietario</h1>
-            <div>
-                <Form method="post" className="flex flex-col items-center my-16 mx-36">
-                    <div className="inline-block mb-8">
-                        <label for="name" className=" text-lg font-bold mr-5">Nombre</label>
-                        <input
-                            id="name"
-                            className="h-10 pl-5 border border-gray-300 rounded-lg placeholder:italic"
-                            name="name"
-                            type="name"
-                            placeholder="Nombre"
-                        />
-                    </div>
-                    <div className="inline-block mb-8">
-                        <label for="name" className=" text-lg font-bold mr-5">Correo</label>
-                        <input
-                            id="email"
-                            className="h-10 pl-5 border border-gray-300 rounded-lg placeholder:italic"
-                            name="email"
-                            type="email"
-                            placeholder="Correo"
-                        />
-                    </div>
-                    <button
-                        disabled={status === "submitting"}
-                        className="mt-10 py-2 px-3 text-white bg-firstColor rounded flex justify-center w-1/6"
-                    >
-                        {status === "submitting"
-                            ? "Logging in..."
-                            : "Crear"
-                        }
+            <Form method="post" className="flex flex-col " onSubmit={handleSubmit}>
+                <h2 className="text-3xl mb-6 font-bold">
+                    Registrar Propietario
+                </h2>
+                <h2 className='border-b border-black pb-5 mb-10'>
+                    Registra a un nuevo propietario y comienza a gestionar sus propiedades de manera eficiente
+                </h2>
+
+                <div className="flex-1 mb-6 px-40">
+                    <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                        Nombre del propietario <User className="inline-block"/>
+                    </label>
+                    <input
+                        id="name"
+                        className="px-16 py-2 border border-gray-300 rounded"
+                        name="name"
+                        type="text"
+                        placeholder="Nombre"
+                        required
+                    />
+                </div>
+
+                <div className="flex-1 mb-6 px-40">
+                    <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+                        Correo electrónico del propietario <Mail className="inline-block" />
+                    </label>
+                    <input
+                        id="email"
+                        className="px-16 py-2 border border-gray-300 rounded"
+                        name="email"
+                        type="email"
+                        placeholder="Correo"
+                        required
+                    />
+                </div>
+
+                <div className="px-40">
+                    <button className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors" type="submit">
+                        Registrar
                     </button>
-                </Form>
-            </div>
+                </div>
+            </Form>
         </div>
-    )
+    );
 }
