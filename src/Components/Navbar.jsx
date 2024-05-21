@@ -5,6 +5,8 @@ import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { ArrowRightEndOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { FolderKanban, Settings, Users } from 'lucide-react';
+
 
 export const Navbar = () => {
   const signOut = useSignOut();
@@ -23,13 +25,37 @@ export const Navbar = () => {
                 <img src={logo} alt="Logo" className="h-10 ms-6" />
                 <span className="ms-3 font-montserrat text-xl font-bold">Nova</span>
             </Link>
-            
-            <div className="grow flex justify-center items-center space-x-8 content-center h-full bg-white">
-                <NavLink to="inventory" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Inventarios</NavLink>
-                <NavLink to="owners" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>Propietarios</NavLink>
-                <NavLink to="test" className={({isActive}) => "font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + (isActive? "font-bold cursor-default" : "hover:bg-gray-200")}>test</NavLink>
-                
-            </div>
+
+            <div className="grow flex justify-center space-x-8 content-center h-full bg-white">
+          
+          <NavLink 
+            to="inventory" 
+            className={({isActive}) => 
+              "flex items-center font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + 
+              (isActive ? "font-bold cursor-default" : "hover:bg-gray-200")
+            }
+          >
+            Inventarios <FolderKanban className="ml-2" />
+          </NavLink>
+          <NavLink 
+            to="owners" 
+            className={({isActive}) => 
+              "flex items-center font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + 
+              (isActive ? "font-bold cursor-default" : "hover:bg-gray-200")
+            }
+          >
+            Propietarios <Users className='ml-2'/>
+          </NavLink>
+          <NavLink 
+            to="maintenances" 
+            className={({isActive}) => 
+              " flex items-center font-poppins max-h-max content-center my-2 px-4 rounded-2xl " + 
+              (isActive ? "font-bold cursor-default" : "hover:bg-gray-200")
+            }
+          >
+            Mantenimiento <Settings className='ml-2'/>
+          </NavLink>
+        </div>
 
             <div className="flex items-center relative justify-end text-black p-2 font-montserrat ml-auto mr-4">
               {/* Reemplazar con authUser.image */}
