@@ -35,8 +35,6 @@ export default function InventoryContext() {
     const isError = results.some(result => result.isError);
 
     useEffect(() => {
-        console.log("INFOO", id)
-        console.log(Object.keys(inventory.property))
         if (results.every(result => result.isSuccess)) {
             setInventory(inventory => ({
                 ...inventory,
