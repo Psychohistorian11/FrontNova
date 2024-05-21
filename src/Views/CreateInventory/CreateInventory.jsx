@@ -8,7 +8,7 @@ export const CreateInventory = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [address, setAddress] = useState('');
   const [showMap, setShowMap] = useState(false);
-  const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -28,6 +28,10 @@ export const CreateInventory = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!selectedImage) {
+      setError('Por favor, selecciona una imagen.');
+      return;
+    }
     const dataToSend = { email: idOwner, address: address, image: selectedImage };
     navigate('/h/Spaces', { state: dataToSend });
   };
@@ -36,7 +40,6 @@ export const CreateInventory = () => {
 
   const confirmAddress = () => {
     setShowMap(false);
-    setIsAddressConfirmed(true);
   };
 
   return (
@@ -50,7 +53,7 @@ export const CreateInventory = () => {
 
         <div className="flex-1 mb-6 px-40">
           <label htmlFor="idOwner" className="block text-gray-700 font-bold mb-2">
-            Correo electronico del propietario <Mail className="inline-block" />
+            Correo electrónico del propietario <Mail className="inline-block" />
           </label>
           <input
             type="text"
@@ -104,6 +107,8 @@ export const CreateInventory = () => {
                 <img src={selectedImage} alt="Selected" className="w-40 h-40 object-cover rounded" />
               </div>
             )}
+
+            {error && <p className="text-red-500">{error}</p>}
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 // ComponentsWindow.jsx
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+
 
 const ComponentsWindow = ({
   components,
@@ -10,12 +11,14 @@ const ComponentsWindow = ({
   setShowModal
 }) => {
   const fileInputRef = useRef(null);
+  const [selectedQuality, setSelectedQuality] = useState(null);
 
   const handleObservations = (componentIndex) => {
     const updatedComponents = [...components];
     updatedComponents[componentIndex].observation = !updatedComponents[componentIndex].observation;
     setComponents(updatedComponents);
   };
+
 
   const handleAddPhoto = () => {
     fileInputRef.current.click();
@@ -37,21 +40,22 @@ const ComponentsWindow = ({
 
   const handleSelectQuality = (label) => {
     console.log(`Calidad seleccionada: ${label}`);
+    setSelectedQuality(label);
   };
 
   const getMarkerClasses = (label) => {
     let baseClasses = 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors';
     switch (label) {
       case 'Pésimo':
-        return `${baseClasses} border-red-500 hover:bg-red-500`;
+        return `${baseClasses} ${selectedQuality === 'Pésimo' ? 'border-red-500 hover:bg-red-500' : 'border-red-500'}`;
       case 'Malo':
-        return `${baseClasses} border-orange-500 hover:bg-orange-500`;
+        return `${baseClasses} ${selectedQuality === 'Malo' ? 'border-orange-500 hover:bg-orange-500' : 'border-orange-500'}`;
       case 'Regular':
-        return `${baseClasses} border-yellow-500 hover:bg-yellow-500`;
+        return `${baseClasses} ${selectedQuality === 'Regular' ? 'border-yellow-500 hover:bg-yellow-500' : 'border-yellow-500'}`;
       case 'Bueno':
-        return `${baseClasses} border-green-500 hover:bg-green-500`;
+        return `${baseClasses} ${selectedQuality === 'Bueno' ? 'border-green-500 hover:bg-green-500' : 'border-green-500'}`;
       case 'Excelente':
-        return `${baseClasses} border-firstColor hover:bg-firstColor`;
+        return `${baseClasses} ${selectedQuality === 'Excelente' ? 'border-firstColor hover:bg-firstColor' : 'border-firstColor'}`;
       default:
         return `${baseClasses} border-gray-300 hover:bg-gray-300`;
     }

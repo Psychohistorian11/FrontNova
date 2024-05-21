@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
-import { BrickWall, Info } from "lucide-react";
+import { BrickWall, Info, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
+
+
 
 export const Spaces = () => {
 
@@ -34,6 +36,12 @@ export const Spaces = () => {
     setShowModal(true);
   };
 
+  const handleDeleteSpace = (index) => {
+    const updatedSpaces = [...spaces];
+    updatedSpaces.splice(index, 1); 
+    setSpaces(updatedSpaces);
+  };
+
   return (
     <>
       <div className="">
@@ -57,16 +65,23 @@ export const Spaces = () => {
     </nav>
         <h2 className='border-b border-black mb-10'> Gestiona y crea espacios para la vivienda</h2>
         <div className='px-40'>
-          {spaces.map((space, index) => (
-            <div key={index} className='text-xl border-b border-black mb-6'>
-              <button
-                onClick={() => handleSearchFeatures(space.name)}
-                className="flex items-center"
-              >
-                {space.name}
-              </button>
-            </div>
-          ))}
+        {spaces.map((space, index) => (
+                  <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => handleSearchFeatures(space.name)}
+                        className="flex items-center"
+                      >
+                        {space.name}
+                      </button>
+                    </div>
+                    <div>
+                      <button onClick={() => handleDeleteSpace(index)}>
+                        <Trash />
+                      </button>
+                    </div>
+                  </div>
+                ))}
           <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img src={dropdown_newSpace} alt="description" />
                     <form 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ComponentsWindow from "../../Components/ComponentsWindow";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
-import { BedDouble } from "lucide-react";
+import { BedDouble, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 
 export const Components = () => {
@@ -29,6 +29,12 @@ export const Components = () => {
     setShowModal(true);
   };
 
+  const handleDeleteComponent = (index) => {
+    const updatedComponents = [...components];
+    updatedComponents.splice(index, 1);
+    setComponents(updatedComponents);
+  };
+
   return (
     <>
       <div className="">
@@ -53,16 +59,19 @@ export const Components = () => {
         <h2 className='border-b border-black mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>
         <div className='px-40'>
           {components.map((component, index) => (
-            <div key={index} className='text-xl border-b border-black mb-6'>
+            <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
               <button 
                 onClick={() => handleSearchFeatures(component.name)}
                 className="flex items-center"
               >
                 {component.name}
               </button>
+              <button onClick={() => handleDeleteComponent(index)}>
+                <Trash />
+              </button>
             </div>
           ))}
-                    <div>
+          <div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src={dropdown_newSpace} alt="description" />
               <form 
