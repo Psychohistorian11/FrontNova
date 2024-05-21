@@ -15,7 +15,7 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
     }
 }
 
-// Obtener mantenimientos de agente comercial
+// Obtener mantenimientos de agente comercial@
 export async function getAllMaintenancesForAgent(idAgent) {
     try {
         const response = await api.get(`/maintenance/agentIdCommercial/:id-${idAgent}`);
@@ -65,7 +65,6 @@ export async function getOwners(idAgent){
         return [];
     }
 }
-
 
 // Propietario de propiedad
 export async function getPropertyOwner(idProperty){
@@ -165,13 +164,14 @@ export async function getProperty(idProperty){
 }
 
 // Crear propiedad
-export async function createProperty(idProperty, address, image){
+export async function createProperty(idOwner, idAgent, address, image){
     const formData = new FormData();
     // formData.append('Propietario_idPropietario', idProperty);
     // formData.append('direccion', address);
     formData.append('image', image);
     const params = { 
-        Propietario_idPropietario: 2,
+        idAgente: idAgent,
+        Propietario_idPropietario: idOwner,
         direccion: address
     };
     // const data = {
