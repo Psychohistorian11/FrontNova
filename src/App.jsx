@@ -26,6 +26,8 @@ import CreateOwner from './Views/Owners/CreateOwner';
 import Maintenances from './Views/Maintenance/Maintenances';
 import { EditInventory } from './Views/EditInventory/EditInventory';
 import { EditSpaces } from './Views/EditInventory/EditSpaces';
+import TestRequest from './Views/TestRequest';
+import InventoryContext from './Components/InventoryContext';
 
 
 export default function App(){
@@ -40,6 +42,7 @@ export default function App(){
                 <Route path="/h" element={<Layout />}>
                     <Route index element={<Landing />}/>
                     <Route element={<BoxLayout />}>
+                        <Route path="test" element={<TestRequest />}/>
                         <Route path="inventory" element={<Inventory />}/>
                         <Route path="inventory/:id" element={<EditInventory />}/>
                         <Route path="spaces/:id" element={<EditSpaces/>}/>

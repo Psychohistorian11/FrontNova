@@ -47,10 +47,13 @@ export async function createOwner(name, email){
         idPropietario: 0,
         nombre: name,
         correo: email,
+        genero: "masculino",
         contrasennia: "."
     };
     try{
-        const response = await api.post(`/owner/`, data);
+        const response = await api.post(`/owner/`, data, {
+            withCredentials: true
+        });
         return response.data;
     }
     catch (error) {

@@ -4,10 +4,9 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { getAgentProperties } from '../../api/queries'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import Loading from '../../Components/Loading'
-import { HomeModernIcon, RectangleGroupIcon } from '@heroicons/react/24/outline'
+import { RectangleGroupIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { PlusIcon } from 'lucide-react'
-
 
 
 export const Inventory = () => {
