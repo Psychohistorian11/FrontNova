@@ -1,53 +1,57 @@
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
 import PropertyCard from "../../Components/PropertyCard"
 import MaintenanceCard from "../../Components/MaintenanceCard"
 import useAuthUser from "react-auth-kit/hooks/useAuthUser"
+import { getAgentProperties } from "../../api/queries"
 
 export default function Landing() {
     const authUser = useAuthUser();
+    const id = authUser.id;
+    const [properties, setProperties] = useState([]);
 
-    const properties = [
-        {
-        id: 1,
-        owner: "Mary Jhonson",
-        image: "https://hips.hearstapps.com/hmg-prod/images/casa-de-madera-de-diseno-moderno21-645b7b443ba61.jpg?resize=980:*",
-        address: "Suite 448 5670 Margarette Curve, Wuckertmouth, FL 54961-596"
-        },
-        {
-        id: 2,
-        owner: "Samuel Wilson",
-        image: "https://3dlancer.net/upload/galleries/891/4891/house-in-the-suburbs-of-st-petersburg-82446-xxl.jpg",
-        address: "45 Shore St. Orange, NJ 07050"
-        },
-        {
-            id: 1,
-            owner: "Mary Jhonson",
-            image: "https://hips.hearstapps.com/hmg-prod/images/casa-de-madera-de-diseno-moderno21-645b7b443ba61.jpg?resize=980:*",
-            address: "Suite 448 5670 Margarette Curve, Wuckertmouth, FL 54961-596"
-        },
-    ]
+    useEffect(() => {
+        async function fetchProperties() {
+            const fetchedProperties = await getAgentProperties(id);
+            // Mapear los datos al formato esperado
+            const formattedProperties = fetchedProperties.map(property => ({
+                id: property.idPropiedad,
+                owner: `Propietario ${property.Propietario_idPropietario}`, // Puedes cambiar esto según el formato adecuado para 'owner'
+                image: property.imagen,
+                address: property.direccion
+            }));
+            setProperties(formattedProperties);
+        }
+        
+        fetchProperties();
+    }, [id]);
+
+    const handleDelete = (propertyId) => {
+        // Aquí iría tu lógica de eliminación de propiedades
+        console.log(`Eliminar propiedad con ID: ${propertyId}`);
+    };
 
     const propertiesElements = properties?.map(property => (
         <PropertyCard
             key={property.id}
-            owner={property.owner} 
+            owner={property.owner}
             image={property.image}
-            address={property.address} 
+            address={property.address}
             handleDelete={() => handleDelete(property.id)}
-            linkToDetail= {`inventory/${property.id}`}
+            linkToDetail={`inventory/${property.id}`}
         />
-    ))
+    ));
 
     const maintenanceElements = properties?.map(property => (
         <MaintenanceCard
             key={property.id}
-            owner={property.owner} 
+            owner={property.owner}
             image={property.image}
-            address={property.address} 
+            address={property.address}
             handleDelete={() => handleDelete(property.id)}
-            linkToDetail= {`inventory/${property.id}`}
+            linkToDetail={`inventory/${property.id}`}
         />
-    ))
+    ));
 
     return (
         <div className="relative flex-grow w-full flex flex-col">
@@ -67,7 +71,7 @@ export default function Landing() {
                     <Link to="CreateInventory" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
                         Crear nuevo inventario
                     </Link>
-                    <Link to="owners/create" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl  from-firstColor from-50% to-neutral-700 shadow-xl">
+                    <Link to="owners/create" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
                         Agregar propietario
                     </Link>
                 </div>
@@ -93,14 +97,12 @@ export default function Landing() {
                         </div>
                     </div>
                     <div>
-                        <h4 className="text-xl font-bold text-neutral-700">Invetarios sin firmar</h4>
+                        <h4 className="text-xl font-bold text-neutral-700">Inventarios sin firmar</h4>
                         <div className="my-5 grid grid-cols-3 gap-x-5">
                             {propertiesElements}
                         </div>
                     </div>
-
                 </div>
-                
             </div>
         </div>
     )
