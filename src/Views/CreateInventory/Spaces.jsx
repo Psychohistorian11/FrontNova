@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
 import { BrickWall, Info } from "lucide-react";
@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
 
 export const Spaces = () => {
+  const [ inventory, setInventory ] = useOutletContext();
 
   const location = useLocation();
   const { email, address, image } = location.state || {};
@@ -38,25 +39,28 @@ export const Spaces = () => {
     <>
       <div className="">
         <nav className="mb-4">
-          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <span>Espacios</span>
+          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; 
+          <span className="text-">Espacios</span>
         </nav>
         <nav>
-      <div className="flex items-center justify-between mb-6">  
-        <h2 className="text-2xl font-bold">Espacios <BrickWall className="inline-block" /></h2>
+      <div className="flex items-center justify-between">  
+        <h2 className="text-3xl font-bold">Espacios <BrickWall className="inline-block" /></h2>
         <div > 
           <InfoWindow
             page={page}
             firstNameInfo={firstNameInfo}
-            firstInfo={email}
+            firstInfo={inventory.owner.correo}
             SecondNameInfo={SecondNameInfo}
-            secondInfo={address}
-            image={image}
+            secondInfo={inventory.property.direccion}
+            image={inventory.property.imagen}
           />
         </div>
       </div>
     </nav>
-        <h2 className='border-b border-black mb-10'> Gestiona y crea espacios para la vivienda</h2>
+        <h2 className='border-b border-black pb-3 mb-10'> Gestiona y crea espacios para la vivienda</h2>
         <div className='px-40'>
+
+          {/* Mostrar todos los espacios */}
           {spaces.map((space, index) => (
             <div key={index} className='text-xl border-b border-black mb-6'>
               <button
@@ -67,6 +71,8 @@ export const Spaces = () => {
               </button>
             </div>
           ))}
+
+          {/* Agregar nuevo */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img src={dropdown_newSpace} alt="description" />
                     <form 

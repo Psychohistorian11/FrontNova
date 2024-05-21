@@ -40,8 +40,8 @@ const InfoWindow = ({ page, firstNameInfo, firstInfo, SecondNameInfo, secondInfo
           <div className="relative" ref={infoRef}>
             <div className="bg-white p-8 rounded-lg" style={{ width: "800px", maxHeight: "90vh", overflowY: 'auto' }}>
               <h2 className="text-2xl mb-4 font-bold">Información de "{page}"</h2>
-              <p>{firstNameInfo}: {firstInfo}</p>
-              {SecondNameInfo && <p>{SecondNameInfo}: {secondInfo}</p>}
+              <p><p className="font-semibold inline">{firstNameInfo}:</p> {firstInfo}</p>
+              {SecondNameInfo && <p><p className="font-semibold inline">{SecondNameInfo}:</p> {secondInfo}</p>}
               {image && (
                 <div>
                   <img src={image} alt="Casa" style={{ maxWidth: '100%', marginTop: '10px' }} />
