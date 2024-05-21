@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createProperty } from '../../api/queries';
 import Loading from '../../Components/Loading';
 import { getOwner } from '../../api/queries';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 export const CreateInventory = () => {
   const authUser = useAuthUser();
