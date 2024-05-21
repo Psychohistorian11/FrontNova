@@ -13,7 +13,7 @@ export default function Landing() {
     useEffect(() => {
         async function fetchProperties() {
             const fetchedProperties = await getAgentProperties(id);
-            // Mapear los datos al formato esperado
+            console.log(fetchedProperties)
             const formattedProperties = fetchedProperties.map(property => ({
                 id: property.idPropiedad,
                 owner: `Propietario ${property.Propietario_idPropietario}`, // Puedes cambiar esto según el formato adecuado para 'owner'
@@ -30,7 +30,7 @@ export default function Landing() {
         // Aquí iría tu lógica de eliminación de propiedades
         console.log(`Eliminar propiedad con ID: ${propertyId}`);
     };
-
+    console.log("esta cosita"+properties)
     const propertiesElements = properties?.map(property => (
         <PropertyCard
             key={property.id}
@@ -93,7 +93,7 @@ export default function Landing() {
                             {maintenanceElements}
                         </div>
                         <div className="flex justify-end">
-                            <Link className="text-secondColor font-semibold text-right">Ver más...</Link>
+                            <Link to="maintenances" className="text-secondColor font-semibold text-right">Ver más...</Link>
                         </div>
                     </div>
                     <div>
