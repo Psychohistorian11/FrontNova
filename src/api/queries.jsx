@@ -66,17 +66,6 @@ export async function getOwners(idAgent){
     }
 }
 
-// Obtener mantenimientos de agente comerical
-export async function getAllMaintenancesForAgent(idAgent){
-    try{
-        const response = await api.get(`/maintenance/agentIdCommercial/?id=${idAgent}`);
-        return response.data;
-    }
-    catch (err) {
-        console.log(`Error: ${err.message}`);
-        return [];
-    }
-}
 
 // Propietario de propiedad
 export async function getPropertyOwner(idProperty){
