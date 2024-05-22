@@ -399,11 +399,10 @@ export async function createRoom(idProperty, name, description, image){
         nombre: name,
         descripcion: description
     };
-    const data = {
-        image: image
-    };
+    const formData = new FormData();
+    formData.append('image', image);
     try{
-        const response = await api.post(`/room/`, data, {
+        const response = await api.post(`/room/`, formData, {
             params: params
         });
         return response.data;

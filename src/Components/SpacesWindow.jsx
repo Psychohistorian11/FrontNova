@@ -6,10 +6,10 @@ import { imageUrlApi } from '../api/axiosConfig';
 
 const SpacesWindow = ({
   selectedSpace,
-  setSelectedSpace,
   postSpace,
   isNew,
-  putSpace
+  putSpace,
+  setShowModal
 }) => {
 
   const fileInputRef = useRef(null);
@@ -30,57 +30,37 @@ const SpacesWindow = ({
 
   const handleObservations = (observation) => {
     setObservation(observation);
-    // const updatedSpaces = [...spaces];
-    // const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
-    // updatedSpaces[index].observation = observation;
-    // setSpaces(updatedSpaces);
   };
 
   const handleAddComponents = async () => {
-    // const updatedSpaces = [...spaces];
-    // const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
-    // const currentSpace = updatedSpaces[index];
-
-    // currentSpace.observation = observation;
-    // currentSpace.image = image;
-
-    // setSpaces(updatedSpaces);
-
-    // const imageBase64 = image ? await toBase64(image) : null;
-    // const dataToSend = { observation, image: imageBase64, spaceName };
-
     navigate(`${selectedSpace.id}`);
   };
-
-  // const toBase64 = file => new Promise((resolve, reject) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => resolve(reader.result);
-  //   reader.onerror = error => reject(error);
-  // });
 
   const handleAddImage = () => fileInputRef.current.click();
   const handleFileChange = async (event) => {
     setFile(event.target.files[0]);
     setImage(URL.createObjectURL(file));
-
-    // const updatedSpaces = [...spaces];
-    // const index = updatedSpaces.findIndex(space => space.name === selectedSpace);
-    // updatedSpaces[index].image = file;
   };
 
   
   const handleCloseWindow = () => {
-    setSelectedSpace(undefined);
+    setShowModal(false);
   };
 
   const handleSaveAndClose = () => {
     if (isNew){
-      postSpace({spaceName, observation, file})
+      postSpace({
+        name: spaceName, 
+        description: observation, 
+        image: file})
     } else {
-      putSpace({idSpace: selectedSpace.idHabitacion, spaceName, observation, file})
+      putSpace({
+        idSpace: selectedSpace.idHabitacion, 
+        name: spaceName, 
+        description: observation, 
+        image: file})
     }
-    handleCloseWindow(); 
+    setShowModal(false); 
   }
 
   return (
@@ -93,13 +73,11 @@ const SpacesWindow = ({
               <li className="mb-2">
                 <div>
                   <button
-                    onClick={() => handleObservations(selectedSpace.descripcion)}
                     className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
                   >
                     <span>Observaciones</span>
                   </button>
                 </div>
-                {selectedSpace.descripcion && (
                   <div className="px-16">
                     <input
                       value={observation}
@@ -109,7 +87,6 @@ const SpacesWindow = ({
                       placeholder="Escribe tus observaciones aquí"
                     />
                   </div>
-                )}
               </li>
               { !isNew &&
                 <li className="flex justify-start items-center mb-2">

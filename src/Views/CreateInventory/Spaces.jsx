@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
 import { BrickWall, Info, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
@@ -11,17 +10,18 @@ import { createRoom, getPropertyRooms, updateRoom } from "../../api/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../Components/Loading";
 import { useQueryClient } from "@tanstack/react-query";
+import { LoadingTask } from "../../Components/LoadingTask";
+
 
 export const Spaces = () => {
   const [ inventory, setInventory ] = useOutletContext();
   const queryClient = useQueryClient();
 
-  const [selectedSpace, setSelectedSpace] = useState(null);
-  const [newSpace, setNewSpace] = useState('');
+  const [ selectedSpace, setSelectedSpace] = useState(null);
+  const [ showModal, setShowModal ] = useState(false);
   const [ isNew, setIsNew ] = useState(false);
 
   const location = useLocation();
-  const { email, address, image } = location.state || {};
   const page = "Inventario";
   const firstNameInfo = "Correo del propietario";
   const SecondNameInfo = "Dirección de la vivienda";
@@ -53,6 +53,8 @@ export const Spaces = () => {
     onSuccess: () => queryClient.invalidateQueries('getRooms')
   });
 
+  const isPending = isPendingPost || isPendingPut
+
   useEffect(() => {
     if (spaces){
       setInventory(inventory => ({
@@ -68,8 +70,9 @@ export const Spaces = () => {
   // };
 
   const handleSearchFeatures = (space) => {
-    setSelectedSpace(space);
     setIsNew(false);
+    setSelectedSpace(space);
+    setShowModal(true);
   };
 
   // const handleDeleteSpace = (index) => {
@@ -79,7 +82,13 @@ export const Spaces = () => {
   // };
 
   const handleNewSpace = () => {
+    setSelectedSpace({
+      nombre: '',
+      imagen: '',
+      descripcion: ''
+    });
     setIsNew(true);
+    setShowModal(true);
   }
 
 
@@ -140,16 +149,20 @@ export const Spaces = () => {
         <Sign/>
       </div>
 
-      { !!selectedSpace && 
+      { showModal && 
         <SpacesWindow
-          spaces={isLoading && spaces}
           selectedSpace={selectedSpace}
-          setSelectedSpace={setSelectedSpace}
           postSpace={postSpace}
           isNew={isNew}
           putSpace={putSpace}
+          setShowModal={setShowModal}
         />
-      } 
+      }
+
+      {
+        isPending &&
+        <LoadingTask />
+      }
     </>
   );
 };

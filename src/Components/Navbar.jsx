@@ -9,6 +9,7 @@ import { FolderKanban, Wrench, Users } from 'lucide-react';
 
 
 export const Navbar = () => {
+
   const signOut = useSignOut();
   const navigate = useNavigate();
   const authUser = useAuthUser();
