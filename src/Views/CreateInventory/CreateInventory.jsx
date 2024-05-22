@@ -19,6 +19,7 @@ export const CreateInventory = () => {
   const [address, setAddress] = useState('');
   const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState('');
+  
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 

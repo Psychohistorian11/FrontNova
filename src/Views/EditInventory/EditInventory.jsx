@@ -8,6 +8,7 @@ import { getProperty, getPropertyOwner, getPropertyRooms } from '../../api/queri
 import Loading from '../../Components/Loading';
 import { useEffect } from 'react';
 import { useQueries } from '@tanstack/react-query';
+import { imageUrlApi } from '../../api/axiosConfig';
 
 
 export const EditInventory = () => {
@@ -81,7 +82,7 @@ export const EditInventory = () => {
               <label className="block text-gray-700 font-bold mb-2">
                 Fotografía de la vivienda <BookImage className="inline-block" />
               </label>
-              <img className=" size-48" src={inventory.property.imagen} />
+              <img className=" size-48" src={`${imageUrlApi}/${inventory.property.imagen}`} />
             </div>
           </div>
 

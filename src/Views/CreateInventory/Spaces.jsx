@@ -1,4 +1,4 @@
-import React, { useState, useMutation } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import SpacesWindow from "../../Components/SpacesWindow";
@@ -7,11 +7,18 @@ import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
 import { PlusIcon } from "@heroicons/react/24/outline";
-
-
+import { createRoom, getPropertyRooms, updateRoom } from "../../api/queries";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import Loading from "../../Components/Loading";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Spaces = () => {
   const [ inventory, setInventory ] = useOutletContext();
+  const queryClient = useQueryClient();
+
+  const [selectedSpace, setSelectedSpace] = useState(null);
+  const [newSpace, setNewSpace] = useState('');
+  const [ isNew, setIsNew ] = useState(false);
 
   const location = useLocation();
   const { email, address, image } = location.state || {};
@@ -19,37 +26,66 @@ export const Spaces = () => {
   const firstNameInfo = "Correo del propietario";
   const SecondNameInfo = "Dirección de la vivienda";
 
-  const [spaces, setSpaces] = useState([
-    { name: 'Baño', image: null, observation: false },
-    { name: 'Cocina', image: null, observation: false },
-    { name: 'Dormitorio', image: null, observation: false }
-  ]);
+  // const [spaces, setSpaces] = useState([
+  //   { name: 'Baño', image: null, observation: false },
+  //   { name: 'Cocina', image: null, observation: false },
+  //   { name: 'Dormitorio', image: null, observation: false }
+  // ]);
 
-  const { mutate: postSpace, isPending: isPendingOwner } = useMutation({
+  const { data: spaces, isLoading } = useQuery({
+    queryKey: ['getRooms'],
+    queryFn: () => getPropertyRooms(inventory.property.idPropiedad),
+    enabled: !!inventory.property.idPropiedad,
+    onError: (error) => {
+      console.error("Ocurrió un error al obtener las habitaciones:", error);
+    }
+  })
+
+  const { mutate: postSpace, isPending: isPendingPost } = useMutation({
     mutationKey: ['postSpace'],
-    mutationFn: () => getOwner(idOwner),
-    onSuccess: (data) => setApiIdOwner(data.idPropietario)
+    mutationFn: ({name, description, image}) => createRoom(inventory.property.idPropiedad, name, description, image),
+    onSuccess: () => queryClient.invalidateQueries('getRooms')
   });
 
-  const [selectedSpace, setSelectedSpace] = useState(null);
-  const [newSpace, setNewSpace] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  const { mutate: putSpace, isPending: isPendingPut } = useMutation({
+    mutationKey: ['putSpace'],
+    mutationFn: ({idSpace, name, description, image}) => updateRoom(idSpace, name, description, image),
+    onSuccess: () => queryClient.invalidateQueries('getRooms')
+  });
 
-  const handleAddSpace = () => {
-    setSpaces([...spaces, { name: newSpace, image: null, observation: false }]);
-    setNewSpace('');
-  };
+  useEffect(() => {
+    if (spaces){
+      setInventory(inventory => ({
+        ...inventory,
+        spaces: spaces
+      }))
+    }
+  }, [spaces])
+
+  // const handleAddSpace = () => {
+  //   setSpaces([...spaces, { name: newSpace, image: null, observation: false }]);
+  //   setNewSpace('');
+  // };
 
   const handleSearchFeatures = (space) => {
     setSelectedSpace(space);
-    setShowModal(true);
+    setIsNew(false);
   };
 
-  const handleDeleteSpace = (index) => {
-    const updatedSpaces = [...spaces];
-    updatedSpaces.splice(index, 1); 
-    setSpaces(updatedSpaces);
-  };
+  // const handleDeleteSpace = (index) => {
+  //   const updatedSpaces = [...spaces];
+  //   updatedSpaces.splice(index, 1); 
+  //   setSpaces(updatedSpaces);
+  // };
+
+  const handleNewSpace = () => {
+    setIsNew(true);
+  }
+
+
+  if (isLoading){
+    return <Loading />
+  }
 
   return (
     <>
@@ -76,14 +112,14 @@ export const Spaces = () => {
         <h2 className='border-b border-black pb-3 mb-10'> Gestiona y crea espacios para la vivienda</h2>
         <div className='px-40'>
           {/* Mostrar todos los espacios */}
-        {spaces.map((space, index) => (
+        {spaces?.map((space, index) => (
                   <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
                     <div className="flex items-center">
                       <button
-                        onClick={() => handleSearchFeatures(space.name)}
+                        onClick={() => handleSearchFeatures(space)}
                         className="flex items-center"
                       >
-                        {space.name}
+                        {space.nombre}
                       </button>
                     </div>
                     <div>
@@ -95,39 +131,25 @@ export const Spaces = () => {
                 ))}
 
           {/* Agregar espacio */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <PlusIcon className="size-10 mr-3 text-firstColor"/>
-                    <form 
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (newSpace.trim()) {
-                          handleAddSpace();
-                        }
-                      }}
-                      style={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      <input
-                        type="text"
-                        value={newSpace}
-                        onChange={(e) => setNewSpace(e.target.value)}
-                        placeholder="Agregar Espacio "
-                        style={{ marginRight: '10px' }} 
-                      />
-                    </form>
-                  </div>
+          <button onClick={handleNewSpace} style={{ display: 'flex', alignItems: 'center' }}>
+            <PlusIcon className="size-10 mr-3 text-firstColor"/>
+            <span className="mr-3 text-gray-500">Agregar espacio</span>
+          </button>
 
         </div>
         <Sign/>
       </div>
 
-      <SpacesWindow
-        spaces={spaces}
-        setSpaces={setSpaces}
-        selectedSpace={selectedSpace}
-        setSelectedSpace={setSelectedSpace}
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
+      { !!selectedSpace && 
+        <SpacesWindow
+          spaces={isLoading && spaces}
+          selectedSpace={selectedSpace}
+          setSelectedSpace={setSelectedSpace}
+          postSpace={postSpace}
+          isNew={isNew}
+          putSpace={putSpace}
+        />
+      } 
     </>
   );
 };

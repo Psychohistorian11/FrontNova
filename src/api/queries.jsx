@@ -15,7 +15,7 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
     }
 }
 
-// Obtener mantenimientos de agente comercial@
+// Obtener mantenimientos de agente comercial
 export async function getAllMaintenancesForAgent(idAgent) {
     try {
         const response = await api.get(`/maintenance/agentIdCommercial/:id-${idAgent}`);
@@ -57,7 +57,7 @@ export async function deleteOwner(mailOwner){
 // Obtener propietarios de agente
 export async function getOwners(idAgent){
     try{
-        const response = await api.get(`/owner/owners_of_agent/${idAgent}`);
+        const response = await api.get(`/owner/owners_of_agent/${idAgent}?idProperty=${idAgent}`);
         return response.data;
     }
     catch (err) {
@@ -88,9 +88,7 @@ export async function createOwner(name, email){
         contrasennia: "."
     };
     try{
-        const response = await api.post(`/owner/`, data, {
-            withCredentials: true
-        });
+        const response = await api.post(`/owner/`, data);
         return response.data;
     }
     catch (error) {
@@ -166,17 +164,12 @@ export async function getProperty(idProperty){
 // Crear propiedad
 export async function createProperty(idOwner, idAgent, address, image){
     const formData = new FormData();
-    // formData.append('Propietario_idPropietario', idProperty);
-    // formData.append('direccion', address);
     formData.append('image', image);
     const params = { 
         idAgente: idAgent,
         Propietario_idPropietario: idOwner,
         direccion: address
     };
-    // const data = {
-    //     image: image
-    // };
     try{
         // const response = await api.post(`/property/`, data, {
         //     params: params
@@ -402,9 +395,9 @@ export async function getPropertyRooms(property_id){
 }
 
 // Crear habitación
-export async function createRoom(idRoom, name, description, image){
+export async function createRoom(idProperty, name, description, image){
     const params = { 
-        Habitacion_idHabitacion: idRoom,
+        Propiedad_idPropiedad: idProperty,
         nombre: name,
         descripcion: description
     };
@@ -426,7 +419,7 @@ export async function createRoom(idRoom, name, description, image){
 // Actualizar habitación
 export async function updateRoom(idRoom, name, description, image){
     let request = {};
-    if (name && image){
+    if (!!name && !!image){
         request = await Promise.all([
             updateRoomInfo(idRoom, name, description),
             updateRoomImage(idRoom, image)
@@ -465,11 +458,10 @@ export async function updateRoomImage(idRoom, image){
     const params = { 
         id: idRoom
     };
-    const data = {
-        image: image
-    };
+    const formData = new FormData();
+    formData.append('image', image);
     try{
-        const response = await api.put(`/room/`, data, {
+        const response = await api.put(`/room/`, formData, {
             params: params
         });
         return response.data;

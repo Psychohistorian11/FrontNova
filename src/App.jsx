@@ -48,7 +48,7 @@ export default function App(){
                         <Route element={<InventoryContext />}>
                             <Route path="inventory/:id" element={<EditInventory />}/>
                             <Route path="inventory/:id/spaces" element={<Spaces />}/>
-                            <Route path="inventory/:id/spaces/components" element={<Components />}/>
+                            <Route path="inventory/:id/spaces/:idSpace" element={<Components />}/>
                         </Route>
 
                         <Route path="inventory" element={<Inventory />}/>
