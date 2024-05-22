@@ -19,12 +19,6 @@ export default function Property(params){
           }).then((result) => {
             if (result.isConfirmed) {
               handleDelete();
-              Swal.fire({
-                title: "¡Eliminado!",
-                text: "El inventario ha sido eliminado.",
-                icon: "success",
-                confirmButtonColor: "#0E9594"
-              });
             }
         });
     }   

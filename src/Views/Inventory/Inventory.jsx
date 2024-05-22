@@ -7,25 +7,35 @@ import Loading from '../../Components/Loading'
 import { RectangleGroupIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { PlusIcon } from 'lucide-react'
+import Swal from "sweetalert2"
+import { LoadingTask } from '../../Components/LoadingTask'
+
 
 export const Inventory = () => {
   const authUser = useAuthUser();
   const queryClient = useQueryClient();
 
-  const { data: properties, isLoading } = useQuery({
+  const { data: properties, isLoading} = useQuery({
     queryKey: ['properties'],
     queryFn: () => getAgentProperties(authUser.id)
   });
 
-  const mutation = useMutation({
+  const { mutate: mutateDeleteProperty, isPending} = useMutation({
     mutationFn: deleteProperty,
     onSuccess: () => {
       queryClient.invalidateQueries(['properties']);
+                    
+      Swal.fire({
+        title: "¡Eliminado!",
+        text: "El inventario ha sido eliminado.",
+        icon: "success",
+        confirmButtonColor: "#0E9594"
+      });
     },
   });
 
   function handleDelete(idProperty) {
-    mutation.mutate(idProperty);
+    mutateDeleteProperty(idProperty);
   }
 
   if (isLoading) {
@@ -42,6 +52,10 @@ export const Inventory = () => {
       linkToDetail={`/h/inventory/${property.idPropiedad}`}
     />
   ));
+
+  if (isPending){
+    <LoadingTask />
+  }
 
   return (
     <>
@@ -66,6 +80,12 @@ export const Inventory = () => {
             </div>
         }
       </div>
-    </>
+
+      {
+        isPending &&
+        <LoadingTask />
+      }
+    
+    </> 
   );
 }

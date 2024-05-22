@@ -30,8 +30,7 @@ export default function Landing() {
         // Aquí iría tu lógica de eliminación de propiedades
         console.log(`Eliminar propiedad con ID: ${propertyId}`);
     };
-    console.log("esta cosita"+properties)
-    const propertiesElements = properties?.map(property => (
+    const propertiesElements = properties.slice(0, 3).map(property => (
         <PropertyCard
             key={property.id}
             owner={property.owner}
@@ -41,8 +40,9 @@ export default function Landing() {
             linkToDetail={`inventory/${property.id}`}
         />
     ));
+    
 
-    const maintenanceElements = properties?.map(property => (
+    const maintenanceElements = properties.slice(0,3).map(property => (
         <MaintenanceCard
             key={property.id}
             owner={property.owner}
