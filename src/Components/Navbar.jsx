@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate, NavLink, Link } from 'react-router-dom';
 import logo from '../Assets/logo.png'
-import { EllipsisVerticalIcon, ChevronDoubleLeftIcon } from '@heroicons/react/16/solid';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { ArrowRightEndOnRectangleIcon, UserPlusIcon } from '@heroicons/react/24/outline';
-import { baseUrl, imageUrlApi } from '../api/axiosConfig';
-import { FolderKanban, Settings, Users } from 'lucide-react';
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/outline';
+import { imageUrlApi } from '../api/axiosConfig';
+import { FolderKanban, Wrench, Users } from 'lucide-react';
 
 
 export const Navbar = () => {
@@ -54,7 +53,7 @@ export const Navbar = () => {
               (isActive ? "font-bold cursor-default" : "hover:bg-gray-200")
             }
           >
-            Mantenimiento <Settings className='ml-2'/>
+            Mantenimiento <Wrench className='ml-2'/>
           </NavLink>
         </div>
 

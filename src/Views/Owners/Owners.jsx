@@ -11,11 +11,13 @@ export const Owners = () => {
   const authUser = useAuthUser();
   const id = authUser.id;
 
-  const { data: owners = [], isLoading } = useQuery({
+  const { data: owners, isLoading } = useQuery({
     queryKey: ['owners', id],
     queryFn: () => getOwners(id),
     enabled: !!id,
   });
+
+  console.log("estos son los duros: "+owners)
   
 
   if (isLoading) {

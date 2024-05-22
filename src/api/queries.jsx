@@ -18,7 +18,7 @@ export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgen
 // Obtener mantenimientos de agente comercial
 export async function getAllMaintenancesForAgent(idAgent) {
     try {
-        const response = await api.get(`/maintenance/agentIdCommercial/:id-${idAgent}`);
+        const response = await api.get(`/maintenance/agentIdCommercial?id=${idAgent}`);
         return response.data;
     } catch (err) {
         console.log(`Error: ${err.message}`);
@@ -79,21 +79,20 @@ export async function getPropertyOwner(idProperty){
 }
 
 // Crear propietario
-export async function createOwner(name, email){
+export async function createOwner(name, email) {
     const data = {
         idPropietario: 0,
         nombre: name,
         correo: email,
         genero: "masculino",
-        contrasennia: "."
+        contrasennia: ".",
     };
-    try{
+    try {
         const response = await api.post(`/owner/`, data);
-        return response.data;
-    }
-    catch (error) {
+        return response.status === 200;
+    } catch (error) {
         console.error('Hubo un problema con la solicitud fetch:', error);
-        return [];
+        return false;
     }
 }
 
@@ -217,16 +216,15 @@ export async function getAgentProperties(idAgent){
 }
 
 // Eliminar propiedad
-export async function deleteProperty(idProperty){
-    try{
-        const response = await api.delete(`/property/${idProperty}`);
-        return response.data;
+export async function deleteProperty(idProperty) {
+    try {
+      const response = await api.delete(`/property/${idProperty}`);
+      return response.data;
+    } catch (error) {
+      console.error('Hubo un problema con la solicitud fetch:', error);
+      throw error; // Lanza el error para que la mutación lo maneje
     }
-    catch (error) {
-        console.error('Hubo un problema con la solicitud fetch:', error);
-        return [];
-    }
-}
+  }
 
 
 // * ACCESOS
