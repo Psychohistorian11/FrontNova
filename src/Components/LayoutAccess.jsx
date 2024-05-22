@@ -9,19 +9,20 @@ import { Link } from "react-router-dom";
 
 export default function LayoutAccess() {
     const authUser = useAuthUser();
+    const data= []
 
-    const { data: agents, isLoading } = useQuery({
-        queryKey: ['maintainceAgents'],
-        queryFn: () => getAllMaintainceAgentWithAccessAtribute(1, authUser.id)
-    })
+    // const { data: agents, isLoading } = useQuery({
+    //     queryKey: ['maintainceAgents'],
+    //     queryFn: () => getAllMaintainceAgentWithAccessAtribute(1, authUser.id)
+    // })
 
     const basicNavStyle = "text-gray-600 "
     const selectedNav = "font-bold cursor-default"
     const nonSelectedNav = "hover:underline hover:underline-offset-2"
 
-    if (isLoading) {
-        return <Loading />
-    }
+    // if (isLoading) {
+    //     return <Loading />
+    // }
 
     // AQUÍ HACER FILTER PARA MANDARSELO A OUTLET
 

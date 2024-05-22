@@ -1,6 +1,7 @@
 import { TrashIcon } from "@heroicons/react/16/solid"
 import Swal from "sweetalert2"
 import { Link } from "react-router-dom";
+import { imageUrlApi } from "../api/axiosConfig";
 
 export default function Property(params){
     const { address, image, owner, handleDelete, linkToDetail } = params
@@ -28,12 +29,13 @@ export default function Property(params){
         });
     }   
 
+
     return (
         <div className="flex flex-col bg-gray-50 p-3 rounded-lg content-center border-gray-700 border shadow-md ">
             <div className="flex justify-center relative">
-              <img src={image} className="h-40 w-56 object-cover"/>
+              <img src={`${imageUrlApi}/${image}`} className="h-40 w-56 object-cover rounded-md"/>
               <div onClick={confirmationDeleteAlert} className="absolute flex justify-center items-center hover:bg-firstColor cursor-pointer bg-white size-6 rounded-full top-1 left-1">
-                <TrashIcon className="size-4"/>
+              <TrashIcon className="size-4"/>
               </div>
             </div>
             <div className="max-h-full mt-1">

@@ -56,7 +56,7 @@ export default function App(){
                         <Route path="owners/create" element={<CreateOwner />} />
                         <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
                         <Route path="maintenances" element={<Maintenances />} />
-                        <Route path="access/:id" element={<LayoutAccess />}>
+                        <Route path="access" element={<LayoutAccess />}>
                             <Route index element={<CurrentAccess/>}/>
                             <Route path="add" element={<AddAccess/>}/>
                         </Route>

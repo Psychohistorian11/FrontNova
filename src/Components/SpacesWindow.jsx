@@ -40,7 +40,7 @@ const SpacesWindow = ({
 
     const imageBase64 = image ? await toBase64(image) : null;
     const dataToSend = { observation, image: imageBase64, spaceName };
-    navigate('/h/Components', { state: dataToSend });
+    navigate('/h/inventory/4/spaces/components', { state: dataToSend });
   };
 
   const toBase64 = file => new Promise((resolve, reject) => {

@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import MaintenanceCard from "../../Components/MaintenanceCard";
 import { getAllMaintenancesForAgent } from '../../api/queries';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import Loading from '../../Components/Loading';
 
 export default function Maintenances() {
     const authUser = useAuthUser();
     const id = authUser.id;
 
-    const [data, setData] = useState([]);
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['maintenances', id],
+        queryFn: () => getAllMaintenancesForAgent(id),
+        staleTime: 60000, // Opcional: tiempo en milisegundos para considerar los datos frescos
+    });
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const maintenances = await getAllMaintenancesForAgent(id);
-                console.log(maintenances)
-                setData(maintenances);
-            } catch (err) {
-                console.error(`Error: ${err.message}`);
-            }
-        };
+    if (isLoading) {
+        return <Loading />;
+    }
 
-        fetchData();
-    }, [id]);
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     const maintenancesElements = data.map((maintenance, index) => (
         <MaintenanceCard

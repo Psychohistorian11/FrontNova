@@ -1,6 +1,7 @@
 import React from "react";
 import { Form } from "react-router-dom";
 import { Mail, User } from 'lucide-react';
+import Swal from 'sweetalert2';
 import { createOwner } from "../../api/queries";
 
 export default function CreateOwner() {
@@ -12,15 +13,36 @@ export default function CreateOwner() {
         const email = formData.get("email");
 
         try {
-            await createOwner(name, email);
+            const success = await createOwner(name, email);
+            if (success) {
+                Swal.fire({
+                    title: "¡Propietario creado con éxito!",
+                    text: "El correo fue registrado con éxito",
+                    icon: "success",
+                    confirmButtonColor: "#0E9594"
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "Hubo un problema al registrar el propietario",
+                    icon: "error",
+                    confirmButtonColor: "#562C2C"
+                });
+            }
         } catch (error) {
             console.error('Error registrando el propietario:', error);
+            Swal.fire({
+                title: "Error",
+                text: "Hubo un problema al registrar el propietario",
+                icon: "error",
+                confirmButtonColor: "#562C2C"
+            });
         }
     };
 
     return (
         <div>
-            <Form method="post" className="flex flex-col " onSubmit={handleSubmit}>
+            <Form method="post" className="flex flex-col" onSubmit={handleSubmit}>
                 <h2 className="text-3xl mb-6 font-bold">
                     Registrar Propietario
                 </h2>
@@ -65,3 +87,4 @@ export default function CreateOwner() {
         </div>
     );
 }
+
