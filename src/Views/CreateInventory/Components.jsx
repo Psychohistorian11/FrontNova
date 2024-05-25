@@ -9,6 +9,7 @@ import Loading from "../../Components/Loading";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { LoadingTask } from "../../Components/LoadingTask";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export const Components = () => {
   const [ inventory, setInventory ] = useOutletContext();
@@ -29,32 +30,33 @@ export const Components = () => {
   // ]);
 
   // Traerse la info del espacio, si no existe es 404
-  useEffect(() => {
-    if (inventory.spaces.length > 0){
-      setSpace(inventory.spaces.find(space => space.idHabitacion == idSpace))
-    } else if (!!inventory.property.idPropiedad){
-      navigate('notfound')
-    }
-  }, [idSpace, inventory])
+  // useEffect(() => {
+  //   if (inventory.spaces.length > 0){
+  //     setSpace(inventory.spaces.find(space => space.idHabitacion == idSpace))
+  //   } else if (!!inventory.property.idPropiedad){
+  //     navigate('notfound')
+  //   }
+  // }, [idSpace, inventory])
 
   const { data: components, isLoading } = useQuery({
     queryKey: ['getFornitures'],
     queryFn: () => getRoomFornitures(idSpace),
-    enabled: !!inventory.property.idPropiedad,
+    onSucces: (data) => console.log(data),
     onError: (error) => {
       console.error("Ocurrió un error al obtener las habitaciones:", error);
+      navigate('notfound')
     }
   })
 
   const { mutate: postForniture, isPending: isPendingPost } = useMutation({
     mutationKey: ['postForniture'],
-    mutationFn: ({name, description, image}) => createRoom(inventory.property.idPropiedad, name, description, image),
+    mutationFn: ({name, description, state, image}) => createRoom(idSpace, name, description, image, state),
     onSucces: (data) => handleSucces(data)
   });
 
   const { mutate: putForniture, isPending: isPendingPut } = useMutation({
     mutationKey: ['putForniture'],
-    mutationFn: ({idSpace, name, description, image}) => updateRoom(idSpace, name, description, image),
+    mutationFn: ({idForniture, name, description, state, image}) => updateRoom(idForniture, name, description, image, state),
     onSucces: (data) => handleSucces(data)
   });
 
@@ -92,12 +94,12 @@ export const Components = () => {
     <>
       <div className="">
         <nav className="mb-4">
-          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <Link to="/h/spaces">{spaceName}</Link> &gt; <span>Muebles</span>
+          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <Link to="/h/spaces">{space.nombre}</Link> &gt; <span>Muebles</span>
         </nav>
         <div className="flex items-center justify-between mb-6">
           <div>
           <h2 className="text-2xl font-bold">Muebles <BedDouble className="inline-block" /></h2>
-          <h2 className="font-bold">{spaceName} </h2>
+          <h2 className="font-bold">{space.nombre} </h2>
           </div>
 
           <div>
@@ -119,7 +121,7 @@ export const Components = () => {
                 onClick={() => handleSearchFeatures(component)}
                 className="flex items-center"
               >
-                {component.name}
+                {component.nombre}
               </button>
               <button onClick={() => handleDeleteComponent(component.idMueble)}>
                 <Trash />
@@ -128,27 +130,9 @@ export const Components = () => {
           ))}
 
           {/* Agregar mueble */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={dropdown_newSpace} alt="description" />
-              <form 
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if (newComponent.trim()) {
-                    handleAddComponent();
-                  }
-                }}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
-                <input
-                  type="text"
-                  value={newComponent}
-                  onChange={(e) => setNewComponent(e.target.value)}
-                  placeholder="Agregar Componente"
-                  style={{ marginRight: '10px' }} 
-                />
-              </form>
-            </div>
+          <div onClick={handleAddComponent} className="flex items-center ml-2 mt-3 cursor-pointer">
+            <PlusIcon className="size-8 mr-3 text-firstColor"/>
+            <span className="mr-3 text-gray-500">Agregar espacio</span>
           </div>
         </div>
       </div>

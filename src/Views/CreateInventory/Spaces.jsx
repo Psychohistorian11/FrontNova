@@ -81,22 +81,10 @@ export const Spaces = () => {
     }
   }, [spaces])
 
-  // const handleAddSpace = () => {
-  //   setSpaces([...spaces, { name: newSpace, image: null, observation: false }]);
-  //   setNewSpace('');
-  // };
-
   const handleSearchFeatures = (space) => {
     setSelectedSpace(space);
     setShowModal(true);
   };
-
-  // const handleDeleteSpace = (index) => {
-  //   const updatedSpaces = [...spaces];
-  //   updatedSpaces.splice(index, 1); 
-  //   setSpaces(updatedSpaces);
-  // };
-
   const handleNewSpace = () => {
     setSelectedSpace({
       nombre: '',
