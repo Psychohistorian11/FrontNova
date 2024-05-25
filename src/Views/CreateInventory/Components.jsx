@@ -16,6 +16,8 @@ export const Components = () => {
   const { idSpace } = useParams();
   const navigate = useNavigate();
 
+  // const components = 
+
   const page = "Espacio";
   const firstNameInfo = "Observaciones del mueble";
 
@@ -38,10 +40,9 @@ export const Components = () => {
   //   }
   // }, [idSpace, inventory])
 
-  const { data: components, isLoading, fetchStatus } = useQuery({
+  const { data: components, isLoading } = useQuery({
     queryKey: ['getFornitures'],
     queryFn: () => getRoomFornitures(idSpace),
-    enabled: !!inventory.property.idPropiedad, // ! Probar
     onSucces: (data) => console.log(data),
     onError: (error) => {
       console.error("Ocurrió un error al obtener las habitaciones:", error);

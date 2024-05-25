@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import SpacesWindow from "../../Components/SpacesWindow";
 import { BrickWall, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
@@ -14,6 +14,10 @@ import { LoadingTask } from "../../Components/LoadingTask";
 
 export const Spaces = () => {
   const [ inventory, setInventory ] = useOutletContext();
+  const spaces = inventory.spaces;
+  const { id } = useParams();
+
+  // const [ spaces, setSpaces ] = useState(inventory.spaces)
 
   const [ selectedSpace, setSelectedSpace] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
@@ -28,58 +32,74 @@ export const Spaces = () => {
   //   { name: 'Dormitorio', image: null, observation: false }
   // ]);
 
-  const { data: spaces, isLoading } = useQuery({
+  const { data: spacesData, isLoading } = useQuery({
     queryKey: ['getRooms'],
-    queryFn: () => getPropertyRooms(inventory.property.idPropiedad),
-    enabled: !!inventory.property.idPropiedad,
-    onError: (error) => {
-      console.error("Ocurrió un error al obtener las habitaciones:", error);
-    }
-  })
+    queryFn: () => getPropertyRooms(id),
+    // enabled: !!inventory.property.idPropiedad
+  })  
+
+  useEffect(
+    () => setInventory(preInventory => ({
+            ...preInventory,
+            spaces: spacesData
+    })), [spacesData])
+
+  useEffect(() => console.log(inventory), [inventory])
 
   const { mutate: postSpace, isPending: isPendingPost } = useMutation({
     mutationKey: ['postSpace'],
-    mutationFn: ({name, description, image}) => createRoom(idSpace, name, description, image),
-    onSucces: (data) => handleSucces(data)
+    mutationFn: ({name, description, image}) => createRoom(id, name, description, image),
+    onSuccess: (data) => handleSuccessPost(data)
   });
 
   const { mutate: putSpace, isPending: isPendingPut } = useMutation({
     mutationKey: ['putSpace'],
     mutationFn: ({idSpace, name, description, image}) => updateRoom(idSpace, name, description, image),
-    onSucces: (data) => handleSucces(data)
+    onSuccess: (data) => handleSuccessPut(data)
   });
 
   const { mutate: mutateDeleteSpace, isPending: isPendingDelete } = useMutation({
     mutationKey: ['deleteSpace'],
     mutationFn: (idSpace) => deleteRoom(idSpace),
-    onSucces: (data) => handleSuccesDelete(data)
+    onSuccess: (data) => handleSuccessDelete(data)
   });
 
   const isPending = isPendingPost || isPendingPut || isPendingDelete
 
-  function handleSuccesDelete(data){
-    setInventory(inventory => ({
-      ...inventory,
-      spaces: inventory.spaces.map(space => space.idHabitacion != data.idHabitacion)
+  function handleSuccessDelete(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.filter(space => space.idHabitacion != data.idHabitacion)
     }))
   }
 
-  function handleSucces(data){
-    setInventory(inventory => ({
-      ...inventory,
-      spaces: inventory.spaces.filter(space => space.idHabitacion === data.idHabitacion)
+  function handleSuccessPost(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: [...prevInventory.spaces, data]
     }))
   }
 
-  useEffect(() => {
-    console.log(spaces)
-    if (spaces){
-      setInventory(inventory => ({
-        ...inventory,
-        spaces: spaces
-      }))
-    }
-  }, [spaces])
+  function handleSuccessPut(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.map(space => {
+        if(space.idHabitacion === data.idHabitacion){
+          return data
+        } else{
+          return space
+        }})
+    }))
+  }
+
+  // useEffect(() => {
+  //   if (spaces){
+  //     setInventory(inventory => ({
+  //       ...inventory,
+  //       spaces: spaces
+  //     }))
+  //   }
+  // }, [spaces])
 
   const handleSearchFeatures = (space) => {
     setSelectedSpace(space);
