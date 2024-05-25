@@ -10,16 +10,16 @@ const ComponentsWindow = ({
 }) => {
   const fileInputRef = useRef(null);
   const [ file, setFile ] = useState(null);
+  const [image, setImage] = useState(selectedComponent.imagen === '' ? null : `${imageUrlApi}/${selectedComponent.imagen}`)
 
   const [ form, setForm ] = useState({
     name: selectedComponent.nombre,
     observation: selectedComponent.descripcion,
-    state: selectedComponent.estado,
-    image: selectedComponent.imagen === '' ? null : `${imageUrlApi}/${selectedComponent.imagen}`
+    state: selectedComponent.estado
   })
 
   function handleChange(e){
-    const { name, value } = e.target.value
+    const { name, value } = e.target
 
     setForm(prevForm => {
       return {
@@ -29,20 +29,18 @@ const ComponentsWindow = ({
     })
   }
 
+
   // Manejo de imagen
   const handleAddImage = () => fileInputRef.current.click();
   const handleFileChange = async (event) => {
-    setFile(event.target.files[0]);
-    setForm(prevForm => {
-      return {
-        ...prevForm,
-        image: URL.createObjectURL(file)
-      }
-    })
+    const inputFile = event.target.files[0]
+    setFile(inputFile);
+    
+    setImage(URL.createObjectURL(inputFile));
   };
 
   const handleSaveAndClose = () => {
-    if (selectedSpace.name === ''){
+    if (selectedComponent.nombre === ''){
       postForniture({
         name: form.name, 
         description: form.observation,
@@ -50,7 +48,7 @@ const ComponentsWindow = ({
         image: file})
     } else {
       putForniture({
-        idForniture: selectedSpace.idMueble, 
+        idForniture: selectedComponent.idMueble, 
         name: form.name, 
         description: form.observation,
         state: form.state,
@@ -83,24 +81,36 @@ const ComponentsWindow = ({
                   <div className="mt-2 flex items-center justify-center space-x-12">
                     <div className='flex flex-col items-center space-y-2'>
                       <input
-                        onClick={handleChange}
-                        className= 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors'
+                        type="radio"
+                        name="state"
+                        value="malo"
+                        checked={form.state === "malo"}
+                        onChange={handleChange}
+                        className= 'form-radio w-10 appearance-none h-10 rounded-full border-2 checked:bg-red-600 border-red-600 text-red-600 hover:bg-red-600 hover:bg-opacity-100 transition-colors'
                       />
                       <label className="text-xs">Malo</label>
                     </div>
 
                     <div className='flex flex-col items-center space-y-2'>
                       <input
-                        onClick={handleChange}
-                        className= 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors'
+                        type="radio"
+                        name="state"
+                        value="regular"
+                        checked={form.state === "regular"}
+                        onChange={handleChange}
+                        className= 'w-10 appearance-none h-10 rounded-full border-2 checked:bg-yellow-500 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:bg-opacity-100 transition-colors'
                       />
                       <label className="text-xs">Regular</label>
                     </div>
 
                     <div className='flex flex-col items-center space-y-2'>
                       <input
-                        onClick={handleChange}
-                        className= 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors'
+                        type="radio"
+                        name="state"
+                        value="bueno"
+                        checked={form.state === "bueno"}
+                        onChange={handleChange}
+                        className= 'w-10 appearance-none h-10 rounded-full border-2 checked:bg-green-600 border-green-600 text-green-600 hover:bg-green-600 hover:bg-opacity-100 transition-colors'
                       />
                       <label className="text-xs">Bueno</label>
                     </div>
@@ -121,7 +131,7 @@ const ComponentsWindow = ({
                 <li className="flex justify-start items-center mb-2 mt-6">
                   <button 
                     onClick={handleAddImage}
-                    className="flex items-center w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed w-80 h-10"
+                    className="flex items-center w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed h-10"
                   >
                     <span className="text-firstColor mr-2">+</span>
                     <span className="text-firstColor">Añadir fotografía</span>
@@ -135,12 +145,14 @@ const ComponentsWindow = ({
                   />
                 </li>
                 <div>
-                  <p>Fotografía seleccionada</p>
-                  <img
-                    src={form.image}
-                    alt="Imagen seleccionada"
-                    style={{ maxWidth: '25%', marginTop: '10px' }}
-                  />
+                  {
+                    form.image != '' &&
+                    <img
+                      src={image}
+                      alt="Imagen seleccionada"
+                      style={{ maxWidth: '25%', marginTop: '10px' }}
+                    />
+                  }
                 </div>
               </ul>
               <div className="flex justify-end mt-4">

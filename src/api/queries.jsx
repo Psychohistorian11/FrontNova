@@ -273,9 +273,9 @@ export async function deleteForniture(idForniture){
 }
 
 // Obtener muebles de mueble
-export async function getRoomFornitures(forniture_id){
+export async function getRoomFornitures(space_id){
     try{
-        const response = await api.get(`/furniture/room_furnitures/${forniture_id}`);
+        const response = await api.get(`/furniture/room_furnitures/${space_id}`);
         return response.data;
     }
     catch (error) {
@@ -292,11 +292,10 @@ export async function createForniture(idRoom, name, description, image, state){
         nombre: name,
         descripcion: description
     };
-    const data = {
-        image: image
-    };
+    const formData = new FormData();
+    formData.append('image', image);
     try{
-        const response = await api.post(`/forniture/`, data, {
+        const response = await api.post(`/furniture/`, formData, {
             params: params
         });
         return response.data;

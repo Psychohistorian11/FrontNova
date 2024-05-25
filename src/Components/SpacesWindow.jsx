@@ -33,8 +33,10 @@ const SpacesWindow = ({
 
   const handleAddImage = () => fileInputRef.current.click();
   const handleFileChange = async (event) => {
-    setFile(event.target.files[0]);
-    setImage(URL.createObjectURL(file));
+    const inputFile = event.target.files[0]
+    setFile(inputFile);
+    
+    setImage(URL.createObjectURL(inputFile));
   };
 
   
@@ -43,7 +45,7 @@ const SpacesWindow = ({
   };
 
   const handleSaveAndClose = () => {
-    if (selectedSpace.name === ''){
+    if (selectedSpace.nombre === ''){
       postSpace({
         name: spaceName, 
         description: observation, 
@@ -102,6 +104,7 @@ const SpacesWindow = ({
                   <span className="text-firstColor">Añadir Fotografía</span>
                   {!!image && 
                       <img
+                      // ! Esto está mal, las imagenes q recien se suben no se ven
                         src={`${imageUrlApi}/${image}`}
                         alt="Imagen seleccionada"
                         style={{ maxWidth: '25%', marginTop: '10px' }}

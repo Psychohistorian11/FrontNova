@@ -4,7 +4,7 @@ import ComponentsWindow from "../../Components/ComponentsWindow";
 import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import { BedDouble, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
-import { getRoomFornitures } from "../../api/queries";
+import { createForniture, getRoomFornitures, updateForniture } from "../../api/queries";
 import Loading from "../../Components/Loading";
 import { useOutletContext, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -38,9 +38,10 @@ export const Components = () => {
   //   }
   // }, [idSpace, inventory])
 
-  const { data: components, isLoading } = useQuery({
+  const { data: components, isLoading, fetchStatus } = useQuery({
     queryKey: ['getFornitures'],
     queryFn: () => getRoomFornitures(idSpace),
+    enabled: !!inventory.property.idPropiedad, // ! Probar
     onSucces: (data) => console.log(data),
     onError: (error) => {
       console.error("Ocurrió un error al obtener las habitaciones:", error);
@@ -50,13 +51,13 @@ export const Components = () => {
 
   const { mutate: postForniture, isPending: isPendingPost } = useMutation({
     mutationKey: ['postForniture'],
-    mutationFn: ({name, description, state, image}) => createRoom(idSpace, name, description, image, state),
+    mutationFn: ({name, description, state, image}) => createForniture(idSpace, name, description, image, state),
     onSucces: (data) => handleSucces(data)
   });
 
   const { mutate: putForniture, isPending: isPendingPut } = useMutation({
     mutationKey: ['putForniture'],
-    mutationFn: ({idForniture, name, description, state, image}) => updateRoom(idForniture, name, description, image, state),
+    mutationFn: ({idForniture, name, description, state, image}) => updateForniture(idForniture, name, description, image, state),
     onSucces: (data) => handleSucces(data)
   });
 
@@ -68,11 +69,26 @@ export const Components = () => {
 
   const isPending = isPendingDelete || isPendingPost || isPendingPut
 
+  function handleSuccesDelete(data){
+    setInventory(inventory => ({
+      ...inventory,
+      spaces: inventory.spaces.map(space => space.idHabitacion != data.idHabitacion)
+    }))
+  }
+
+  function handleSucces(data){
+    setInventory(inventory => ({
+      ...inventory,
+      spaces: inventory.spaces.filter(space => space.idHabitacion === data.idHabitacion)
+    }))
+  }
+
   const handleAddComponent = () => {
     setSelectedComponent({
       nombre: '',
       imagen: '',
-      descripcion: ''
+      descripcion: '',
+      estado: ''
     });
     setShowModal(true);
   };
@@ -89,6 +105,10 @@ export const Components = () => {
   if (isLoading){
     return <Loading />
   }
+
+  // if (fetchStatus === "idle"){
+  //   return <p>Not fetching...</p>
+  // }
 
   return (
     <>
@@ -115,7 +135,7 @@ export const Components = () => {
 
         {/* Mostrar muebles */}
         <div className='px-40'>
-          {components.map((component, index) => (
+          {components?.map((component, index) => (
             <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
               <button 
                 onClick={() => handleSearchFeatures(component)}
