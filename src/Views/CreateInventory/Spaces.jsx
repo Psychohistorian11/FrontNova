@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import SpacesWindow from "../../Components/SpacesWindow";
-import { BrickWall, Info, Trash } from "lucide-react";
+import { BrickWall, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { createRoom, deleteRoom, getPropertyRooms, updateRoom } from "../../api/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../Components/Loading";
-import { useQueryClient } from "@tanstack/react-query";
 import { LoadingTask } from "../../Components/LoadingTask";
 
 
@@ -18,9 +17,7 @@ export const Spaces = () => {
 
   const [ selectedSpace, setSelectedSpace] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
-  const [ isNew, setIsNew ] = useState(false);
 
-  const location = useLocation();
   const page = "Inventario";
   const firstNameInfo = "Correo del propietario";
   const SecondNameInfo = "Dirección de la vivienda";
@@ -42,7 +39,7 @@ export const Spaces = () => {
 
   const { mutate: postSpace, isPending: isPendingPost } = useMutation({
     mutationKey: ['postSpace'],
-    mutationFn: ({name, description, image}) => createRoom(inventory.property.idPropiedad, name, description, image),
+    mutationFn: ({name, description, image}) => createRoom(idSpace, name, description, image),
     onSucces: (data) => handleSucces(data)
   });
 
@@ -75,6 +72,7 @@ export const Spaces = () => {
   }
 
   useEffect(() => {
+    console.log(spaces)
     if (spaces){
       setInventory(inventory => ({
         ...inventory,
@@ -89,7 +87,6 @@ export const Spaces = () => {
   // };
 
   const handleSearchFeatures = (space) => {
-    setIsNew(false);
     setSelectedSpace(space);
     setShowModal(true);
   };
@@ -106,7 +103,6 @@ export const Spaces = () => {
       imagen: '',
       descripcion: ''
     });
-    setIsNew(true);
     setShowModal(true);
   }
 
@@ -117,10 +113,10 @@ export const Spaces = () => {
 
   return (
     <>
-      <div className="">
-        <nav className="mb-4">
+      <>
+        <nav className="mb-1">
           <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; 
-          <span className="text-">Espacios</span>
+          <span className="">Espacios</span>
         </nav>
         <nav>
       <div className="flex items-center justify-between">  
@@ -137,20 +133,27 @@ export const Spaces = () => {
         </div>
       </div>
     </nav>
-        <h2 className='border-b border-black pb-3 mb-10'> Gestiona y crea espacios para la vivienda</h2>
-        <div className='px-40'>
+        <h2 className='border-b border-black pb-3 mb-10'> Gestiona los inventarios de cada espacio de la vivienda</h2>
+        <div className='px-40 flex flex-col mb-20'>
+
           {/* Mostrar todos los espacios */}
-        {spaces?.map((space, index) => (
-                  <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
+          {spaces?.map((space, index) => (
+                  <div key={index} className='flex items-center text-xl pl-4 border-b border-gray-400 p-2 my-4 justify-between'>
                     <div className="flex items-center">
                       <button
                         onClick={() => handleSearchFeatures(space)}
                         className="flex items-center"
                       >
-                        {space.nombre}
+                      <PencilSquareIcon className="size-5 mr-4"/>
                       </button>
+                        {space.nombre}
                     </div>
-                    <div>
+                    <div className="flex items-center space-x-8">
+                      {/* Ver muebles */}
+                      <Link to={`${space.idHabitacion}`} className="py-1 px-3 rounded-full text-sm border text-firstColor border-firstColor hover:bg-firstColor hover:text-white">
+                        Ver muebles
+                      </Link>
+                      {/* Eliminar */}
                       <button onClick={() => mutateDeleteSpace(space.idHabitacion)}>
                         <Trash />
                       </button>
@@ -159,20 +162,23 @@ export const Spaces = () => {
                 ))}
 
           {/* Agregar espacio */}
-          <button onClick={handleNewSpace} style={{ display: 'flex', alignItems: 'center' }}>
-            <PlusIcon className="size-10 mr-3 text-firstColor"/>
+          <div onClick={handleNewSpace} className="flex items-center ml-2 mt-3 cursor-pointer">
+            <PlusIcon className="size-8 mr-3 text-firstColor"/>
             <span className="mr-3 text-gray-500">Agregar espacio</span>
-          </button>
-
+          </div>
+          
+          <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
+            <Sign/>
+          </div>
         </div>
-        <Sign/>
-      </div>
+
+        
+      </>
 
       { showModal && 
         <SpacesWindow
           selectedSpace={selectedSpace}
           postSpace={postSpace}
-          isNew={isNew}
           putSpace={putSpace}
           setShowModal={setShowModal}
         />

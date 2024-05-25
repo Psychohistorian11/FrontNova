@@ -3,20 +3,22 @@ import React, { useRef, useState } from 'react';
 
 
 const ComponentsWindow = ({
-  components,
-  setComponents,
   selectedComponent,
-  setSelectedComponent,
-  showModal,
+  postForniture,
+  putForniture,
   setShowModal
 }) => {
   const fileInputRef = useRef(null);
   const [selectedQuality, setSelectedQuality] = useState(null);
 
+  const [name, setName] = useState('');
+  const [state, setState] = useState('')
+  const [observation, setObservation] = useState('');
+  const [image, setImage] = useState(undefined);
+  const [file, setFile ] = useState(undefined);
+
   const handleObservations = (componentIndex) => {
-    const updatedComponents = [...components];
-    updatedComponents[componentIndex].observation = !updatedComponents[componentIndex].observation;
-    setComponents(updatedComponents);
+
   };
 
 
@@ -33,9 +35,6 @@ const ComponentsWindow = ({
   };
 
   const handleAddQuality = (index) => {
-    const updatedComponents = [...components];
-    updatedComponents[index].showQuality = !updatedComponents[index].showQuality;
-    setComponents(updatedComponents);
   };
 
   const handleSelectQuality = (label) => {
@@ -61,7 +60,9 @@ const ComponentsWindow = ({
     }
   };
 
-  const handleSaveAndClose = () => handleCloseWindow();
+  const handleSaveAndClose = () => {
+    handleCloseWindow();
+  }
 
   const handleCloseWindow = () => {
     setShowModal(false);
@@ -70,7 +71,6 @@ const ComponentsWindow = ({
 
   return (
     <>
-      {showModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex justify-center items-center">
           <div className="relative">
             <div className="bg-white p-8 rounded-lg" style={{ width: "800px", maxHeight: "90vh", overflowY: 'auto' }}>
@@ -78,28 +78,17 @@ const ComponentsWindow = ({
               <ul>
                 <li className="mb-2">
                   <div>
-                    <button 
-                      onClick={() => handleObservations(components.findIndex(comp => comp.name === selectedComponent))}
-                      className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                    >
-                      <span className="mr-2">{components.find(comp => comp.name === selectedComponent).observation ? "-" : "+"}</span>
-                      <span>Observaciones</span>
-                    </button>
+                    <span className="mr-2">{components.find(comp => comp.name === selectedComponent).observation ? "-" : "+"}</span>
+                    <span>Observaciones</span>
                   </div>
                   <div className="px-16">
-                    {components.find(comp => comp.name === selectedComponent).observation && (
                       <input
                         type="text"
                         onChange={(e) => {
-                          const updatedComponents = [...components];
-                          const index = components.findIndex(comp => comp.name === selectedComponent);
-                          updatedComponents[index].observation = e.target.value;
-                          setComponents(updatedComponents);
-                        }}
+                          setObservation(e.target.value);}}
                         className="mt-2 text-sm w-full p-2 border border-black"
                         placeholder="Escribe tus observaciones aquí"
                       />
-                    )}
                   </div>
                 </li>
                 <li className="flex justify-start items-center mb-2">
@@ -172,7 +161,6 @@ const ComponentsWindow = ({
               </button>
           </div>
         </div>
-      )}
     </>
   );
 };

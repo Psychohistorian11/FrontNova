@@ -285,7 +285,7 @@ export async function getRoomFornitures(forniture_id){
 }
 
 // Crear mueble
-export async function createForniture(idRoom, name, description, image, state="0"){
+export async function createForniture(idRoom, name, description, image, state){
     const params = { 
         Habitacion_idHabitacion: idRoom,
         estado: state,
