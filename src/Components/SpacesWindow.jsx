@@ -22,7 +22,7 @@ const SpacesWindow = ({
   useEffect(() => {
     if (!!selectedSpace){
       setSpaceName(selectedSpace.nombre);
-      setImage(selectedSpace.image);
+      setImage(selectedSpace.imagen === '' ? null : `${imageUrlApi}/${selectedSpace.imagen}`);
       setObservation(selectedSpace.descripcion);
     }
   }, [selectedSpace]);
@@ -74,38 +74,32 @@ const SpacesWindow = ({
                 placeholder='Nombre'/>
 
               </li>
+
               <li className="mb-2 ">
                   <label className='text-xl'>Observaciones</label>
-                  <input
-                    className="mt-2 h-36 text-sm w-full pl-4 border border-gray-400 rounded align-top items-start"
+                  <textarea 
+                    className="mt-2 max-h-32 text-base resize-none w-full pl-4 border border-gray-400 rounded"
                     value={observation}
                     type="text"
                     onChange={(e) => handleObservations(e.target.value)}
                     placeholder="Escribe tus observaciones aquí"
-                  />
+                  ></textarea>
               </li>
-              {/* { !isNew &&
-                <li className="flex justify-start items-center mb-2">
-                  <button
-                    onClick={handleAddComponents}
-                    className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                  >
-                    <span className="mr-2"> + </span>
-                    <span>Añadir Componentes</span>
-                  </button>
-                </li>
-              } */}
+
               <li className="flex justify-start items-center mb-2">
                 <button
                   onClick={handleAddImage}
-                  className="flex items-center mt-6 w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed h-10"
+                  className="mt-6 w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed"
                 >
-                  <span className="text-firstColor mr-2">+</span>
-                  <span className="text-firstColor">Añadir Fotografía</span>
+                  <div className="flex items-center">
+                    <span className="text-firstColor mr-2">+</span>
+                    <span className="text-firstColor">
+                      {image === '' ? 'Añadir Fotografía': 'Cambiar fotografía'}
+                    </span>
+                  </div>
                   {!!image && 
                       <img
-                      // ! Esto está mal, las imagenes q recien se suben no se ven
-                        src={`${imageUrlApi}/${image}`}
+                        src={image}
                         alt="Imagen seleccionada"
                         style={{ maxWidth: '25%', marginTop: '10px' }}
                       />
