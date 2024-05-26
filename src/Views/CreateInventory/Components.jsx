@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ComponentsWindow from "../../Components/ComponentsWindow";
-import dropdown_newSpace from '../../Assets/dropdown_newSpace.png';
 import { BedDouble, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { createForniture, getRoomFornitures, updateForniture } from "../../api/queries";
@@ -10,6 +9,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { LoadingTask } from "../../Components/LoadingTask";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 export const Components = () => {
   const [ inventory, setInventory ] = useOutletContext();
@@ -147,27 +147,24 @@ export const Components = () => {
     setShowModal(true);
   };
   
-  const handleDeleteComponent = (index) => {
-    // setComponents(updatedComponents);
+  const handleDeleteComponent = (idForniture) => {
+    // ! Alarma de está seguro?
+    mutateDeleteForniture(idForniture)
   };
 
-  if (space === undefined) {
-    return null; // O muestra un mensaje de carga mientras redirecciona
-  }
-
-  if (isLoading){
+  if (isLoading || space === undefined){
     return <Loading />
   }
-
-  // if (fetchStatus === "idle"){
-    //   return <p>Not fetching...</p>
-    // }
     
     return (
       <>
       <div className="">
         <nav className="mb-1">
-          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <Link to="/h/spaces">{space.nombre}</Link> &gt; <span>Muebles</span>
+          <Link to="/h/inventory">Inmuebles</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}`} >Gestionar inmueble</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}/spaces`}>{space.nombre}</Link> &gt; 
+          <span>Muebles</span>
+
         </nav>
         <div className="flex items-center justify-between">
 
@@ -190,13 +187,17 @@ export const Components = () => {
         {/* Mostrar muebles */}
         <div className='px-40'>
           {components?.map((component, index) => (
-            <div key={index} className='text-xl border-b border-black mb-6 flex items-center justify-between'>
-              <button 
-                onClick={() => handleSearchFeatures(component)}
-                className="flex items-center"
-              >
+            <div key={index} className='text-xl border-b border-gray-400 my-4 p-2 flex items-center justify-between'>
+              <div className="flex items-cente">
+                <button
+                  onClick={() => handleSearchFeatures(component)}
+                  className="flex items-center"
+                >
+                <PencilSquareIcon className="size-5 mr-4"/>
+                </button>
                 {component.nombre}
-              </button>
+
+              </div>
               <button onClick={() => handleDeleteComponent(component.idMueble)}>
                 <Trash />
               </button>

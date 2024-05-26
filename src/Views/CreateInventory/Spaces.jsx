@@ -83,6 +83,7 @@ export const Spaces = () => {
     setSelectedSpace(space);
     setShowModal(true);
   };
+
   const handleNewSpace = () => {
     setSelectedSpace({
       nombre: '',
@@ -92,11 +93,17 @@ export const Spaces = () => {
     setShowModal(true);
   }
 
+  const handleDelete = (idSpace) => {
+    // ! Alarma de confirmación
+    mutateDeleteSpace(idSpace)
+  }
+
   return (
     <>
       <>
         <nav className="mb-1">
-          <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; 
+          <Link to="/h/inventory">Inmuebles</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}`}>Gestionar inmubele</Link> &gt; 
           <span className="">Espacios</span>
         </nav>
         <nav>
@@ -135,7 +142,7 @@ export const Spaces = () => {
                         Ver muebles
                       </Link>
                       {/* Eliminar */}
-                      <button onClick={() => mutateDeleteSpace(space.idHabitacion)}>
+                      <button onClick={() => handleDelete(space.idHabitacion)}>
                         <Trash />
                       </button>
                     </div>
