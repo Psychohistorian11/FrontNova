@@ -13,7 +13,6 @@ export default function Landing() {
     useEffect(() => {
         async function fetchProperties() {
             const fetchedProperties = await getAgentProperties(id);
-            console.log(fetchedProperties)
             const formattedProperties = fetchedProperties.map(property => ({
                 id: property.idPropiedad,
                 owner: `Propietario ${property.Propietario_idPropietario}`, // Puedes cambiar esto según el formato adecuado para 'owner'

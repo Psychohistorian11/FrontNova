@@ -16,71 +16,119 @@ export const Components = () => {
   const { idSpace } = useParams();
   const navigate = useNavigate();
 
-  // const components = 
-
-  const page = "Espacio";
-  const firstNameInfo = "Observaciones del mueble";
-
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [space, setSpace] = useState({})
 
+  const space = inventory.spaces.find(space => space.idHabitacion == idSpace)
+  
+  useEffect(() => {
+    // Redireccionar si el espacio no se encuentra
+    if (space === undefined && inventory.property.idPropiedad) {
+      navigate('/notfound');
+    }
+  }, [inventory]);
+
+  
+  const components = space?.fornitures ? space.fornitures : []
+  
+  const firstNameInfo = "Observaciones del mueble";
+  
+  
   // const [components, setComponents] = useState([
-  //   { name: 'Cama', image: null, observation: false, showQuality: false },
-  //   { name: 'Estantería', image: null, observation: false, showQuality: false },
-  //   { name: 'Libros', image: null, observation: false, showQuality: false }
-  // ]);
+    //   { name: 'Cama', image: null, observation: false, showQuality: false },
+    //   { name: 'Estantería', image: null, observation: false, showQuality: false },
+    //   { name: 'Libros', image: null, observation: false, showQuality: false }
+    // ]);
 
-  // Traerse la info del espacio, si no existe es 404
-  // useEffect(() => {
-  //   if (inventory.spaces.length > 0){
-  //     setSpace(inventory.spaces.find(space => space.idHabitacion == idSpace))
-  //   } else if (!!inventory.property.idPropiedad){
-  //     navigate('notfound')
-  //   }
-  // }, [idSpace, inventory])
-
-  const { data: components, isLoading } = useQuery({
+  const { data: componentsQuery, isLoading } = useQuery({
     queryKey: ['getFornitures'],
     queryFn: () => getRoomFornitures(idSpace),
-    onSucces: (data) => console.log(data),
-    onError: (error) => {
-      console.error("Ocurrió un error al obtener las habitaciones:", error);
-      navigate('notfound')
-    }
+    enabled: !!space
   })
+  
+  useEffect(
+    () => setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.map(space => {
+        if (space.idHabitacion == idSpace){
+                return {
+                  ...space,
+                  fornitures: componentsQuery
+                }
+              }
+              return space
+            })
 
+    })), [componentsQuery])
+    
   const { mutate: postForniture, isPending: isPendingPost } = useMutation({
-    mutationKey: ['postForniture'],
-    mutationFn: ({name, description, state, image}) => createForniture(idSpace, name, description, image, state),
-    onSucces: (data) => handleSucces(data)
-  });
+      mutationKey: ['postForniture'],
+      mutationFn: ({name, description, state, image}) => createForniture(idSpace, name, description, image, state),
+      onSuccess: (data) => handleSuccessPost(data)
+    });
 
   const { mutate: putForniture, isPending: isPendingPut } = useMutation({
     mutationKey: ['putForniture'],
     mutationFn: ({idForniture, name, description, state, image}) => updateForniture(idForniture, name, description, image, state),
-    onSucces: (data) => handleSucces(data)
+    onSuccess: (data) => handleSuccessPut(data)
   });
-
+  
   const { mutate: mutateDeleteForniture, isPending: isPendingDelete } = useMutation({
     mutationKey: ['deleteForniture'],
     mutationFn: (idSpace) => deleteRoom(idSpace),
-    onSucces: (data) => handleSuccesDelete(data)
+    onSuccess: (data) => handleSuccessDelete(data)
   });
-
+  
   const isPending = isPendingDelete || isPendingPost || isPendingPut
 
-  function handleSuccesDelete(data){
-    setInventory(inventory => ({
-      ...inventory,
-      spaces: inventory.spaces.map(space => space.idHabitacion != data.idHabitacion)
+  function handleSuccessDelete(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.map(space => {
+        if (space.idHabitacion == idSpace){
+                return {
+                  ...space,
+                  fornitures: space.fornitures.filter(forniture => forniture.idMueble != data.idMueble)
+                }
+              }
+              return space
+            })
     }))
   }
 
-  function handleSucces(data){
-    setInventory(inventory => ({
-      ...inventory,
-      spaces: inventory.spaces.filter(space => space.idHabitacion === data.idHabitacion)
+  function handleSuccessPost(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.map(space => {
+        if (space.idHabitacion == idSpace){
+                return {
+                  ...space,
+                  fornitures: [...space.fornitures, data]
+                }
+              }
+              return space
+            })
+    }))
+  }
+
+  function handleSuccessPut(data){
+    setInventory(prevInventory => ({
+      ...prevInventory,
+      spaces: prevInventory.spaces.map(space => {
+        if (space.idHabitacion == idSpace){
+                return {
+                  ...space,
+                  fornitures: space.fornitures.map(forniture => {
+                    if (forniture.idMueble != data.idMueble){
+                      return data
+                    } else {
+                      return forniture
+                    }
+                  })
+                }
+              }
+              return space
+            })
     }))
   }
 
@@ -98,29 +146,34 @@ export const Components = () => {
     setSelectedComponent(component);
     setShowModal(true);
   };
-
+  
   const handleDeleteComponent = (index) => {
     // setComponents(updatedComponents);
   };
+
+  if (space === undefined) {
+    return null; // O muestra un mensaje de carga mientras redirecciona
+  }
 
   if (isLoading){
     return <Loading />
   }
 
   // if (fetchStatus === "idle"){
-  //   return <p>Not fetching...</p>
-  // }
-
-  return (
-    <>
+    //   return <p>Not fetching...</p>
+    // }
+    
+    return (
+      <>
       <div className="">
-        <nav className="mb-4">
+        <nav className="mb-1">
           <Link to="/h/inventory">Inventarios</Link> &gt; <Link to="/h/createInventory">Crear Inventario</Link> &gt; <Link to="/h/spaces">{space.nombre}</Link> &gt; <span>Muebles</span>
         </nav>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between">
+
           <div>
-          <h2 className="text-2xl font-bold">Muebles <BedDouble className="inline-block" /></h2>
-          <h2 className="font-bold">{space.nombre} </h2>
+            <h2 className="text-2xl font-bold">Muebles <BedDouble className="inline-block" /></h2>
+            <h2 className="font-bold">{space.nombre} </h2>
           </div>
 
           <div>
@@ -132,7 +185,7 @@ export const Components = () => {
             />
           </div>
         </div>
-        <h2 className='border-b border-black mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>
+        <h2 className='border-b border-gray-400 pb-3 mb-10'> Añade componentes a cada espacio y gestiona efectivamente cada integración</h2>
 
         {/* Mostrar muebles */}
         <div className='px-40'>

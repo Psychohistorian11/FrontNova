@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState  } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import SpacesWindow from "../../Components/SpacesWindow";
 import { BrickWall, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
-import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
 import { PlusIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { createRoom, deleteRoom, getPropertyRooms, updateRoom } from "../../api/queries";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { createRoom, deleteRoom, updateRoom } from "../../api/queries";
+import { useMutation } from "@tanstack/react-query";
 import Loading from "../../Components/Loading";
 import { LoadingTask } from "../../Components/LoadingTask";
 
@@ -32,20 +31,6 @@ export const Spaces = () => {
   //   { name: 'Dormitorio', image: null, observation: false }
   // ]);
 
-  const { data: spacesData, isLoading } = useQuery({
-    queryKey: ['getRooms'],
-    queryFn: () => getPropertyRooms(id),
-    // enabled: !!inventory.property.idPropiedad
-  })  
-
-  useEffect(
-    () => setInventory(preInventory => ({
-            ...preInventory,
-            spaces: spacesData
-    })), [spacesData])
-
-  useEffect(() => console.log(inventory), [inventory])
-
   const { mutate: postSpace, isPending: isPendingPost } = useMutation({
     mutationKey: ['postSpace'],
     mutationFn: ({name, description, image}) => createRoom(id, name, description, image),
@@ -67,6 +52,7 @@ export const Spaces = () => {
   const isPending = isPendingPost || isPendingPut || isPendingDelete
 
   function handleSuccessDelete(data){
+    console.log(data)
     setInventory(prevInventory => ({
       ...prevInventory,
       spaces: prevInventory.spaces.filter(space => space.idHabitacion != data.idHabitacion)
@@ -74,6 +60,7 @@ export const Spaces = () => {
   }
 
   function handleSuccessPost(data){
+    console.log(data)
     setInventory(prevInventory => ({
       ...prevInventory,
       spaces: [...prevInventory.spaces, data]
@@ -92,15 +79,6 @@ export const Spaces = () => {
     }))
   }
 
-  // useEffect(() => {
-  //   if (spaces){
-  //     setInventory(inventory => ({
-  //       ...inventory,
-  //       spaces: spaces
-  //     }))
-  //   }
-  // }, [spaces])
-
   const handleSearchFeatures = (space) => {
     setSelectedSpace(space);
     setShowModal(true);
@@ -112,11 +90,6 @@ export const Spaces = () => {
       descripcion: ''
     });
     setShowModal(true);
-  }
-
-
-  if (isLoading){
-    return <Loading />
   }
 
   return (
@@ -141,7 +114,7 @@ export const Spaces = () => {
         </div>
       </div>
     </nav>
-        <h2 className='border-b border-black pb-3 mb-10'> Gestiona los inventarios de cada espacio de la vivienda</h2>
+        <h2 className='border-b border-gray-400 pb-3 mb-10'> Gestiona los inventarios de cada espacio de la vivienda</h2>
         <div className='px-40 flex flex-col mb-20'>
 
           {/* Mostrar todos los espacios */}
