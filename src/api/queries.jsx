@@ -370,7 +370,7 @@ export async function updateFornitureImage(idRoom, image){
 
 // Elimiar habitación
 export async function deleteRoom(idRoom){
-    try{
+    try {
         const response = await api.delete(`/room/${idRoom}`);
         return response.data;
     }

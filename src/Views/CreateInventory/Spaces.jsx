@@ -6,7 +6,7 @@ import InfoWindow from "../../Components/InfoWindow";
 import { useLocation } from "react-router-dom";
 import { Sign } from "../../Components/Sign";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { createRoom, getPropertyRooms, updateRoom } from "../../api/queries";
+import { createRoom, deleteRoom, getPropertyRooms, updateRoom } from "../../api/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../Components/Loading";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,7 +15,6 @@ import { LoadingTask } from "../../Components/LoadingTask";
 
 export const Spaces = () => {
   const [ inventory, setInventory ] = useOutletContext();
-  const queryClient = useQueryClient();
 
   const [ selectedSpace, setSelectedSpace] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
@@ -44,16 +43,36 @@ export const Spaces = () => {
   const { mutate: postSpace, isPending: isPendingPost } = useMutation({
     mutationKey: ['postSpace'],
     mutationFn: ({name, description, image}) => createRoom(inventory.property.idPropiedad, name, description, image),
-    onSuccess: () => queryClient.invalidateQueries('getRooms')
+    onSucces: (data) => handleSucces(data)
   });
 
   const { mutate: putSpace, isPending: isPendingPut } = useMutation({
     mutationKey: ['putSpace'],
     mutationFn: ({idSpace, name, description, image}) => updateRoom(idSpace, name, description, image),
-    onSuccess: () => queryClient.invalidateQueries('getRooms')
+    onSucces: (data) => handleSucces(data)
   });
 
-  const isPending = isPendingPost || isPendingPut
+  const { mutate: mutateDeleteSpace, isPending: isPendingDelete } = useMutation({
+    mutationKey: ['deleteSpace'],
+    mutationFn: (idSpace) => deleteRoom(idSpace),
+    onSucces: (data) => handleSuccesDelete(data)
+  });
+
+  const isPending = isPendingPost || isPendingPut || isPendingDelete
+
+  function handleSuccesDelete(data){
+    setInventory(inventory => ({
+      ...inventory,
+      spaces: inventory.spaces.map(space => space.idHabitacion != data.idHabitacion)
+    }))
+  }
+
+  function handleSucces(data){
+    setInventory(inventory => ({
+      ...inventory,
+      spaces: inventory.spaces.filter(space => space.idHabitacion === data.idHabitacion)
+    }))
+  }
 
   useEffect(() => {
     if (spaces){
@@ -132,7 +151,7 @@ export const Spaces = () => {
                       </button>
                     </div>
                     <div>
-                      <button onClick={() => handleDeleteSpace(index)}>
+                      <button onClick={() => mutateDeleteSpace(space.idHabitacion)}>
                         <Trash />
                       </button>
                     </div>
