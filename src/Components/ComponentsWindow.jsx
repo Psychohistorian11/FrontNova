@@ -3,133 +3,135 @@ import React, { useRef, useState } from 'react';
 
 
 const ComponentsWindow = ({
-  components,
-  setComponents,
   selectedComponent,
-  setSelectedComponent,
-  showModal,
+  postForniture,
+  putForniture,
   setShowModal
 }) => {
   const fileInputRef = useRef(null);
-  const [selectedQuality, setSelectedQuality] = useState(null);
+  const [ file, setFile ] = useState(null);
+  const [image, setImage] = useState(selectedComponent.imagen === '' ? null : `${imageUrlApi}/${selectedComponent.imagen}`)
 
-  const handleObservations = (componentIndex) => {
-    const updatedComponents = [...components];
-    updatedComponents[componentIndex].observation = !updatedComponents[componentIndex].observation;
-    setComponents(updatedComponents);
+  const [ form, setForm ] = useState({
+    name: selectedComponent.nombre,
+    observation: selectedComponent.descripcion,
+    state: selectedComponent.estado
+  })
+
+  function handleChange(e){
+    const { name, value } = e.target
+
+    setForm(prevForm => {
+      return {
+        ...prevForm,
+        [name]: value
+      }
+    })
+  }
+
+
+  // Manejo de imagen
+  const handleAddImage = () => fileInputRef.current.click();
+  const handleFileChange = async (event) => {
+    const inputFile = event.target.files[0]
+    setFile(inputFile);
+    
+    setImage(URL.createObjectURL(inputFile));
   };
 
-
-  const handleAddPhoto = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const updatedComponents = [...components];
-    const index = components.findIndex(comp => comp.name === selectedComponent);
-    updatedComponents[index].image = file;
-    setComponents(updatedComponents);
-  };
-
-  const handleAddQuality = (index) => {
-    const updatedComponents = [...components];
-    updatedComponents[index].showQuality = !updatedComponents[index].showQuality;
-    setComponents(updatedComponents);
-  };
-
-  const handleSelectQuality = (label) => {
-    console.log(`Calidad seleccionada: ${label}`);
-    setSelectedQuality(label);
-  };
-
-  const getMarkerClasses = (label) => {
-    let baseClasses = 'w-10 h-10 rounded-full border-2 bg-white hover:bg-opacity-100 transition-colors';
-    switch (label) {
-      case 'Pésimo':
-        return `${baseClasses} ${selectedQuality === 'Pésimo' ? 'border-red-500 hover:bg-red-500' : 'border-red-500'}`;
-      case 'Malo':
-        return `${baseClasses} ${selectedQuality === 'Malo' ? 'border-orange-500 hover:bg-orange-500' : 'border-orange-500'}`;
-      case 'Regular':
-        return `${baseClasses} ${selectedQuality === 'Regular' ? 'border-yellow-500 hover:bg-yellow-500' : 'border-yellow-500'}`;
-      case 'Bueno':
-        return `${baseClasses} ${selectedQuality === 'Bueno' ? 'border-green-500 hover:bg-green-500' : 'border-green-500'}`;
-      case 'Excelente':
-        return `${baseClasses} ${selectedQuality === 'Excelente' ? 'border-firstColor hover:bg-firstColor' : 'border-firstColor'}`;
-      default:
-        return `${baseClasses} border-gray-300 hover:bg-gray-300`;
+  const handleSaveAndClose = () => {
+    if (selectedComponent.nombre === ''){
+      postForniture({
+        name: form.name, 
+        description: form.observation,
+        state: form.state,
+        image: file})
+    } else {
+      putForniture({
+        idForniture: selectedComponent.idMueble, 
+        name: form.name, 
+        description: form.observation,
+        state: form.state,
+        image: file})
     }
-  };
-
-  const handleSaveAndClose = () => handleCloseWindow();
+    setShowModal(false); 
+  }
 
   const handleCloseWindow = () => {
     setShowModal(false);
-    setSelectedComponent(null);
   };
 
   return (
     <>
-      {showModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex justify-center items-center">
           <div className="relative">
             <div className="bg-white p-8 rounded-lg" style={{ width: "800px", maxHeight: "90vh", overflowY: 'auto' }}>
-              <h2 className="text-2xl mb-4 font-bold">{selectedComponent}</h2>
               <ul>
-                <li className="mb-2">
-                  <div>
-                    <button 
-                      onClick={() => handleObservations(components.findIndex(comp => comp.name === selectedComponent))}
-                      className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                    >
-                      <span className="mr-2">{components.find(comp => comp.name === selectedComponent).observation ? "-" : "+"}</span>
-                      <span>Observaciones</span>
-                    </button>
-                  </div>
-                  <div className="px-16">
-                    {components.find(comp => comp.name === selectedComponent).observation && (
+                <li className='w-full space-x-5 mb-5'>
+                  <label className='font-semibold text-2xl'>Nombre</label>
+                  <input className="text-xl mb-4 pl-4 w-3/4 font-medium border border-gray-400 rounded" 
+                  value={form.name} 
+                  onChange={handleChange}
+                  placeholder='Nombre'
+                  name="name"/>
+                </li>
+                <li className="flex items-center mt-2 mb-6 space-x-5 ">
+                  <label className='text-xl mr-10'>Estado</label>
+                  {/* Aquí van los radio buttons */}
+                  <div className="mt-2 flex items-center justify-center space-x-12">
+                    <div className='flex flex-col items-center space-y-2'>
                       <input
-                        type="text"
-                        onChange={(e) => {
-                          const updatedComponents = [...components];
-                          const index = components.findIndex(comp => comp.name === selectedComponent);
-                          updatedComponents[index].observation = e.target.value;
-                          setComponents(updatedComponents);
-                        }}
-                        className="mt-2 text-sm w-full p-2 border border-black"
-                        placeholder="Escribe tus observaciones aquí"
+                        type="radio"
+                        name="state"
+                        value="malo"
+                        checked={form.state === "malo"}
+                        onChange={handleChange}
+                        className= 'form-radio w-10 appearance-none h-10 rounded-full border-2 checked:bg-red-600 border-red-600 text-red-600 hover:bg-red-600 hover:bg-opacity-100 transition-colors'
                       />
-                    )}
+                      <label className="text-xs">Malo</label>
+                    </div>
+
+                    <div className='flex flex-col items-center space-y-2'>
+                      <input
+                        type="radio"
+                        name="state"
+                        value="regular"
+                        checked={form.state === "regular"}
+                        onChange={handleChange}
+                        className= 'w-10 appearance-none h-10 rounded-full border-2 checked:bg-yellow-500 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:bg-opacity-100 transition-colors'
+                      />
+                      <label className="text-xs">Regular</label>
+                    </div>
+
+                    <div className='flex flex-col items-center space-y-2'>
+                      <input
+                        type="radio"
+                        name="state"
+                        value="bueno"
+                        checked={form.state === "bueno"}
+                        onChange={handleChange}
+                        className= 'w-10 appearance-none h-10 rounded-full border-2 checked:bg-green-600 border-green-600 text-green-600 hover:bg-green-600 hover:bg-opacity-100 transition-colors'
+                      />
+                      <label className="text-xs">Bueno</label>
+                    </div>
                   </div>
                 </li>
-                <li className="flex justify-start items-center mb-2">
+                <li className="mb-2 ">
+                  <label className='text-xl'>Observaciones</label>
+                  <input
+                    className="mt-2 h-36 text-sm w-full pl-4 border border-gray-400 rounded align-top items-start"
+                    value={form.observation}
+                    type="text"
+                    onChange={handleChange}
+                    name="observation"
+                    placeholder="Escribe tus observaciones aquí"
+                  />
+              </li>
+
+                <li className="flex justify-start items-center mb-2 mt-6">
                   <button 
-                    onClick={() => handleAddQuality(components.findIndex(comp => comp.name === selectedComponent))}
-                    className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                  >
-                    <span className="mr-2">+</span>
-                    <span>Calidad del inmueble</span>
-                  </button>
-                </li>
-                <div className="px-16 mb-2">
-                  {components.find(comp => comp.name === selectedComponent).showQuality && (
-                    <div className="mt-2 flex items-center space-x-4">
-                      {['Pésimo', 'Malo', 'Regular', 'Bueno', 'Excelente'].map((label, index) => (
-                        <div key={index} className="flex flex-col items-center">
-                          <button 
-                            onClick={() => handleSelectQuality(label)}
-                            className={getMarkerClasses(label)}
-                          />
-                          <span className="text-xs">{label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <li className="flex justify-start items-center mb-2">
-                  <button 
-                    onClick={handleAddPhoto}
-                    className="flex items-center px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed w-80 h-10"
+                    onClick={handleAddImage}
+                    className="flex items-center w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed h-10"
                   >
                     <span className="text-firstColor mr-2">+</span>
                     <span className="text-firstColor">Añadir fotografía</span>
@@ -142,16 +144,16 @@ const ComponentsWindow = ({
                     onChange={handleFileChange}
                   />
                 </li>
-                {components.find(comp => comp.name === selectedComponent).image && (
-                  <div>
-                    <p>Fotografía seleccionada</p>
+                <div>
+                  {
+                    form.image != '' &&
                     <img
-                      src={URL.createObjectURL(components.find(comp => comp.name === selectedComponent).image)}
+                      src={image}
                       alt="Imagen seleccionada"
                       style={{ maxWidth: '25%', marginTop: '10px' }}
                     />
-                  </div>
-                )}
+                  }
+                </div>
               </ul>
               <div className="flex justify-end mt-4">
                 <button
@@ -172,7 +174,6 @@ const ComponentsWindow = ({
               </button>
           </div>
         </div>
-      )}
     </>
   );
 };

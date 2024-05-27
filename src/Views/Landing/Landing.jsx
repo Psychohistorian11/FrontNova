@@ -13,7 +13,6 @@ export default function Landing() {
     useEffect(() => {
         async function fetchProperties() {
             const fetchedProperties = await getAgentProperties(id);
-            console.log(fetchedProperties)
             const formattedProperties = fetchedProperties.map(property => ({
                 id: property.idPropiedad,
                 owner: `Propietario ${property.Propietario_idPropietario}`, // Puedes cambiar esto según el formato adecuado para 'owner'
@@ -59,7 +58,7 @@ export default function Landing() {
             <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100 bg-fixed" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}></div>
         
             {/* Gradiente de transparencia */}
-            <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white bg-fixed"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent to-stone-700 bg-fixed"></div>
 
             {/* Contenido del Landing */}
             <div className="relative flex-grow mx-40 m-10 p-10 bg-white rounded-xl border border-gray-300 shadow-lg overflow-hidden">
@@ -68,10 +67,10 @@ export default function Landing() {
                     <p>¿Qué quieres hacer hoy?</p>
                 </div>
                 <div className="flex justify-center space-x-16 my-16 w-full">
-                    <Link to="CreateInventory" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
+                    <Link to="CreateInventory" className="rounded-lg font-medium px-4 py-3 text-white bg-firstColor shadow-lg shadow-firstColor/50">
                         Crear nuevo inventario
                     </Link>
-                    <Link to="owners/create" className="rounded-lg font-medium px-4 py-3 text-white bg-gradient-to-bl from-firstColor from-50% to-neutral-700 shadow-xl">
+                    <Link to="owners/create" className="rounded-lg font-medium px-4 py-3 text-white bg-firstColor shadow-lg shadow-firstColor/50">
                         Agregar propietario
                     </Link>
                 </div>

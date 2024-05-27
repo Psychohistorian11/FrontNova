@@ -7,7 +7,6 @@ import { imageUrlApi } from '../api/axiosConfig';
 const SpacesWindow = ({
   selectedSpace,
   postSpace,
-  isNew,
   putSpace,
   setShowModal
 }) => {
@@ -16,14 +15,14 @@ const SpacesWindow = ({
   const navigate = useNavigate();
 
   const [observation, setObservation] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(undefined);
   const [file, setFile ] = useState(undefined);
   const [spaceName, setSpaceName] = useState('');
 
   useEffect(() => {
     if (!!selectedSpace){
       setSpaceName(selectedSpace.nombre);
-      setImage(`${imageUrlApi}/${selectedSpace.imagen}`);
+      setImage(selectedSpace.imagen === '' ? null : `${imageUrlApi}/${selectedSpace.imagen}`);
       setObservation(selectedSpace.descripcion);
     }
   }, [selectedSpace]);
@@ -32,14 +31,12 @@ const SpacesWindow = ({
     setObservation(observation);
   };
 
-  const handleAddComponents = async () => {
-    navigate(`${selectedSpace.id}`);
-  };
-
   const handleAddImage = () => fileInputRef.current.click();
   const handleFileChange = async (event) => {
-    setFile(event.target.files[0]);
-    setImage(URL.createObjectURL(file));
+    const inputFile = event.target.files[0]
+    setFile(inputFile);
+    
+    setImage(URL.createObjectURL(inputFile));
   };
 
   
@@ -48,7 +45,7 @@ const SpacesWindow = ({
   };
 
   const handleSaveAndClose = () => {
-    if (isNew){
+    if (selectedSpace.nombre === ''){
       postSpace({
         name: spaceName, 
         description: observation, 
@@ -68,44 +65,45 @@ const SpacesWindow = ({
       <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex justify-center items-center">
         <div className="relative">
           <div className="bg-white p-8 rounded-lg" style={{ width: "800px", maxHeight: "90vh", overflowY: 'auto' }}>
-            <input className="text-2xl mb-4 font-bold" value={spaceName} onChange={(e) => setSpaceName(e.target.value)}/>
             <ul>
-              <li className="mb-2">
-                <div>
-                  <button
-                    className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                  >
-                    <span>Observaciones</span>
-                  </button>
-                </div>
-                  <div className="px-16">
-                    <input
-                      value={observation}
-                      type="text"
-                      onChange={(e) => handleObservations(e.target.value)}
-                      className="mt-2 text-sm w-full p-2 border border-black"
-                      placeholder="Escribe tus observaciones aquí"
-                    />
-                  </div>
+              <li className='w-full space-x-5 mb-5'>
+                <label className='font-semibold text-2xl'>Nombre</label>
+                <input className="text-xl mb-4 pl-4 w-3/4 font-medium border border-gray-400 rounded" 
+                value={spaceName} 
+                onChange={(e) => setSpaceName(e.target.value)}
+                placeholder='Nombre'/>
+
               </li>
-              { !isNew &&
-                <li className="flex justify-start items-center mb-2">
-                  <button
-                    onClick={handleAddComponents}
-                    className="flex items-center px-4 py-2 bg-white text-black shadow hover:bg-firstColor transition-colors border border-black w-80 h-10"
-                  >
-                    <span className="mr-2"> + </span>
-                    <span>Añadir Componentes</span>
-                  </button>
-                </li>
-              }
+
+              <li className="mb-2 ">
+                  <label className='text-xl'>Observaciones</label>
+                  <textarea 
+                    className="mt-2 max-h-32 text-base resize-none w-full pl-4 border border-gray-400 rounded"
+                    value={observation}
+                    type="text"
+                    onChange={(e) => handleObservations(e.target.value)}
+                    placeholder="Escribe tus observaciones aquí"
+                  ></textarea>
+              </li>
+
               <li className="flex justify-start items-center mb-2">
                 <button
                   onClick={handleAddImage}
-                  className="flex items-center px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed w-80 h-10"
+                  className="mt-6 w-full px-4 py-2 bg-white text-firstColor shadow transition-colors border border-firstColor border-dashed"
                 >
-                  <span className="text-firstColor mr-2">+</span>
-                  <span className="text-firstColor">Añadir Fotografía</span>
+                  <div className="flex items-center">
+                    <span className="text-firstColor mr-2">+</span>
+                    <span className="text-firstColor">
+                      {image === '' ? 'Añadir Fotografía': 'Cambiar fotografía'}
+                    </span>
+                  </div>
+                  {!!image && 
+                      <img
+                        src={image}
+                        alt="Imagen seleccionada"
+                        style={{ maxWidth: '25%', marginTop: '10px' }}
+                      />
+                  }
                 </button>
                 <input
                   type="file"
@@ -115,18 +113,8 @@ const SpacesWindow = ({
                   onChange={handleFileChange}
                 />
               </li>
-              {image && (
-                <div>
-                  <p>Imagen seleccionada</p>
-                  <img
-                    src={image}
-                    alt="Imagen seleccionada"
-                    style={{ maxWidth: '25%', marginTop: '10px' }}
-                  />
-                </div>
-              )}
             </ul>
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-8">
               <button
                 className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
                 onClick={handleSaveAndClose}

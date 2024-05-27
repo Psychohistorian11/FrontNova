@@ -27,7 +27,8 @@ export const EditInventory = () => {
   return (
     <div className="">
       <nav className="mb-4">
-        <Link to="/h/inventory">Inventarios</Link> &gt; <span>Crear Inventario</span>
+        <Link to="/h/inventory">Inmuebles</Link> &gt; 
+        <span>Gestionar inmueble</span>
       </nav>
       <form onSubmit={handleSubmit}>
         <h2 className="text-3xl font-bold">Inventario <FolderPlus className="inline-block" /></h2>

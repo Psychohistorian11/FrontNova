@@ -37,7 +37,7 @@ export const Sign = () => {
   };
 
   return (
-    <div className="py-10">
+    <div>
       <button
         className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
         onClick={handleSignClick}
