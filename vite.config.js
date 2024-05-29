@@ -8,6 +8,6 @@ export default defineConfig({
     sourcemap: true, // Habilitar mapas de fuentes para la construcción
   },
   server: {
-    host: '127.0.0.1'
+    ost: '127.0.0.1'
   }
 })
