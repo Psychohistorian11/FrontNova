@@ -9,7 +9,7 @@ export default function Agent(params){
                 <img className="absolute left-4 rounded-full size-16 object-cover z-10" src={photo}></img>
                 <p className="flex ml-14 items-center text-lg truncate">{name}</p>
 
-                <div className="ml-auto" onClick={handleEvent}>
+                <div className="ml-auto cursor-pointer" onClick={handleEvent}>
                     {hasAccess ?
                         <XMarkIcon className="size-6"/>
                         :
