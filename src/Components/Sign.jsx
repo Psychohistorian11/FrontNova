@@ -4,7 +4,7 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { signingInventory } from "../api/queries";
 import { sendOTP } from "../api/queries";
 
-export const Sign = () => {
+export const Sign = ({ setLoading }) => {
   const [showSignWindow, setShowSignWindow] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const authUser = useAuthUser();
@@ -13,10 +13,13 @@ export const Sign = () => {
   const handleSignClick = async () => {
     try {
       const idAgent = authUser.id;
+      setLoading(true);
       await sendOTP(idAgent);
       setShowSignWindow(true);  
     } catch (error) {
       console.error("Error sending OTP:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -28,15 +31,18 @@ export const Sign = () => {
     try {
       const idAgent = authUser.id;
       const numInput = verificationCode;
+      setLoading(true); 
       await signingInventory(idAgent, numInput, idProperty);
-      // Aquí puedes agregar lógica adicional después de una firma exitosa
       setShowSignWindow(false);
     } catch (error) {
       console.error("Error verifying code:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
+    <>
     <div>
       <button
         className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"
@@ -44,7 +50,7 @@ export const Sign = () => {
       >
         Firmar Inventario
       </button>
-      
+            
       {showSignWindow && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex justify-center items-center">
           <div className="relative">
@@ -82,6 +88,9 @@ export const Sign = () => {
           </div>
         </div>
       )}
+
     </div>
+        </>
+
   );
 };

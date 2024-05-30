@@ -11,6 +11,8 @@ const ComponentsWindow = ({
   const fileInputRef = useRef(null);
   const [ file, setFile ] = useState(null);
   const [image, setImage] = useState(selectedComponent.imagen === '' ? null : `${imageUrlApi}/${selectedComponent.imagen}`)
+  const [error, setError] = useState('');
+
 
   const [ form, setForm ] = useState({
     name: selectedComponent.nombre,
@@ -40,6 +42,11 @@ const ComponentsWindow = ({
   };
 
   const handleSaveAndClose = () => {
+  const { name, observation, state } = form;
+  if (!name || !observation || !file) {
+    setError('Todos los campos son obligatorios.');
+    return;
+  }
     if (selectedComponent.nombre === ''){
       postForniture({
         name: form.name, 
@@ -67,14 +74,27 @@ const ComponentsWindow = ({
           <div className="relative">
             <div className="bg-white p-8 rounded-lg" style={{ width: "800px", maxHeight: "90vh", overflowY: 'auto' }}>
               <ul>
-                <li className='w-full space-x-5 mb-5'>
-                  <label className='font-semibold text-2xl'>Nombre</label>
-                  <input className="text-xl mb-4 pl-4 w-3/4 font-medium border border-gray-400 rounded" 
-                  value={form.name} 
-                  onChange={handleChange}
-                  placeholder='Nombre'
-                  name="name"/>
-                </li>
+              <li className="flex mb-6 w-full p-2">
+                            <label className="relative w-full">
+                              <input
+                                type="text"
+                                className="px-4 py-2 text-lg outline-none border-2 border-gray-400 rounded
+                                 hover:border-gray-600 duration-200 peer focus:border-firstColor bg-inherit w-full"
+                                value={form.name}
+                                onChange={handleChange}
+                                placeholder=" "
+                                name="name"
+                                required
+                              />
+                              <span className="absolute left-0 top-2 px-1 text-lg tracking-wide
+                               peer-focus:text-firstColor pointer-events-none duration-200
+                                peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 
+                                peer-valid:text-sm bg-white ml-2 text-gray-500">
+                                Mueble
+                              </span>
+                            </label>
+                          </li>
+
                 <li className="flex items-center mt-2 mb-6 space-x-5 ">
                   <label className='text-xl mr-10'>Estado</label>
                   {/* Aquí van los radio buttons */}
@@ -116,17 +136,28 @@ const ComponentsWindow = ({
                     </div>
                   </div>
                 </li>
-                <li className="mb-2 ">
-                  <label className='text-xl'>Observaciones</label>
-                  <input
-                    className="mt-2 h-36 text-sm w-full pl-4 border border-gray-400 rounded align-top items-start"
-                    value={form.observation}
-                    type="text"
-                    onChange={handleChange}
-                    name="observation"
-                    placeholder="Escribe tus observaciones aquí"
-                  />
-              </li>
+                <li className="flex mb-6 w-full p-2">
+                        <label className="relative w-full">
+                          <input
+                            className="px-4 py-2 text-lg outline-none border-2
+                             border-gray-400 rounded hover:border-gray-600 duration-200 
+                             peer focus:border-firstColor bg-inherit w-full"
+                            value={form.observation}
+                            type="text"
+                            onChange={handleChange}
+                            name="observation"
+                            placeholder=" "
+                            required
+                          />
+                          <span className="absolute left-0 top-2 px-1 text-lg tracking-wide
+                           peer-focus:text-firstColor pointer-events-none duration-200 
+                           peer-focus:text-sm peer-focus:-translate-y-5 peer-valid:-translate-y-5 
+                           peer-valid:text-sm bg-white ml-2 text-gray-500">
+                            Observaciones
+                          </span>
+                        </label>
+                      </li>
+
 
                 <li className="flex justify-start items-center mb-2 mt-6">
                   <button 
@@ -155,6 +186,8 @@ const ComponentsWindow = ({
                   }
                 </div>
               </ul>
+              {error && <p className="block text-gray-700 font-bold mb-2 text-xl">{error}</p>}
+
               <div className="flex justify-end mt-4">
                 <button
                   className="mx-2 px-4 py-2 bg-firstColor text-white rounded-md shadow hover:bg-teal-600 transition-colors"

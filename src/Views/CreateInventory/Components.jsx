@@ -10,6 +10,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { LoadingTask } from "../../Components/LoadingTask";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Sign } from "../../Components/Sign";
 
 export const Components = () => {
   const [ inventory, setInventory ] = useOutletContext();
@@ -207,10 +208,17 @@ export const Components = () => {
           {/* Agregar mueble */}
           <div onClick={handleAddComponent} className="flex items-center ml-2 mt-3 cursor-pointer">
             <PlusIcon className="size-8 mr-3 text-firstColor"/>
-            <span className="mr-3 text-gray-500">Agregar espacio</span>
+            <span className="mr-3 text-gray-500">Agregar Mueble</span>
           </div>
         </div>
+
+        <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
+            <Sign/>
+          </div>
       </div>
+
+      
+        
 
 
 

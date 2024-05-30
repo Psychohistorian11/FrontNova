@@ -116,6 +116,7 @@ export async function sendOTP(idAgent){
         const response = await api.post(`/agent/sendOTP`, null, {
             params: { id_agent: idAgent }
         });
+        console.log(response.data)
         return response.data;
     }
     catch (err) {

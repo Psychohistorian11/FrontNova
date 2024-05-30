@@ -7,7 +7,6 @@ import { Sign } from "../../Components/Sign";
 import { PlusIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { createRoom, deleteRoom, updateRoom } from "../../api/queries";
 import { useMutation } from "@tanstack/react-query";
-import Loading from "../../Components/Loading";
 import { LoadingTask } from "../../Components/LoadingTask";
 
 
@@ -20,6 +19,7 @@ export const Spaces = () => {
 
   const [ selectedSpace, setSelectedSpace] = useState(null);
   const [ showModal, setShowModal ] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const page = "Inventario";
   const firstNameInfo = "Correo del propietario";
@@ -156,7 +156,7 @@ export const Spaces = () => {
           </div>
           
           <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
-            <Sign/>
+            <Sign setLoading={setLoading}/>
           </div>
         </div>
 
@@ -176,6 +176,12 @@ export const Spaces = () => {
         isPending &&
         <LoadingTask />
       }
+
+      {
+      loading && 
+      <LoadingTask />
+      } 
+
     </>
   );
 };
