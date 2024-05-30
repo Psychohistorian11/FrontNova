@@ -39,7 +39,7 @@ export default function LayoutAccess() {
 
     return (
         <>
-            <Link className="flex items-center mb-3">
+            <Link to=".." className="flex items-center mb-3">
                 <ArrowLeftIcon className="size-4 mr-2" color="gray" />
                 <p className="text-gray-500">Volver</p>
             </Link>

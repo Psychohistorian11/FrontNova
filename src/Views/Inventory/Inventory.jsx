@@ -50,6 +50,7 @@ export const Inventory = () => {
       address={property.direccion}
       handleDelete={() => handleDelete(property.idPropiedad)}  // Asegúrate de pasar el id correcto
       linkToDetail={`/h/inventory/${property.idPropiedad}`}
+      isSigned={property.firmado}
     />
   ));
 
@@ -61,10 +62,10 @@ export const Inventory = () => {
     <>
       <div className=''>
         <div className='flex justify-between items-center'>
-          <h1 className='text-3xl font-bold'>Inventarios</h1>
+          <h1 className='text-3xl font-bold'>Inmuebles</h1>
           <Link to="/h/createInventory" className='py-2 px-3 text-white bg-firstColor rounded flex items-center'>
             <PlusIcon className='size-6 mr-1'/>
-            <span className="text-white">Crear Inventario</span>
+            <span className="text-white">Crear Inmueble</span>
           </Link>
         </div>
         <h1 className='text-3xl font-bold border-b border-black pb-4'></h1>

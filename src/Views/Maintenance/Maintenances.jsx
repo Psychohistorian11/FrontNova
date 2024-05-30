@@ -26,8 +26,9 @@ export default function Maintenances() {
     const maintenancesElements = data.map((maintenance, index) => (
         <MaintenanceCard
             key={index}
-            text={maintenance.text}
-            address={maintenance.address}
+            text={maintenance.descripcion}
+            date={maintenance.fecha}
+            linkToDetail={`/h/inventory/${maintenance.Propiedad_idPropiedad}`}
         />
     ));
 

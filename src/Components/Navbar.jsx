@@ -36,7 +36,7 @@ export const Navbar = () => {
               (isActive ? "font-bold cursor-default" : "hover:bg-gray-200")
             }
           >
-            Inventarios <FolderKanban className="ml-2" />
+            Inmuebles <FolderKanban className="ml-2" />
           </NavLink>
           <NavLink 
             to="owners" 

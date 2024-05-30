@@ -50,7 +50,7 @@ export const EditInventory = () => {
           </div>
           <div className='bg-gray-100 p-4 flex flex-col items-center'>
             <h4 className="block text-gray-700 font-bold w-full mb-4">Información del propietario</h4>
-            <div className="flex justify-between w-3/5">
+            <div className="flex justify-between w-4/5">
               <div>
                 <label className="block mb-2 text-gray-700 font-semibold">
                   Nombre <User className="inline-block" />

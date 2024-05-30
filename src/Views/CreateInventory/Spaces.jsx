@@ -1,13 +1,14 @@
 import React, { useState  } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import SpacesWindow from "../../Components/SpacesWindow";
-import { BrickWall, Trash } from "lucide-react";
+import { BrickWall, InfoIcon, Trash } from "lucide-react";
 import InfoWindow from "../../Components/InfoWindow";
 import { Sign } from "../../Components/Sign";
 import { PlusIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { createRoom, deleteRoom, updateRoom } from "../../api/queries";
 import { useMutation } from "@tanstack/react-query";
 import { LoadingTask } from "../../Components/LoadingTask";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 
 export const Spaces = () => {
@@ -154,10 +155,19 @@ export const Spaces = () => {
             <PlusIcon className="size-8 mr-3 text-firstColor"/>
             <span className="mr-3 text-gray-500">Agregar espacio</span>
           </div>
-          
-          <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
-            <Sign setLoading={setLoading}/>
-          </div>
+
+          { !inventory.property.firmado ?
+            <button className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
+              <Sign setLoading={setLoading}/>
+            </button>
+            :
+            <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end text-gray-500 items-center">
+              <div className="flex items-center">
+                <InformationCircleIcon className="size-4 mr-2" />
+                <p>Este inventario ya ha sido firmado</p>
+              </div>
+            </div>
+          }
         </div>
 
         

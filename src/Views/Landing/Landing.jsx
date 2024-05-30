@@ -17,8 +17,10 @@ export default function Landing() {
                 id: property.idPropiedad,
                 owner: `Propietario ${property.Propietario_idPropietario}`, // Puedes cambiar esto según el formato adecuado para 'owner'
                 image: property.imagen,
-                address: property.direccion
+                address: property.direccion,
+                isSigned: property.firmado
             }));
+            console.log(fetchedProperties)
             setProperties(formattedProperties);
         }
         
@@ -37,20 +39,36 @@ export default function Landing() {
             address={property.address}
             handleDelete={() => handleDelete(property.id)}
             linkToDetail={`inventory/${property.id}`}
+            isSigned = {property.isSigned}
         />
     ));
-    
 
-    const maintenanceElements = properties.slice(0,3).map(property => (
-        <MaintenanceCard
+    const propertiesNoSignedElements = properties.filter(property => !property.isSigned).slice(0, 3).map(property => (
+        <PropertyCard
             key={property.id}
             owner={property.owner}
             image={property.image}
             address={property.address}
             handleDelete={() => handleDelete(property.id)}
             linkToDetail={`inventory/${property.id}`}
+            isSigned = {property.isSigned}
         />
     ));
+    
+
+    // const maintenanceElements = properties.slice(0,3).map(property => (
+    //     <MaintenanceCard
+    //         key={property.id}
+    //         owner={property.owner}
+    //         image={property.image}
+    //         address={property.address}
+    //         handleDelete={() => handleDelete(property.id)}
+    //         linkToDetail={`inventory/${property.id}`}
+    //         isSigned = {property.firmado}
+    //     />
+    // ));
+
+
 
     return (
         <div className="relative flex-grow w-full flex flex-col">
@@ -75,7 +93,7 @@ export default function Landing() {
                     </Link>
                 </div>
 
-                {/* Tarjetas */}
+                {/*  Tarjetas */}
                 <div className="py-10 space-y-8">
                     <div>
                         <h4 className="text-xl font-bold text-neutral-700">Gestiona tus inventarios</h4>
@@ -86,7 +104,7 @@ export default function Landing() {
                             <Link to="inventory" className="text-firstColor font-semibold text-right">Ver todos...</Link>
                         </div>
                     </div>
-                    <div>
+                    {/* <div>
                         <h4 className="text-xl font-bold text-neutral-700">Reportes de mantenimiento</h4>
                         <div className="my-5 grid grid-cols-3 gap-x-5">
                             {maintenanceElements}
@@ -94,11 +112,11 @@ export default function Landing() {
                         <div className="flex justify-end">
                             <Link to="maintenances" className="text-secondColor font-semibold text-right">Ver más...</Link>
                         </div>
-                    </div>
+                    </div> */}
                     <div>
                         <h4 className="text-xl font-bold text-neutral-700">Inventarios sin firmar</h4>
                         <div className="my-5 grid grid-cols-3 gap-x-5">
-                            {propertiesElements}
+                            {propertiesNoSignedElements}
                         </div>
                     </div>
                 </div>

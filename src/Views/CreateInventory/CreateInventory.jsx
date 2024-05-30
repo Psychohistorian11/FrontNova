@@ -109,9 +109,9 @@ export const CreateInventory = () => {
         <span>Crear Inmueble</span>
       </nav>
       <form onSubmit={handleSubmit}>
-        <h2 className="text-5xl mb-6 font-bold">
-          <FolderPlus className="size-12 inline-block mr-4" />
-              Genera un nuevo Inventario
+        <h2 className="text-3xl mb-6 font-bold">
+          <FolderPlus className="size-8 inline-block mr-4" />
+              Genera un nuevo Inmueble
         </h2>
         <h2 className="border-b border-black pb-5 mb-10">
           Registra a un nuevo propietario y comienza a gestionar sus propiedades de manera eficiente
