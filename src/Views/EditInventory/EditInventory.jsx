@@ -37,7 +37,7 @@ export const EditInventory = () => {
         <div className="flex-1 mb-6 px-40 ">
           <div className='flex mt-8 mb-6 items-center'>
             <div className="flex space-x-8 content-center h-full bg-white">
-                <Link to="/h/access" className='flex justify-center items-center size-10 rounded-full border border-gray-400'>
+                <Link to="access" className='flex justify-center items-center size-10 rounded-full border border-gray-400'>
                   <UserPlusIcon className='size-6' />
                 </Link>
 

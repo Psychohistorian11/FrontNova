@@ -45,10 +45,14 @@ export default function App(){
                         <Route path="test" element={<TestRequest />}/>
 
                         <Route path="createInventory" element={<CreateInventory />}/>
-                        <Route element={<InventoryContext />}>
-                            <Route path="inventory/:id" element={<EditInventory />}/>
-                            <Route path="inventory/:id/spaces" element={<Spaces />}/>
-                            <Route path="inventory/:id/spaces/:idSpace" element={<Components />}/>
+                        <Route path="inventory/:id" element={<InventoryContext />}>
+                            <Route path="" element={<EditInventory />}/>
+                            <Route path="spaces" element={<Spaces />}/>
+                            <Route path="spaces/:idSpace" element={<Components />}/>
+                            <Route path="access" element={<LayoutAccess />}>
+                                <Route index element={<CurrentAccess/>}/>
+                                <Route path="add" element={<AddAccess/>}/>
+                            </Route>
                         </Route>
 
                         <Route path="inventory" element={<Inventory />}/>
@@ -56,10 +60,6 @@ export default function App(){
                         <Route path="owners/create" element={<CreateOwner />} />
                         <Route path="owners/:id" element={<OwnersProperties />} loader={ownersPropertiesLoader}/>
                         <Route path="maintenances" element={<Maintenances />} />
-                        <Route path="access" element={<LayoutAccess />}>
-                            <Route index element={<CurrentAccess/>}/>
-                            <Route path="add" element={<AddAccess/>}/>
-                        </Route>
                     </Route>
                 </Route>
             </Route>
