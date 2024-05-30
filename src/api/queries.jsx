@@ -4,9 +4,9 @@ const urlImages = `${api}/static/images/`;
 
 
 // Obtener todos los agentes de mantenimiento con atributo bool de si tienen acceso a una propiedad
-export async function getAllMaintainceAgentWithAccessAtribute(idProperty, idAgent){
+export async function getAllMaintainceAgentWithAccessAtribute(idProperty){
     try{
-        const response = await api.get(`/access/${idProperty}/${idAgent}`);
+        const response = await api.get(`/agent/getAgentMaintenances/${idProperty}`);
         return response.data;
     }
     catch (error) {
@@ -127,9 +127,6 @@ export async function sendOTP(idAgent){
     }
 }
 
-// Obtener agentes de mantenimiento ???
-// Implementación pendiente
-
 // Firmar inventario
 export async function signingInventory(idAgent, numInput, idProperty){
     const params = {
@@ -235,8 +232,14 @@ export async function deleteProperty(idProperty) {
 
 // Eliminar acceso
 export async function deleteAccess(idProperty, idAgent){
+    const body = {
+        data: {
+            Propiedad_idPropiedad: idProperty,
+            Agente_idAgente: idAgent
+        }
+    }
     try{
-        const response = await api.delete(`/access/${idProperty}/${idAgent}`);
+        const response = await api.delete(`/access/`, body);
         return response.data;
     }
     catch (error) {

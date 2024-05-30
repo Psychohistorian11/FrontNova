@@ -1,42 +1,56 @@
 import Agent from "../../Components/Agent"
+import { useOutletContext } from "react-router-dom";
+import { createAccess } from "../../api/queries";
+import { useMutation } from "@tanstack/react-query";
+import { LoadingTask} from "../../Components/LoadingTask"
 
 export default function AddAccess() {
 
-    const agents = [
-        {
-          id: 1,
-          name: "Chris Paul",
-          photo: "https://static01.nyt.com/images/2023/07/06/multimedia/06Insidethelist-Paul-kzgh/06Insidethelist-Paul-kzgh-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-        },
-        {
-          id: 2,
-          name: "Chris Pratt",
-          photo: "https://media.revistavanityfair.es/photos/60e83fb2e3e0ae04802dd852/master/w_1600%2Cc_limit/148288.jpg"
-        },
-        {
-          id: 3,
-          name: "Chris Hemsworth",
-          photo: "https://media.gq.com.mx/photos/66410dd4ea83e06b06e158fc/1:1/w_2000,h_2000,c_limit/Chris%20Hemsworth.jpg"
+  const [ agents, setAgents, inventory ] = useOutletContext();
+  
+  const { mutate: addAccess, isPending } = useMutation({
+    mutationFn: (idAgent) => createAccess(inventory.property.idPropiedad, idAgent),
+    onSuccess: (data, idAgent) => handleSuccessRemove(data, idAgent)
+  });
+
+  function handleSuccessRemove(data, idAgent) { // ! No usar push para inventory
+    setAgents(prevAgents => prevAgents.map(agent => {
+      if (agent.idAgente === idAgent){
+        return {
+          ...agent,
+          tieneAcceso: true
         }
-      ]
+      } else {
+        return agent
+      }
+    }))
+  }
 
-    function handleAdd(idAgent) {
-        return null
-    }
+  const agentsWithoutAccess = agents.filter(agent => !agent.tieneAcceso)
 
-    const agentElements = agents.map(agent => (
-        <Agent 
-          key={agent.id} 
-          name={agent.name} 
-          hasAccess={false} 
-          photo={agent.photo} 
-          handleEvent={() => handleAdd(agent.id)}
-        />
-      ))
+  if (agents === undefined){
+    return <Loading />
+  }
 
-    return(
-        <div className="divide-y divide-y-solid">
-            {agentElements}
-        </div>
-    )
+  const agentElements = agentsWithoutAccess.map(agent => (
+      <Agent
+        key={agent.idAgente} 
+        name={agent.nombre} 
+        hasAccess={agent.tieneAcceso} 
+        photo={agent.imagen} 
+        handleEvent={() => addAccess(agent.idAgente)}
+      />
+    ))
+
+  return(
+    <>
+      <div className="divide-y divide-y-solid">
+          {agentElements}
+      </div>
+      {
+        isPending &&
+        <LoadingTask />
+      }
+    </>
+  )
 }

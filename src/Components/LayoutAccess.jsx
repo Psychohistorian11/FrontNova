@@ -1,30 +1,41 @@
-import { useQuery } from "@tanstack/react-query";
-import { NavLink, Outlet } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { NavLink, Outlet, useOutletContext } from "react-router-dom";
 import { getAllMaintainceAgentWithAccessAtribute } from "../api/queries";
 import Loading from "./Loading";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 
 export default function LayoutAccess() {
-    const authUser = useAuthUser();
-    const data= []
+    const [inventory, setInventory] = useOutletContext();
+    const [ agents, setAgents ] = useState([]);
+    const queryClient = useQueryClient();
+    
+    const { data: agentsQuery, isLoading } = useQuery({
+        queryKey: ['maintainceAgents'],
+        queryFn: () => getAllMaintainceAgentWithAccessAtribute(inventory.property.idPropiedad),
+        enabled: inventory.property.idPropiedad != undefined
+    })
 
-    // const { data: agents, isLoading } = useQuery({
-    //     queryKey: ['maintainceAgents'],
-    //     queryFn: () => getAllMaintainceAgentWithAccessAtribute(1, authUser.id)
-    // })
+    useEffect(() => {
+        queryClient.invalidateQueries('maintainceAgents');
+    }, [])
+
+    useEffect(() => {
+        if (agentsQuery != undefined){
+            setAgents(agentsQuery)
+            console.log(agentsQuery)
+        }
+    }, [agentsQuery])
 
     const basicNavStyle = "text-gray-600 "
     const selectedNav = "font-bold cursor-default"
     const nonSelectedNav = "hover:underline hover:underline-offset-2"
 
-    // if (isLoading) {
-    //     return <Loading />
-    // }
-
-    // AQUÍ HACER FILTER PARA MANDARSELO A OUTLET
+    if (isLoading) {
+        return <Loading />
+    }
 
     return (
         <>
@@ -43,7 +54,7 @@ export default function LayoutAccess() {
                     <NavLink to="add" className={({isActive}) => (basicNavStyle + (isActive ? selectedNav: nonSelectedNav))} >Agregar Acceso</NavLink>
                 </nav>
                 <div className="flex flex-col items-center">
-                    <Outlet />
+                    <Outlet context={[agents, setAgents, inventory]} />
                 </div>
             </div>
         </>
