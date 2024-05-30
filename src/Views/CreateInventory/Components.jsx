@@ -19,6 +19,8 @@ export const Components = () => {
 
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false)
+
 
   const space = inventory.spaces.find(space => space.idHabitacion == idSpace)
   
@@ -33,13 +35,6 @@ export const Components = () => {
   const components = space?.fornitures ? space.fornitures : []
   
   const firstNameInfo = "Observaciones del mueble";
-  
-  
-  // const [components, setComponents] = useState([
-    //   { name: 'Cama', image: null, observation: false, showQuality: false },
-    //   { name: 'Estantería', image: null, observation: false, showQuality: false },
-    //   { name: 'Libros', image: null, observation: false, showQuality: false }
-    // ]);
 
   const { data: componentsQuery, isLoading } = useQuery({
     queryKey: ['getFornitures'],
@@ -161,10 +156,10 @@ export const Components = () => {
       <>
       <div className="">
         <nav className="mb-1">
-          <Link to="/h/inventory">Inmuebles</Link> &gt; 
-          <Link to={`/h/inventory/${inventory.property.idPropiedad}`} >Gestionar inmueble</Link> &gt; 
-          <Link to={`/h/inventory/${inventory.property.idPropiedad}/spaces`}>{space.nombre}</Link> &gt; 
-          <span>Muebles</span>
+          <Link to="/h/inventory"> Inmuebles</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}`} > Gestionar inmueble</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}/spaces`}> {space.nombre}</Link> &gt; 
+          <span> Muebles</span>
 
         </nav>
         <div className="flex items-center justify-between">
@@ -213,7 +208,7 @@ export const Components = () => {
         </div>
 
         <div className="absolute bottom-10 right-1/4 mt-auto flex justify-end content-end">
-            <Sign/>
+            <Sign setLoading={setLoading}/>
           </div>
       </div>
 
@@ -237,6 +232,11 @@ export const Components = () => {
         isPending &&
         <LoadingTask />
       }
+
+{
+      loading && 
+      <LoadingTask />
+      } 
     </>
   );
 };

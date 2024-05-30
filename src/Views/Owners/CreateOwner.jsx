@@ -4,8 +4,12 @@ import { Mail, User, Smartphone } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { createOwner } from "../../api/queries";
 import { IdentificationIcon } from "@heroicons/react/24/outline";
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+
 
 export default function CreateOwner() {
+
+    const authUser = useAuthUser();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +20,7 @@ export default function CreateOwner() {
         const phone = formData.get("phone");
 
         try {
-            const success = await createOwner(name, email, idNumber, phone);
+            const success = await createOwner(name, email, idNumber, phone, authUser.id);
             if (success) {
                 Swal.fire({
                     title: "¡Propietario creado con éxito!",

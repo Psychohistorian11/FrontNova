@@ -102,9 +102,9 @@ export const Spaces = () => {
     <>
       <>
         <nav className="mb-1">
-          <Link to="/h/inventory">Inmuebles</Link> &gt; 
-          <Link to={`/h/inventory/${inventory.property.idPropiedad}`}>Gestionar inmubele</Link> &gt; 
-          <span className="">Espacios</span>
+          <Link to="/h/inventory"> Inmuebles</Link> &gt; 
+          <Link to={`/h/inventory/${inventory.property.idPropiedad}`}> Gestionar inmubele</Link> &gt; 
+          <span className=""> Espacios</span>
         </nav>
         <nav>
       <div className="flex items-center justify-between">  

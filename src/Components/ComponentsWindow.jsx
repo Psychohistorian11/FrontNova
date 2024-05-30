@@ -1,5 +1,7 @@
 // ComponentsWindow.jsx
 import React, { useRef, useState } from 'react';
+import { imageUrlApi } from '../api/axiosConfig';
+
 
 
 const ComponentsWindow = ({

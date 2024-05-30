@@ -28,6 +28,9 @@ export const Owners = () => {
     <tr key={owner.id}>
       <td className='px-6 py-4 whitespace-nowrap'>{owner.nombre}</td>
       <td className='px-6 py-4 whitespace-nowrap'>{owner.correo}</td>
+      <td className='px-6 py-4 whitespace-nowrap'>{owner.cedula}</td>
+      <td className='px-6 py-4 whitespace-nowrap'>{owner.celular}</td>
+
       <td className='px-6 py-4 whitespace-nowrap '>
         <Link to={`/properties/${owner.id}`} className='flex'>
           <ArrowDownRightIcon className='w-6 h-6 mr-1' />
@@ -58,6 +61,10 @@ export const Owners = () => {
               <tr>
                 <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Nombre</th>
                 <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Correo</th>
+                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Cedula</th>
+                <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Celular</th>
+
+
                 <th className='px-6 py-3 tracking-wider w-1/5'></th>
               </tr>
             </thead>

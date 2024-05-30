@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import { Info } from "lucide-react";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { signingInventory } from "../api/queries";
+import { useOutletContext} from "react-router-dom";
 import { sendOTP } from "../api/queries";
 
 export const Sign = ({ setLoading }) => {
   const [showSignWindow, setShowSignWindow] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
+  const [ inventory, setInventory ] = useOutletContext();
+
+  const idProperty = inventory.property.idPropiedad
+  console.log(idProperty)
   const authUser = useAuthUser();
-  const idProperty = 5;
+
 
   const handleSignClick = async () => {
     try {

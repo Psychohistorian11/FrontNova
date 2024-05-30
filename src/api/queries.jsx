@@ -79,13 +79,16 @@ export async function getPropertyOwner(idProperty){
 }
 
 // Crear propietario
-export async function createOwner(name, email) {
+export async function createOwner(name, email, IdentificationOwner, phone, idAgent) {
     const data = {
         idPropietario: 0,
         nombre: name,
         correo: email,
         genero: "masculino",
         contrasennia: ".",
+        agente_idAgente: idAgent,
+        cedula: IdentificationOwner,
+        celular: phone,
     };
     try {
         const response = await api.post(`/owner/`, data);
@@ -116,7 +119,7 @@ export async function sendOTP(idAgent){
         const response = await api.post(`/agent/sendOTP`, null, {
             params: { id_agent: idAgent }
         });
-        console.log(response.data)
+        console.log("que es eta monda " + response)
         return response.data;
     }
     catch (err) {
@@ -132,7 +135,7 @@ export async function signingInventory(idAgent, numInput, idProperty){
     const params = {
         id_agent: idAgent,
         num: numInput,
-        id_Propiedad: idProperty
+        id_propiedad: idProperty
     };
     try{
         const response = await api.post(`/agent/signingInventory`, null, {
@@ -141,7 +144,7 @@ export async function signingInventory(idAgent, numInput, idProperty){
         return response.data;
     }
     catch (err) {
-        throw new Error('Usuario o contraseña incorrectos');
+        throw new Error('OTP incorrecto');
     }
 }
 
