@@ -16,8 +16,6 @@ export const Owners = () => {
     queryFn: () => getOwners(id),
     enabled: !!id,
   });
-
-  console.log("estos son los duros: "+owners)
   
 
   if (isLoading) {
